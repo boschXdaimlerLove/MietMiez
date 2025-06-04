@@ -1,0 +1,31 @@
+networks:
+  internal:
+  external:
+
+services:
+  database:
+    image: docker.io/library/postgres:17-bookworm
+    container_name: mietmiez-postgres
+    restart: always
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data
+    networks:
+      - internal
+    environment:
+      # if changing this, change in backend-config.yml as well!
+      - POSTGRES_PASSWORD=supersecretlongandcomplexpassword
+      - POSTGRES_USER=mietmiez
+      - POSTGRES_DB=mietmiez
+
+  backend:
+    container_name: mietmiez-backend
+    restart: always
+    tty: true
+    networks:
+      - internal
+    build:
+      context: backend
+    ports:
+      - 8080:8080
+    volumes:
+      - ./backend-config.yml:/app/config.yml 

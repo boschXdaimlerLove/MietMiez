@@ -1,0 +1,11 @@
+# backend config
+backend:
+  port: 8080
+
+# database credentials
+database:
+  user: "mietmiez"
+  password: "supersecretlongandcomplexpassword"
+  hostname: "database"
+  port: 5432
+  dbname: "mietmiez"
