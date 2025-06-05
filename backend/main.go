@@ -1,29 +1,28 @@
 package main
 
 import (
-	"os"
-	"time"
+	"boschXdaimlerLove/MietMiez/routes"
+	"strconv"
 
-	"github.com/rs/zerolog"
+	"github.com/gofiber/fiber/v2"
 )
 
-func main() {
-	consoleWriter := zerolog.ConsoleWriter{
-		Out:        os.Stdout,
-		TimeFormat: "[2006/01/02 15:04:05]",
-		FormatLevel: func(i interface{}) string {
-			return "[" + i.(string) + "]"
-		},
-	}
-	logger := zerolog.New(consoleWriter).With().Timestamp().Logger()
-	logger.Info().Msg("Server starting!")
-	var cfg Config
-	readConfigFile(&cfg)
-	readConfigEnv(&cfg)
-	logger.Info().Any("config", cfg).Msg("Config loaded!")
+import . "boschXdaimlerLove/MietMiez/internal/logger"
+import . "boschXdaimlerLove/MietMiez/internal/config"
+import . "boschXdaimlerLove/MietMiez/internal/database"
 
-	for {
-		time.Sleep(time.Second * 10)
-		logger.Warn().Msg("10 seconds elapsed")
+func main() {
+	SetupLogger()
+	Logger.Info().Msg("Server starting!")
+	SetupConfig()
+	ConnectDB()
+	
+	// setup http server
+	app := fiber.New()
+	routes.SetupRoutes(app)
+
+	err := app.Listen(":" + strconv.Itoa(Cfg.Server.Port))
+	if err != nil {
+		Logger.Fatal().Err(err).Msg("Failed to start server with port: " + strconv.Itoa(Cfg.Server.Port))
 	}
 }

@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"log/slog"
@@ -7,6 +7,10 @@ import (
 	"github.com/kelseyhightower/envconfig"
 	"gopkg.in/yaml.v2"
 )
+
+import . "boschXdaimlerLove/MietMiez/internal/logger"
+
+var Cfg Config
 
 type Config struct {
 	Server struct {
@@ -44,4 +48,12 @@ func readConfigEnv(cfg *Config) {
 		slog.Error(err.Error())
 		os.Exit(2)
 	}
+}
+
+func SetupConfig() {
+	Logger.Info().Msg("Reading config")
+	Cfg = Config{}
+	readConfigFile(&Cfg)
+	readConfigEnv(&Cfg)
+	Logger.Info().Any("config", Cfg).Msg("Config loaded!")
 }

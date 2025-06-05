@@ -7,6 +7,11 @@ services:
     image: docker.io/library/postgres:17-bookworm
     container_name: mietmiez-postgres
     restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 3s
+      timeout: 5s
+      retries: 5
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
     networks:
@@ -21,6 +26,14 @@ services:
     container_name: mietmiez-backend
     restart: always
     tty: true
+    healthcheck:
+      test: ["CMD", "wget --spider --no-verbose --tries=1 http://localhost:8080/v1/health"]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+    depends_on:
+      database:
+        condition: service_healthy
     networks:
       - internal
     build:
@@ -28,4 +41,5 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./backend-config.yml:/app/config.yml 
+      - ./backend-config.yml:/app/config.yml
+    
