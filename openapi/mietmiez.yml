@@ -7,36 +7,83 @@ servers:
 tags:
   - name: user
     description: Everything related about user management
+  - name: system
+    description: Everything realated about the backend system and availability
 paths:
   /health:
     get:
       tags:
-        - user
+        - system
       responses:
         '200':
           description: Server is running and API is reachable.
         '500':
           description: Internal server error that cannot be solved. Further actions needed.
-  /account/register:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemStatus'
+
+  /account:
     post:
       tags:
         - user
-      summary: Regsiter new user
+      summary: Register new user
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/RegisterUser'
+              $ref: '#/components/schemas/User'
       responses:
         '201':
-          description: user cerated
+          description: User created
         '400':
-          description: some input is not correct
+          description: Some input is not correct
+    delete:
+      tags:
+        - user
+      summary: Delete user and all its information
+      responses:
+        '200':
+          description: User successfuly deleted
+        '410':
+          description: User does not exist or was permanently deleted
+  /account/{username}:
+    get:
+      tags:
+        - user
+      summary: Obtain information about specified user
+      parameters:
+        - name: username
+          in: path
+          description: Username of user
+          required: true
+          schema:
+            type: string
+            example: JoAp
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: user not found
 
 components:
   schemas:
-    RegisterUser:
+    SystemStatus:
+      type: object
+      properties:
+        status:
+          type: integer
+          example: 100
+        message:
+          type: string
+          example: Service down due to maintance work
+    User:
       type: object
       required:
         - first-name
