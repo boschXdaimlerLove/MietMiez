@@ -1,5 +1,5 @@
 # pinned latest available go version for linux so we dont need to worry about anything
-FROM golang:1.24.3 AS builder
+FROM docker.io/library/golang:1.24.3 AS builder
 
 
 # Set destination for COPY
@@ -18,7 +18,7 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /backend-server
 
 
 # use dedicated container as runner so we start with a clean slate
-FROM debian:bookworm AS runner
+FROM docker.io/library/alpine AS runner
 
 WORKDIR /app
 

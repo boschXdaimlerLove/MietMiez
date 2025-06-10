@@ -1,6 +1,5 @@
 networks:
   internal:
-  external:
 
 services:
   database:
@@ -17,7 +16,7 @@ services:
     networks:
       - internal
     environment:
-      # if changing this, change in backend-config.yml as well!
+      # change in backend-config.yml as well!
       - POSTGRES_PASSWORD=supersecretlongandcomplexpassword
       - POSTGRES_USER=mietmiez
       - POSTGRES_DB=mietmiez
@@ -39,7 +38,27 @@ services:
     build:
       context: backend
     ports:
-      - 8080:8080
+      # change in backend-config.yml as well!
+      - "8080:8080"
     volumes:
       - ./backend-config.yml:/app/config.yml
-    
+
+  frontend:
+    container_name: mietmiez-frontend
+    restart: always
+    healthcheck:
+      test: [ "CMD", "wget --spider --no-verbose --tries=1 http://localhost:3000" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+    depends_on:
+      backend:
+        condition: service_healthy
+      database:
+        condition: service_healthy
+    networks:
+      - internal
+    build:
+      context: ./frontend
+    ports:
+      - "3000:3000"

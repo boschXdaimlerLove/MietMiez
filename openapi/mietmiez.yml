@@ -1,0 +1,73 @@
+openapi: '3.0.3'
+info:
+  title: MietMiez API
+  version: '1.0'
+servers:
+  - url: https://api.mietmiez.com/v1
+tags:
+  - name: user
+    description: Everything related about user management
+paths:
+  /health:
+    get:
+      tags:
+        - user
+      responses:
+        '200':
+          description: Server is running and API is reachable.
+        '500':
+          description: Internal server error that cannot be solved. Further actions needed.
+  /account/register:
+    post:
+      tags:
+        - user
+      summary: Regsiter new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterUser'
+      responses:
+        '201':
+          description: user cerated
+        '400':
+          description: some input is not correct
+
+components:
+  schemas:
+    RegisterUser:
+      type: object
+      required:
+        - first-name
+        - last-name
+        - username
+        - email
+        - password
+        - city
+      properties:
+        first-name:
+          type: string
+          example: John
+          minLength: 3
+        last-name:
+          type: string
+          example: Appleseed
+          minLength: 3
+        username:
+          type: string
+          example: JoAp
+          minLength: 4
+        email:
+          type: string
+          example: john.appleseed@mail.com
+          minLength: 5
+        password:
+          type: string
+          format: password
+          minLength: 8
+        city:
+          type: string
+          example: Stuttgart
+          minLength: 3
+          nullable: true
