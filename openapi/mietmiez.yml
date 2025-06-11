@@ -89,10 +89,12 @@ paths:
       responses:
         '200':
           description: Advertisement found
-          #content:
-            #application/json:
-              #schema:
-                #$ref: '#/components/schemas/Advertisement'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advertisement'
+        '404':
+          description: Advertisement not found
 
 components:
   schemas:
