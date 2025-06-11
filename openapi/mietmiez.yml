@@ -250,6 +250,40 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Advertisement'
+
+  /advertisement/search:
+    get:
+      tags:
+        - advertisement
+      summary: Search advertisements
+      parameters:
+        - name: animal
+          in: query
+          required: false
+          schema:
+            type: string
+            example: Cat
+        - name: city
+          in: query
+          required: false
+          schema:
+            type: string
+            example: Stuttgart
+        - name: title
+          in: query
+          required: false
+          schema:
+            type: string
+            example: Mümmel
+      responses:
+        '200':
+          description: Matching advertisements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Advertisement'
   
   /categories:
     get:
