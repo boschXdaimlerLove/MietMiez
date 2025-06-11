@@ -51,6 +51,24 @@ paths:
           description: User successfuly deleted
         '410':
           description: User does not exist or was permanently deleted
+    put:
+      tags:
+        - user
+      summary: Update user information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User information updated
+        '400':
+          description: Invalid input data
+        '404':
+          description: User not found
+
   /user/{username}:
     get:
       tags:
