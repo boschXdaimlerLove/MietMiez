@@ -111,8 +111,6 @@ paths:
                 $ref: '#/components/schemas/LoginResponse'
         '401':
           description: Invalid credentials
-
-
   /user/reset-password:
     post:
       tags:
@@ -144,7 +142,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Advertisement'
-
+    post:
+      tags:
+        - user
+      summary: Add new favourite
+      parameters:
+        - name: advertisement
+          in: query
+          required: true
+          schema:
+            type: string
+          example: adc123
+      responses:
+        '200':
+          description: List with all favourites (can be empty)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Advertisement'
   
   /advertisement/{advertisement-id}:
     get:
