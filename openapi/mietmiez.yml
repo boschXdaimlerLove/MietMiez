@@ -9,6 +9,8 @@ tags:
     description: Everything related about user management
   - name: system
     description: Everything realated about the backend system and availability
+  - name: advertisement
+    description: Everything related about pet advertising
 paths:
   /health:
     get:
@@ -71,6 +73,26 @@ paths:
                 $ref: '#/components/schemas/User'
         '404':
           description: user not found
+  
+  /advertisement/{advertisement-id}:
+    get:
+      tags:
+        - advertisement
+      summary: Obtain advertisement information
+      parameters:
+        - name: advertisement-id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 123abc
+      responses:
+        '200':
+          description: Advertisement found
+          #content:
+            #application/json:
+              #schema:
+                #$ref: '#/components/schemas/Advertisement'
 
 components:
   schemas:
@@ -83,6 +105,36 @@ components:
         message:
           type: string
           example: Service down due to maintance work
+    Advertisement:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 123abc
+          minLength: 6
+        date:
+          type: string
+          format: date
+          example: 2025-06-11T14:30:00+02:00
+          minLength: 25
+          maxLength: 25
+        title:
+          type: string
+          example: Mümmel
+          minLength: 4
+        description:
+          type: string
+          example: Ich suche einen Halter für ein Wochenende für meinen Mümmel.
+          minLength: 25
+        animal:
+          type: string
+          example: Rabbit
+          minLength: 8
+        images:
+          type: array
+          items:
+            type: string
+            example: https://api.mietmiez.com/resources/adv-images/123abc/image.jpg
     User:
       type: object
       required:
