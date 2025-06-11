@@ -411,7 +411,6 @@ components:
         - last-name
         - username
         - email
-        - password
         - city
       properties:
         first-name:
@@ -438,4 +437,9 @@ components:
           type: string
           example: Stuttgart
           minLength: 3
+          nullable: true
+        zip-code:
+          type: string
+          example: 71034
+          minLength: 2
           nullable: true
