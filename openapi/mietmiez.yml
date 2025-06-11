@@ -95,6 +95,78 @@ paths:
                 $ref: '#/components/schemas/Advertisement'
         '404':
           description: Advertisement not found
+    delete:
+      tags:
+        - advertisement
+      summary: Deletes advertisement
+      responses:
+        '200':
+          description: Advertisement deleted
+    patch:
+      tags:
+          - advertisement
+      summary: Changes advertisement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdvertisementPatch'
+      responses:
+        '200':
+          description: Advertisement changed
+        '404':
+          description: Advertisement not found
+
+  /advertisement:
+    post:
+      tags:
+        - advertisement
+      summary: Create new advertisement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Advertisement'
+      responses:
+        '200':
+          description: Advertisement found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advertisement'
+        '404':
+          description: Advertisement not found
+    get:
+      tags:
+        - advertisement
+      summary: Get the most current advertisements
+      responses:
+        '200':
+          description: A list with advertisements (length of array not specified)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Advertisement'
+  
+  /categories:
+    get:
+      tags:
+        - advertisement
+      summary: Obtain all advertisement categories
+      responses:
+        '200':
+          description: A list with all categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+      
 
 components:
   schemas:
@@ -137,6 +209,37 @@ components:
           items:
             type: string
             example: https://api.mietmiez.com/resources/adv-images/123abc/image.jpg
+    AdvertisementPatch:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Mümmel
+          minLength: 4
+        description:
+          type: string
+          example: Ich suche einen Halter für ein Wochenende für meinen Mümmel.
+          minLength: 25
+        animal:
+          type: string
+          example: Rabbit
+          minLength: 8
+        images:
+          type: array
+          items:
+            type: string
+            example: https://api.mietmiez.com/resources/adv-images/123abc/image.jpg
+    Category:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 123abc
+          minLength: 6
+        title:
+          type: string
+          example: Dog
+          minLength: 3
     User:
       type: object
       required:
