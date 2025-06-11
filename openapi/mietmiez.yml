@@ -111,6 +111,16 @@ paths:
                 $ref: '#/components/schemas/LoginResponse'
         '401':
           description: Invalid credentials
+  /user/logout:
+    post:
+      tags:
+        - user
+      summary: Log out a user
+      responses:
+        '200':
+          description: Successfully logged out
+        '401':
+          description: Not logged in or invalid session
   /user/reset-password:
     post:
       tags:
