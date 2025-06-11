@@ -12,6 +12,7 @@ func setupV1Routes(app *fiber.App) {
 	Logger.Debug().Msg("Setting up v1 routes")
 	v1 := app.Group("/v1")
 	v1.Get("/health", controllers.Health)
+	v1.Post("/user", controllers.CreateUser)
 }
 
 func SetupRoutes(app *fiber.App) {
