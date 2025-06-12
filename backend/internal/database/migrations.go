@@ -1,11 +1,15 @@
 package database
 
-import "boschXdaimlerLove/MietMiez/internal/models"
+import (
+	"boschXdaimlerLove/MietMiez/internal/database/models"
+)
 import . "boschXdaimlerLove/MietMiez/internal/logger"
 
 var migrationsList = []interface{}{
 	&models.Advertisement{},
 	&models.Category{},
+	&models.PasswordResetToken{},
+	&models.Session{},
 	&models.User{},
 }
 

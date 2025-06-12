@@ -1,5 +1,5 @@
 # pinned latest available go version for linux so we dont need to worry about anything
-FROM docker.io/library/golang:1.24.3 AS builder
+FROM docker.io/library/golang:1.24.4 AS builder
 
 
 # Set destination for COPY

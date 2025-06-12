@@ -1,6 +1,8 @@
 # backend config
 backend:
   port: 8080
+  cookie_key: "J03dh2uApi5d1E7Z8ktN7prxMdRLMCeCVZvi9jKjBC8="
+  production: false
 
 # database credentials
 database:
@@ -9,3 +11,9 @@ database:
   hostname: "database"
   port: 5432
   dbname: "mietmiez"
+
+smtp:
+  host: "mail.mietmiez.com:587" # including port: mail.google.com:587
+  user: "mietmiez_p1"
+  password: "supersecretlongandcomplexpassword"
+  from: "noreply@mietmiez.com"

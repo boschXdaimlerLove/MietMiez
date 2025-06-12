@@ -27,12 +27,6 @@ func ConnectDB() {
 
 	performMigrations()
 
-	err = dbInstance.Initialize(dbInstance)
-	if err != nil {
-		Logger.Panic().Err(err).Msg("Failed to initialize database")
-	}
-	Logger.Debug().Msg("Successfully initialized database")
-
 	sqlDB, err := dbInstance.DB()
 	if err != nil {
 		Logger.Panic().Err(err).Msg("Failed to create sqlDB object")

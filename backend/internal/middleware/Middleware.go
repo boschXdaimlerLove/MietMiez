@@ -7,7 +7,7 @@ import (
 
 import . "boschXdaimlerLove/MietMiez/internal/logger"
 
-func ZerologMiddleware() fiber.Handler {
+func LoggingMiddleware() fiber.Handler {
 	return func(c *fiber.Ctx) error {
 		start := time.Now()
 
