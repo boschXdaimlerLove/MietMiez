@@ -9,6 +9,8 @@ tags:
     description: Everything related about user management
   - name: system
     description: Everything realated about the backend system and availability
+  - name: advertisement
+    description: Everything related about pet advertising
 paths:
   /health:
     get:
@@ -24,7 +26,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/SystemStatus'
 
-  /account:
+  /user:
     post:
       tags:
         - user
@@ -46,10 +48,26 @@ paths:
       summary: Delete user and all its information
       responses:
         '200':
-          description: User successfuly deleted
+          description: User successfully deleted
         '410':
           description: User does not exist or was permanently deleted
-  /account/{username}:
+    put:
+      tags:
+        - user
+      summary: Update user information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User information updated
+        '400':
+          description: Invalid input data
+
+  /user/{username}:
     get:
       tags:
         - user
@@ -71,6 +89,248 @@ paths:
                 $ref: '#/components/schemas/User'
         '404':
           description: user not found
+  /user/login:
+    post:
+      tags:
+        - user
+      summary: Log-in user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Successfully logged in
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          description: Invalid credentials
+  /user/logout:
+    post:
+      tags:
+        - user
+      summary: Log out a user
+      responses:
+        '200':
+          description: Successfully logged out
+        '401':
+          description: Not logged in or invalid session
+  /user/reset-password:
+    post:
+      tags:
+        - user
+      summary: Request password reset via mail
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordResetRequest'
+      responses:
+        '200':
+          description: Password reset link sent (if email exists)
+        '400':
+          description: Invalid email format
+        '401':
+          description: Not logged in
+  
+  /user/change-password:
+    post:
+      tags:
+        - user
+      summary: Change user password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordChange'
+      responses:
+        '200':
+          description: Password change successful
+        '401':
+          description: Old password is wrong
+
+  /user/favourites:
+    get:
+      tags:
+        - user
+      summary: Obtain all user's favourites
+      responses:
+        '200':
+          description: List with all favourites (can be empty)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Advertisement'
+    post:
+      tags:
+        - user
+      summary: Add new favourite
+      parameters:
+        - name: advertisement
+          in: query
+          required: true
+          schema:
+            type: string
+          example: adc123
+      responses:
+        '200':
+          description: List with all favourites (can be empty)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Advertisement'
+  
+  /advertisement/{advertisement-id}:
+    get:
+      tags:
+        - advertisement
+      summary: Obtain advertisement information
+      parameters:
+        - name: advertisement-id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 123
+      responses:
+        '200':
+          description: Advertisement found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advertisement'
+        '404':
+          description: Advertisement not found
+    delete:
+      tags:
+        - advertisement
+      summary: Deletes advertisement
+      parameters:
+        - name: advertisement-id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 123
+      responses:
+        '200':
+          description: Advertisement deleted
+    patch:
+      tags:
+          - advertisement
+      summary: Changes advertisement
+      parameters:
+        - name: advertisement-id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 123
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdvertisementPatch'
+      responses:
+        '200':
+          description: Advertisement changed
+        '404':
+          description: Advertisement not found
+
+  /advertisement:
+    post:
+      tags:
+        - advertisement
+      summary: Create new advertisement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Advertisement'
+      responses:
+        '200':
+          description: Advertisement found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Advertisement'
+        '404':
+          description: Advertisement not found
+    get:
+      tags:
+        - advertisement
+      summary: Get the most current advertisements
+      responses:
+        '200':
+          description: A list with advertisements (length of array not specified)
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Advertisement'
+
+  /advertisement/search:
+    get:
+      tags:
+        - advertisement
+      summary: Search advertisements
+      parameters:
+        - name: animal
+          in: query
+          required: false
+          schema:
+            type: string
+            example: Cat
+        - name: city
+          in: query
+          required: false
+          schema:
+            type: string
+            example: Stuttgart
+        - name: title
+          in: query
+          required: false
+          schema:
+            type: string
+            example: Mümmel
+      responses:
+        '200':
+          description: Matching advertisements
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Advertisement'
+  
+  /categories:
+    get:
+      tags:
+        - advertisement
+      summary: Obtain all advertisement categories
+      responses:
+        '200':
+          description: A list with all categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Category'
+      
 
 components:
   schemas:
@@ -83,6 +343,115 @@ components:
         message:
           type: string
           example: Service down due to maintance work
+    Advertisement:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 5647
+          minLength: 6
+        date:
+          type: string
+          format: date
+          example: 2025-06-11T14:30:00+02:00
+          minLength: 25
+          maxLength: 25
+        title:
+          type: string
+          example: Mümmel
+          minLength: 4
+        description:
+          type: string
+          example: Ich suche einen Halter für ein Wochenende für meinen Mümmel.
+          minLength: 25
+        animal:
+          type: string
+          example: Rabbit
+          minLength: 8
+        images:
+          type: array
+          items:
+            type: string
+            example: https://api.mietmiez.com/resources/adv-images/123abc/image.jpg
+    AdvertisementPatch:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Mümmel
+          minLength: 4
+        description:
+          type: string
+          example: Ich suche einen Halter für ein Wochenende für meinen Mümmel.
+          minLength: 25
+        animal:
+          type: string
+          example: Rabbit
+          minLength: 8
+        images:
+          type: array
+          items:
+            type: string
+            example: https://api.mietmiez.com/resources/adv-images/123abc/image.jpg
+    PasswordResetRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          format: email
+          example: john.appleseed@mail.com
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        expires_in:
+          type: integer
+          example: 3600
+    LoginRequest:
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+          example: JoAp
+        password:
+          type: string
+          format: password
+          example: mypassword123
+    PasswordChange:
+      type: object
+      required:
+        - email
+        - old-password
+        - new-password
+      properties:
+        email:
+          type: string
+          format: email
+          example: john.appleseed@mail.com
+        old-password:
+          type: string
+          example: ilovepizza
+        new-password:
+          type: string
+          example: iloveromance
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 456
+          minLength: 6
+        title:
+          type: string
+          example: Dog
+          minLength: 3
     User:
       type: object
       required:
@@ -90,7 +459,6 @@ components:
         - last-name
         - username
         - email
-        - password
         - city
       properties:
         first-name:
@@ -117,4 +485,9 @@ components:
           type: string
           example: Stuttgart
           minLength: 3
+          nullable: true
+        zip-code:
+          type: string
+          example: 71034
+          minLength: 2
           nullable: true
