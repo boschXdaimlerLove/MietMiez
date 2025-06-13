@@ -13,6 +13,8 @@ services:
       retries: 5
     volumes:
       - ./data/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
     networks:
       - internal
     environment:
@@ -22,6 +24,9 @@ services:
       - POSTGRES_DB=mietmiez
 
   backend:
+    image: localhost/mietmiez_backend:latest
+    build:
+      context: backend
     container_name: mietmiez-backend
     restart: always
     tty: true
@@ -35,8 +40,6 @@ services:
         condition: service_healthy
     networks:
       - internal
-    build:
-      context: backend
     ports:
       # change in backend-config.yml as well!
       - "8080:8080"
@@ -44,6 +47,9 @@ services:
       - ./backend-config.yml:/app/config.yml
 
   frontend:
+    image: localhost/mietmiez_frontend:latest
+    build:
+      context: frontend
     container_name: mietmiez-frontend
     restart: always
     healthcheck:
@@ -58,7 +64,5 @@ services:
         condition: service_healthy
     networks:
       - internal
-    build:
-      context: ./frontend
     ports:
       - "3000:3000"
