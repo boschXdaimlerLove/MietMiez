@@ -181,8 +181,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
-            example: 123abc
+            type: integer
+            example: 123
       responses:
         '200':
           description: Advertisement found
@@ -314,8 +314,8 @@ components:
       type: object
       properties:
         id:
-          type: string
-          example: 123abc
+          type: integer
+          example: 5647
           minLength: 6
         date:
           type: string
@@ -395,8 +395,8 @@ components:
       type: object
       properties:
         id:
-          type: string
-          example: 123abc
+          type: integer
+          example: 456
           minLength: 6
         title:
           type: string
