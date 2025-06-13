@@ -135,6 +135,23 @@ paths:
           description: Password reset link sent (if email exists)
         '400':
           description: Invalid email format
+  
+  /user/change-password:
+    post:
+      tags:
+        - user
+      summary: Change user password
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordChange'
+      responses:
+        '200':
+          description: Password change successful
+        '401':
+          description: Old password is wrong
 
   /user/favourites:
     get:
@@ -405,6 +422,23 @@ components:
           type: string
           format: password
           example: mypassword123
+    PasswordChange:
+      type: object
+      required:
+        - email
+        - old-password
+        - new-password
+      properties:
+        email:
+          type: string
+          format: email
+          example: john.appleseed@mail.com
+        old-password:
+          type: string
+          example: ilovepizza
+        new-password:
+          type: string
+          example: iloveromance
     Category:
       type: object
       properties:
