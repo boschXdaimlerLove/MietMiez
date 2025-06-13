@@ -48,7 +48,7 @@ paths:
       summary: Delete user and all its information
       responses:
         '200':
-          description: User successfuly deleted
+          description: User successfully deleted
         '410':
           description: User does not exist or was permanently deleted
     put:
@@ -93,7 +93,7 @@ paths:
     post:
       tags:
         - user
-      summary: Log in a user
+      summary: Log-in user
       requestBody:
         required: true
         content:
@@ -123,7 +123,7 @@ paths:
     post:
       tags:
         - user
-      summary: Request password reset
+      summary: Request password reset via mail
       requestBody:
         required: true
         content:
@@ -135,6 +135,8 @@ paths:
           description: Password reset link sent (if email exists)
         '400':
           description: Invalid email format
+        '401':
+          description: Not logged in
   
   /user/change-password:
     post:
