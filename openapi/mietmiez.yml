@@ -196,6 +196,13 @@ paths:
       tags:
         - advertisement
       summary: Deletes advertisement
+      parameters:
+        - name: advertisement-id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 123
       responses:
         '200':
           description: Advertisement deleted
@@ -203,6 +210,13 @@ paths:
       tags:
           - advertisement
       summary: Changes advertisement
+      parameters:
+        - name: advertisement-id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 123
       requestBody:
         required: true
         content:
