@@ -66,8 +66,6 @@ paths:
           description: User information updated
         '400':
           description: Invalid input data
-        '404':
-          description: User not found
 
   /user/{username}:
     get:
