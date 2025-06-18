@@ -8,13 +8,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f2703bc6-140e-45d1-b867-f8a6133c4cf5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/app/components/footer.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/account/settings/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/advertisment/new/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/components/button.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/server_communication/server_communication.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tailwind.config.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/advertisment/[slug]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/advertisment/[slug]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/account/settings.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/advertisment/[slug]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/advertisment/[id]/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/objects/advertisement.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/objects/advertisement.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/objects/pet.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/objects/pet.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/objects/user.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/objects/user.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/search/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/search/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,13 +33,19 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="TypeScript JSX File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
@@ -46,8 +61,9 @@
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;code.cleanup.on.save&quot;: &quot;true&quot;,
     &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;frontend/color-schema&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;frontend/components-1&quot;,
     &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;24.1.0&quot;,
     &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;24.0.3&quot;,
     &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
@@ -64,6 +80,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;npm.Next.js: server-side.executor&quot;: &quot;Debug&quot;,
+    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
     &quot;ts.external.directory.path&quot;: &quot;/Users/jules/Development/DH/Web-Engineering/MietMiez/frontend/mietmiez/node_modules/typescript/lib&quot;,
     &quot;typescript.add.unambiguous.imports.on.the.fly&quot;: &quot;true&quot;,
@@ -73,6 +90,12 @@
     &quot;stardust.markdown.MarkdownSplitEditorSuppressor:keyList&quot;: []
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/app/search" />
+      <recent name="$PROJECT_DIR$/src/app/search/[slug]" />
+    </key>
+  </component>
   <component name="RunManager" selected="npm.Next.js: server-side">
     <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
       <method v="2" />
@@ -110,7 +133,11 @@
       <workItem from="1750152976086" duration="1770000" />
       <workItem from="1750171851785" duration="2848000" />
       <workItem from="1750245536896" duration="638000" />
-      <workItem from="1750246184099" duration="170000" />
+      <workItem from="1750246184099" duration="1458000" />
+      <workItem from="1750247780901" duration="6816000" />
+      <workItem from="1750272168248" duration="23000" />
+      <workItem from="1750272200604" duration="1757000" />
+      <workItem from="1750274450024" duration="145000" />
     </task>
     <servers />
   </component>

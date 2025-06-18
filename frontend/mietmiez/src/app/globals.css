@@ -3,32 +3,33 @@
 :root {
   --primary: #47702d;
   --primary-light: #c9e265;
-  --background: #FAF9F6;
-  --foreground: #2E2E2E;
-  --primary: #A9CBB7;
-  --primaryBtn: #8FAAC4;
-  --card: #F0EBE3;
-  --font-geist-sans: "Geist-Sans", sans-serif;
-  --font-geist-mono: "Geist-Mono", monospace;
+    --background: #FAF9F6;
+    --foreground: #2E2E2E;
+    --primary: #A9CBB7;
+    --primaryBtn: #8FAAC4;
+    --primaryBtnTxt: #FAF9F6;
+    --card: #F0EBE3;
+    --font-geist-sans: "Geist-Sans", sans-serif;
+    --font-geist-mono: "Geist-Mono", monospace;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --font-sans: var(--font-geist-sans);
+    --font-mono: var(--font-geist-mono);
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --background: #1D1E1B;
-    --foreground: #F9F9F9;
-    --primary: #6D9E88;
-    --primaryBtn: #6C8CA6;
-    --card: #2A2B27;
-    --font-geist-sans: "Geist-Sans", sans-serif;
-    --font-geist-mono: "Geist-Mono", monospace;
-  }
+    :root {
+        --background: #1D1E1B;
+        --foreground: #F9F9F9;
+        --primary: #6D9E88;
+        --primaryBtn: #6C8CA6;
+        --card: #2A2B27;
+        --font-geist-sans: "Geist-Sans", sans-serif;
+        --font-geist-mono: "Geist-Mono", monospace;
+    }
 }
 
 body {
@@ -39,4 +40,7 @@ body {
 
 .rounded-full {
   border-radius: 9999px;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: Arial, Helvetica, sans-serif;
 }
