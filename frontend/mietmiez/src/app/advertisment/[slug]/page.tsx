@@ -1,3 +1,3 @@
-export default function AdvertismentPage({params} : {params : {slug: string}}) {
+export default function AdvertisementPage({params} : {params : {slug: string}}) {
   return <div>{params.slug}</div>;
 }
