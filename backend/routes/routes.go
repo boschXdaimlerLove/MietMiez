@@ -22,6 +22,7 @@ func setupV1Routes(app *fiber.App) {
 	v1.Post("/user", controllers.UserCreate)
 	v1.Delete("/user", controllers.UserDelete)
 	v1.Put("/user", controllers.UserUpdate)
+	v1.Get("/user", controllers.GetUser)
 	v1.Post("/user/login", controllers.UserLogin)
 	v1.Post("/user/logout", controllers.UserLogout)
 	v1.Post("/user/change-password", controllers.UserChangePassword)

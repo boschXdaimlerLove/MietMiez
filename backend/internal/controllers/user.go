@@ -277,3 +277,11 @@ func UserGetFavourites(c *fiber.Ctx) error {
 func UserAddFavourite(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusNotImplemented)
 }
+
+func GetUser(c *fiber.Ctx) error {
+	if isAuthenticated, _ := util.GetRequestUser(c); isAuthenticated {
+		return c.SendStatus(fiber.StatusOK)
+	}
+
+	return c.SendStatus(fiber.StatusUnauthorized)
+}
