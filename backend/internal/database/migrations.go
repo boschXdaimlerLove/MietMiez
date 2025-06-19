@@ -2,6 +2,7 @@ package database
 
 import (
 	"boschXdaimlerLove/MietMiez/internal/database/models"
+	"gorm.io/gorm/clause"
 )
 import . "boschXdaimlerLove/MietMiez/internal/logger"
 
@@ -12,6 +13,29 @@ var migrationsList = []interface{}{
 	&models.PasswordResetToken{},
 	&models.Session{},
 	&models.User{},
+}
+
+var categoryList = []string{
+	"Katzen",
+	"Hunde",
+	"Affen",
+	"Fische",
+	"Mäuse",
+	"Hühner",
+	"Pferde",
+	"Vögel",
+	"Schlangen",
+	"Kuscheltiere",
+}
+
+// Create all categories that don't exist already (needed for future migration)
+// Deletion of categories must be done manually
+func insertCategories() {
+	var categories []models.Category
+	for _, category := range categoryList {
+		categories = append(categories, models.Category{Title: category})
+	}
+	dbInstance.Clauses(clause.OnConflict{DoNothing: true}).Create(&categories)
 }
 
 // perform the migrations for all models

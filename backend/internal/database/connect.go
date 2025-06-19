@@ -26,6 +26,7 @@ func ConnectDB() {
 	Logger.Debug().Msg("Successfully connected to database")
 
 	performMigrations()
+	insertCategories()
 
 	sqlDB, err := dbInstance.DB()
 	if err != nil {

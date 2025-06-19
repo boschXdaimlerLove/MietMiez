@@ -330,6 +330,9 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Category'
+        '500':
+          description: An error has occured during the fetch of the categories
+
       
 
 components:
