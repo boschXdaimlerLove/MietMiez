@@ -27,6 +27,15 @@ paths:
                 $ref: '#/components/schemas/SystemStatus'
 
   /user:
+    get:
+      tags:
+        - user
+      summary: Checks if user is logged in
+      responses:
+        '200':
+          description: User is logged in
+        '401':
+          description: User is not logged in
     post:
       tags:
         - user
