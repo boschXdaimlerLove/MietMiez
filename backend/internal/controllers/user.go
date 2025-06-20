@@ -279,8 +279,9 @@ func UserAddFavourite(c *fiber.Ctx) error {
 }
 
 func GetUser(c *fiber.Ctx) error {
-	if isAuthenticated, _ := util.GetRequestUser(c); isAuthenticated {
-		return c.SendStatus(fiber.StatusOK)
+	if isAuthenticated, user := util.GetRequestUser(c); isAuthenticated {
+		// only public data -> hash and salt is not needed by frontend to do basic operations and check data
+		return c.Status(fiber.StatusOK).JSON(user.ToPublic())
 	}
 
 	return c.SendStatus(fiber.StatusUnauthorized)
