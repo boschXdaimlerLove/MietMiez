@@ -33,7 +33,12 @@ paths:
       summary: Checks if user is logged in
       responses:
         '200':
-          description: User is logged in
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/User'
+          description: User object with user data
         '401':
           description: User is not logged in
     post:
@@ -236,7 +241,7 @@ paths:
           description: Advertisement deleted
     patch:
       tags:
-          - advertisement
+        - advertisement
       summary: Changes advertisement
       parameters:
         - name: advertisement-id
