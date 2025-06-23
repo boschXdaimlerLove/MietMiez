@@ -277,3 +277,12 @@ func UserGetFavourites(c *fiber.Ctx) error {
 func UserAddFavourite(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusNotImplemented)
 }
+
+func GetUser(c *fiber.Ctx) error {
+	if isAuthenticated, user := util.GetRequestUser(c); isAuthenticated {
+		// only public data -> hash and salt is not needed by frontend to do basic operations and check data
+		return c.Status(fiber.StatusOK).JSON(user.ToPublic())
+	}
+
+	return c.SendStatus(fiber.StatusUnauthorized)
+}

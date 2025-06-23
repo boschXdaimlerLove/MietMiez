@@ -27,6 +27,20 @@ paths:
                 $ref: '#/components/schemas/SystemStatus'
 
   /user:
+    get:
+      tags:
+        - user
+      summary: Checks if user is logged in
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/User'
+          description: User object with user data
+        '401':
+          description: User is not logged in
     post:
       tags:
         - user
@@ -227,7 +241,7 @@ paths:
           description: Advertisement deleted
     patch:
       tags:
-          - advertisement
+        - advertisement
       summary: Changes advertisement
       parameters:
         - name: advertisement-id
