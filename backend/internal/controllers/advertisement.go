@@ -1,0 +1,65 @@
+package controllers
+
+import (
+	"boschXdaimlerLove/MietMiez/internal/database"
+	"boschXdaimlerLove/MietMiez/internal/database/models"
+	"boschXdaimlerLove/MietMiez/internal/util"
+	"errors"
+	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
+)
+
+import . "boschXdaimlerLove/MietMiez/internal/logger"
+
+func AdvertisementInformation(c *fiber.Ctx) error {
+	var advertisement models.Advertisement
+	dbInstance := database.GetDB()
+	result := dbInstance.First(&advertisement, "id = ?", c.Params("id"))
+
+	if advertisement.DeletedAt.Valid {
+		Logger.Debug().Interface("advertisement", advertisement).Msg("requested advertisement was deleted")
+		return c.SendStatus(fiber.StatusNotFound)
+	} else if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return c.SendStatus(fiber.StatusNotFound)
+	} else if result.Error != nil {
+		Logger.Err(result.Error).Msg("get advertisement failed")
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	var user models.User
+
+	result = dbInstance.First(&user, "id = ?", advertisement.UserID)
+	if result.Error != nil {
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	advertisement.AddUser(&user)
+
+	return c.Status(fiber.StatusOK).JSON(advertisement)
+}
+
+func CreateAdvertisement(c *fiber.Ctx) error {
+	var userFromDB models.User
+	var isAuthenticated bool
+
+	if isAuthenticated, userFromDB = util.GetRequestUser(c); !isAuthenticated {
+		return c.SendStatus(fiber.StatusUnauthorized)
+	}
+
+	advertisement := new(models.Advertisement).Timestamp().AddUser(&userFromDB)
+
+	if err := util.GetJsonFromRequest(c, advertisement); err != nil {
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	dbInstance := database.GetDB()
+	result := dbInstance.Clauses(clause.OnConflict{DoNothing: true}).Create(&advertisement)
+	if result.RowsAffected == 0 {
+		// abracadabra here's an error with bad logging
+		Logger.Debug().Interface("advertisement", advertisement).Msg("cannot create new advertisement")
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	return c.Status(fiber.StatusCreated).JSON(advertisement)
+}

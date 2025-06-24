@@ -33,7 +33,8 @@ func setupV1Routes(app *fiber.App) {
 	v1.Get("/user/:email", controllers.UserInfo)
 
 	// --- advertisement paths ---
-	// TODO add advertisement paths
+	v1.Post("/advertisement", controllers.CreateAdvertisement)
+	v1.Get("/advertisement/:id", controllers.AdvertisementInformation)
 
 	// --- category paths ---
 	v1.Get("/categories", controllers.CategoryList)
