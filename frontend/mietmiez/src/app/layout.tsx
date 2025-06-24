@@ -1,8 +1,8 @@
 import type {Metadata} from "next";
 import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
-import Header from "@/app/components/header";
 import Footer from "@/app/components/footer";
+import HeaderWrapper from "@/app/components/HeaderWrapper";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -66,7 +66,7 @@ export default function RootLayout({
         >
         {/* Header and children fill the complete screen */}
         <div className="h-screen w-screen">
-            <Header/> {/* show header on top of every page */}
+            <HeaderWrapper/> {/* show header on top of every page */}
             {children} {/* page content itself */}
         </div>
         <Footer/> {/* show footer on the bottom of every page */}

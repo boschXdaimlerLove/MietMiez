@@ -1,3 +1,5 @@
+'use client';
+
 import Advertisement from "@/app/objects/advertisement";
 import Image from "next/image";
 import Button from "@/app/components/button";

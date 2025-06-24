@@ -1,8 +1,9 @@
 import UserCard from "@/app/components/cards/UserCard";
 import {fetchAdvertisement} from "@/app/server_communication/ServerCommunication";
 
-export default async function AdvertisementPage({params}: { params: { id: string } }) {
-    const ad = await fetchAdvertisement(params.id)
+export default async function AdvertisementPage({params}: { params: Promise<{ id: string }> }) {
+    const {id} = await params;
+    const advertisement = await fetchAdvertisement(id);
     return (
         <main>
             {/* Main Row */}
@@ -13,18 +14,18 @@ export default async function AdvertisementPage({params}: { params: { id: string
                 </div>
 
                 {/* USER INFO */}
-                <UserCard user={ad.user}/>
+                <UserCard user={advertisement.user}/>
                 {/*  Advertisement info  */}
                 <div>
-                    <h1>{ad.title}</h1>
-                    <p>Pet: {ad.pet.name} ({ad.pet.type})</p>
-                    <p>Location: {ad.user.city}</p>
+                    <h1>{advertisement.title}</h1>
+                    <p>Pet: {advertisement.pet.name} ({advertisement.pet.type})</p>
+                    <p>Location: {advertisement.user.city}</p>
                 </div>
             </div>
             {/* More information */}
             <div>
                 <h2>Description</h2>
-                <p>{ad.description}</p>
+                <p>{advertisement.description}</p>
             </div>
         </main>
     );

@@ -4,16 +4,14 @@ import Advertisement from "@/app/objects/advertisement";
 import User from "@/app/objects/user";
 import Pet from "@/app/objects/pet";
 import PetGrid from "@/app/components/PetGrid";
-import {useEffect, useState} from "react";
-import {fetchLatestAdvertisements} from "@/app/server_communication/ServerCommunication";
 
 export default function Home() {
-    const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
-
-    useEffect(() => {
-        const ads = await fetchLatestAdvertisements();
-        setAdvertisements(ads);
-    }, []);
+    // const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
+    //
+    // useEffect(() => {
+    //     const ads = await fetchLatestAdvertisements();
+    //     setAdvertisements(ads);
+    // }, []);
 
 
     // Sample pet data TODO: Replace with actual data fetching logic
@@ -24,7 +22,8 @@ export default function Home() {
                 "test",
                 "user1",
                 "test.user@test.com",
-                "Stuttgart"
+                "Stuttgart",
+                []
             ),
             new Pet(
                 "Bello",
@@ -40,7 +39,8 @@ export default function Home() {
                 "test",
                 "user1",
                 "test.user@test.com",
-                "Heidelberg"
+                "Heidelberg",
+                []
             ),
             new Pet(
                 "Miau",

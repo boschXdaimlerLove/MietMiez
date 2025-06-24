@@ -1,7 +1,8 @@
-export default function ProfilePage({params}: { params: { mail: string } }) {
+export default async function ProfilePage({params}: { params: Promise<{ mail: string }> }) {
+    const {mail} = await params;
     return (
         <main>
-            {params.mail}
+            {mail}
         </main>
     );
 }

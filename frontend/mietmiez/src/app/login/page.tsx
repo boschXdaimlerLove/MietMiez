@@ -5,15 +5,13 @@ import {useRouter} from 'next/navigation';
 import Image from 'next/image';
 import logo from '../../../public/mietmiez_icon_512.png';
 
-
-const login: React.FC = () => {
+export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const router = useRouter();
 
-
-    const handleSubmit = async (e: React.FormEvent) => {
+    async function handleSubmit(e: React.FormEvent) {
         e.preventDefault();
         setError("");
 
@@ -35,8 +33,9 @@ const login: React.FC = () => {
             router.push('/main');
         } catch (err) {
             setError("Serverfehler");
+            console.error("Login error:", err);
         }
-    };
+    }
 
     return (
         <div className="bg-[#B2E9CD] flex justify-center items-center h-screen">
@@ -89,7 +88,4 @@ const login: React.FC = () => {
             </div>
         </div>
     );
-
 }
-
-export default login;

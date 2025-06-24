@@ -1,39 +1,32 @@
 'use client';
 
-import React, {useEffect, useState} from "react";
+import React, {use, useState} from "react";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
-import Category from "@/app/objects/category";
-import {fetchCategories} from "@/app/server_communication/ServerCommunication";
+import {useHeaderContext} from "@/app/components/HeaderContext";
 
 export default function Header() {
 
     const router = useRouter();
-
-    const [categories, setCategories] = useState<Category[]>([]);
+    const categoriesPromise = useHeaderContext();
+    const categories = use(categoriesPromise);
 
     const [categoriesOpen, setCategoriesOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState("Alle Kategorien");
 
-    useEffect(async () => {
-        const cats = await fetchCategories();
-        setCategories(cats);
-    }, []);
 
-
-    // Sample data TODO: Replace with actual data fetching logic
-    const categories = [
-        "Alle Kategorien",
-        "Hunde",
-        "Katzen",
-        "Kleintiere",
-        "Vögel",
-        "Reptilien",
-        "Amphibien",
-        "Fische",
-        "Andere"
-    ];
+    // const sampleCategories = [
+    //     "Alle Kategorien",
+    //     "Hunde",
+    //     "Katzen",
+    //     "Kleintiere",
+    //     "Vögel",
+    //     "Reptilien",
+    //     "Amphibien",
+    //     "Fische",
+    //     "Andere"
+    // ];
 
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         // TODO: update city and distance etc.
@@ -103,15 +96,15 @@ export default function Header() {
                                 <div className="py-1" role="menu" aria-orientation="vertical">
                                     {categories.map((category) => (
                                         <button
-                                            key={category}
+                                            key={category.id}
                                             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                             role="menuitem"
                                             onClick={() => {
-                                                setSelectedCategory(category);
+                                                setSelectedCategory(category.name);
                                                 setCategoriesOpen(false);
                                             }}
                                         >
-                                            {category}
+                                            {category.name}
                                         </button>
                                     ))}
                                 </div>

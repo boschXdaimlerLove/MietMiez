@@ -2,7 +2,8 @@ import PetGrid from "@/app/components/PetGrid";
 import {fetchAdvertisementsFor} from "@/app/server_communication/ServerCommunication";
 import SearchParams from "@/app/search/SearchParams";
 
-export default async function SearchPage({searchParams}: { searchParams: SearchParams }) {
+export default async function SearchPage({params}: { params: Promise<{ searchParams: SearchParams }> }) {
+    const {searchParams} = await params;
     const advertisements = await fetchAdvertisementsFor(searchParams);
 
     return (

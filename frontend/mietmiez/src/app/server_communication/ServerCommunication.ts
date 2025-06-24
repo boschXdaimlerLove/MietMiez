@@ -3,7 +3,8 @@ import Advertisement from "@/app/objects/advertisement";
 import SearchParams from "@/app/search/SearchParams";
 import Category from "@/app/objects/category";
 
-const url: string = 'https://mietmietz.de/v1';
+// const url: string = 'https://mietmietz.de/v1';
+const url: string = 'http://localhost:8080/v1'; // For local development
 
 async function responseToAdvertisements(response: Response): Promise<Advertisement[]> {
     const adsArr: Advertisement[] = [];
