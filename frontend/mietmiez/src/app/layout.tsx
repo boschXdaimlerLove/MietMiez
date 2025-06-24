@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type {Metadata} from "next";
+import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import Header from "@/app/components/header";
 import Footer from "@/app/components/footer";
 
 const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+    variable: "--font-geist-sans",
+    subsets: ["latin"],
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+    variable: "--font-geist-mono",
+    subsets: ["latin"],
 });
 
 export const metadata: Metadata = {
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
             name: "Bruno Lange"
         }
     ],
-    assets: "https://mietmietz.de/assets",
+    assets: "https://mietmietz.de/public",
     formatDetection: {
         telephone: true,
         email: true,
@@ -50,26 +50,27 @@ export const metadata: Metadata = {
     abstract: "Want to rent a pet? This project is a pet-renting platform made for an university assignment.",
     keywords: ["mietmiez, rent, pet, cat, dog"],
     generator: "Next.js",
-    robots: {
-    },
-    icons: {
-    }
+    robots: {},
+    icons: {}
 };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
+                                       children,
+                                   }: Readonly<{
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-      <Header/>         {/* show header on top of every page */}
-        {children}      {/* page content itself */}
-      <Footer/>         {/* show footer on the bottom of every page */}
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+        <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased bg`}
+        >
+        {/* Header and children fill the complete screen */}
+        <div className="h-screen w-screen">
+            <Header/> {/* show header on top of every page */}
+            {children} {/* page content itself */}
+        </div>
+        <Footer/> {/* show footer on the bottom of every page */}
+        </body>
+        </html>
+    );
 }

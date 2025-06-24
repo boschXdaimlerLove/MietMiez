@@ -18,5 +18,24 @@ export default class Advertisement {
         this.images = images;
     }
 
+    static fromJSON(json: AdvertisementJson): Advertisement {
+        return new Advertisement(
+            json["id"],
+            User.fromJSONObject(json["user"]),
+            Pet.fromJSON(json["pet"]),
+            json["title"],
+            json["description"],
+            json["images"]
+        );
+    }
+}
 
+
+interface AdvertisementJson {
+    "id": string;
+    "user": User;
+    "pet": Pet;
+    "title": string;
+    "description": string;
+    "images": [string];
 }

@@ -1,8 +1,9 @@
+@layer base;
+
 @import "tailwindcss";
+@import "tailwindcss/preflight" layer(base);
 
 :root {
-  --primary: #47702d;
-  --primary-light: #c9e265;
     --background: #FAF9F6;
     --foreground: #2E2E2E;
     --primary: #A9CBB7;
@@ -26,6 +27,7 @@
         --foreground: #F9F9F9;
         --primary: #6D9E88;
         --primaryBtn: #6C8CA6;
+        --primaryBtnTxt: #FAF9F6;
         --card: #2A2B27;
         --font-geist-sans: "Geist-Sans", sans-serif;
         --font-geist-mono: "Geist-Mono", monospace;
@@ -33,14 +35,28 @@
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, sans-serif;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-geist-sans), Arial, sans-serif;
 }
 
 .rounded-full {
-  border-radius: 9999px;
+    border-radius: 9999px;
     background: var(--background);
     color: var(--foreground);
     font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer base {
+    h1 {
+        font-size: 2rem;
+        font-weight: 600;
+        color: var(--foreground);
+    }
+
+    h2 {
+        font-size: 1.5rem;
+        font-weight: 500;
+        color: var(--foreground);
+    }
 }

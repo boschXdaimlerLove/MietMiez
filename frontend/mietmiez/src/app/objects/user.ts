@@ -3,12 +3,14 @@ export default class User {
     lastName: string;
     email: string;
     city: string;
+    favorites: string[] = [];
 
-    constructor(firstName: string, lastName: string, email: string, city: string) {
+    constructor(firstName: string, lastName: string, email: string, city: string, favorites: string[]) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.city = city;
+        this.favorites = favorites;
     }
 
     static fromJSON(json: UserJson): User {
@@ -16,8 +18,30 @@ export default class User {
             json["first-name"],
             json["last-name"],
             json["email"],
-            json["city"]
+            json["city"],
+            json["favorites"] || []
         );
+    }
+
+    static fromJSONObject(json: unknown): User {
+        if (
+            typeof json === "object" &&
+            json !== null &&
+            "first-name" in json &&
+            "last-name" in json &&
+            "email" in json &&
+            "city" in json
+        ) {
+            const obj = json as UserJson;
+            return new User(
+                obj["first-name"],
+                obj["last-name"],
+                obj["email"],
+                obj["city"],
+                obj["favorites"] || []
+            );
+        }
+        throw new Error("Ungültiges JSON-Objekt");
     }
 }
 
@@ -26,4 +50,5 @@ interface UserJson {
     "last-name": string;
     email: string;
     city: string;
+    favorites?: string[];
 }
