@@ -28,7 +28,7 @@ func GetRequestUser(c *fiber.Ctx) (bool, models.User) {
 		Where("valid_until > ?", time.Now()).
 		First(&session)
 
-	Logger.Info().Any("user", session.User).Any("session", session).Msg("GetRequestUser")
+	//Logger.Info().Any("user", session.User).Any("session", session).Msg("GetRequestUser")
 
 	if result.Error != nil {
 		//if !errors.Is(result.Error, gorm.ErrRecordNotFound) {

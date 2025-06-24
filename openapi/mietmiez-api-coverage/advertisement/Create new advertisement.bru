@@ -12,11 +12,32 @@ post {
 
 body:json {
   {
-    "id": "",
-    "date": "",
-    "title": "",
-    "description": "",
-    "animal": "",
-    "images": []
+    "title": "Mümmel",
+    "description": "Ich suche einen Halter für ein Wochenende für meinen Mümmel.",
+    "animal": "Rabbit",
+    "images": [
+      "https://api.mietmiez.com/resources/adv-images/123abc/image.jpg"
+    ]
   }
+}
+
+assert {
+  res.status: eq 201
+  res.body: isJson
+  res.body.title: eq Mümmel
+  res.body.user.email: eq testUser1@mietmiez.com
+}
+
+script:pre-request {
+  // retrieve the cookie string you stored earlier
+  const cookie = bru.getVar("cookie_user1");
+  
+  if (cookie) {
+    // set it as the Cookie header on the outgoing request
+    req.setHeader("Cookie", cookie);
+  }
+}
+
+script:post-response {
+  bru.setVar("ad1_id", res.body.id)
 }
