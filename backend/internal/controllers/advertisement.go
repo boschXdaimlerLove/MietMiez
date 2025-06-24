@@ -4,7 +4,9 @@ import (
 	"boschXdaimlerLove/MietMiez/internal/database"
 	"boschXdaimlerLove/MietMiez/internal/database/models"
 	"boschXdaimlerLove/MietMiez/internal/util"
+	"errors"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
 
@@ -17,12 +19,14 @@ func AdvertisementInformation(c *fiber.Ctx) error {
 		Preload("User").
 		First(&advertisement, "id = ?", c.Params("id"))
 
-	if result.Error != nil {
-		Logger.Debug().Interface("advertisement", advertisement).Msg("error obtain advertisement information")
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return c.SendStatus(fiber.StatusNotFound)
+	} else if result.Error != nil {
+		Logger.Err(result.Error).Msg("Failed to get advertisement")
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	return c.Status(fiber.StatusOK).JSON(advertisement)
+	return c.Status(fiber.StatusOK).JSON(advertisement.ToPublic())
 }
 
 func CreateAdvertisement(c *fiber.Ctx) error {
@@ -44,9 +48,9 @@ func CreateAdvertisement(c *fiber.Ctx) error {
 	result := dbInstance.Clauses(clause.OnConflict{DoNothing: true}).Create(&advertisement)
 	if result.RowsAffected == 0 {
 		// abracadabra here's an error with bad logging
-		Logger.Debug().Interface("advertisement", advertisement).Msg("cannot create new advertisement")
+		Logger.Warn().Interface("advertisement", advertisement).Msg("cannot create new advertisement")
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	return c.Status(fiber.StatusCreated).JSON(advertisement)
+	return c.Status(fiber.StatusCreated).JSON(advertisement.ToPublic())
 }

@@ -11,5 +11,9 @@ get {
 }
 
 params:path {
-  advertisement-id: 
+  advertisement-id: {{ad1_id}}
+}
+
+assert {
+  res.status: eq 200
 }
