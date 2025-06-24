@@ -269,7 +269,7 @@ paths:
         '404':
           description: Advertisement not found
         '500':
-          description: Server error occurred while create entry in db
+          description: Server error occurred while creating entry in db
     get:
       tags:
         - advertisement
