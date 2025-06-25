@@ -35,3 +35,13 @@ func (advertisement *Advertisement) ToPublic() PublicAdvertisement {
 		Images:      advertisement.Images,
 	}
 }
+
+type AdvertisementList []Advertisement
+
+func (advertisements AdvertisementList) ToPublic() []PublicAdvertisement {
+	var publicAds []PublicAdvertisement
+	for _, e := range advertisements {
+		publicAds = append(publicAds, e.ToPublic())
+	}
+	return publicAds
+}

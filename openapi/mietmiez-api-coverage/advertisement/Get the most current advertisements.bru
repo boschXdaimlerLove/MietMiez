@@ -9,3 +9,9 @@ get {
   body: none
   auth: none
 }
+
+assert {
+  res.status: eq 200
+  res.body: isNotEmpty
+  res.body.length: lt 31
+}
