@@ -39,6 +39,10 @@ func setupV1Routes(app *fiber.App) {
 
 	// --- category paths ---
 	v1.Get("/categories", controllers.CategoryList)
+
+	// --- image paths ---
+	v1.Post("/image", controllers.UploadImage)
+	v1.Get("/image/:id", controllers.DownloadImage)
 }
 
 func SetupRoutes(app *fiber.App) {

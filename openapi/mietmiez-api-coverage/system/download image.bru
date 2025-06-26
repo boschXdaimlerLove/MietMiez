@@ -1,0 +1,15 @@
+meta {
+  name: download image
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{baseUrl}}/image/:id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  id: 285cf1143f251de7e011e3888f51b7aab99552d626e2bd8b1dace6c840f394a4.gif
+}
