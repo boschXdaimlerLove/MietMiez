@@ -8,6 +8,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
+	"strconv"
 )
 
 import . "boschXdaimlerLove/MietMiez/internal/logger"
@@ -53,4 +54,18 @@ func CreateAdvertisement(c *fiber.Ctx) error {
 	}
 
 	return c.Status(fiber.StatusCreated).JSON(advertisement.ToPublic())
+}
+
+func GetRecentAdvertisements(c *fiber.Ctx) error {
+	var advertisements models.AdvertisementList
+	dbInstance := database.GetDB()
+
+	page, _ := strconv.Atoi(c.Query("page"))
+	result := dbInstance.Scopes(util.Paginate(page)).Order("created_at desc").Preload("User").Find(&advertisements)
+
+	if result.Error != nil {
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	return c.Status(fiber.StatusOK).JSON(advertisements.ToPublic())
 }
