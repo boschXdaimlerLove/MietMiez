@@ -3,7 +3,8 @@
 import React, {useState} from "react";
 import {useRouter} from 'next/navigation';
 import Image from 'next/image';
-import logo from '../../../public/mietmiez_icon_512.png';
+
+import UserCommunication from "@/app/server_communication/UserCommunication";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -15,6 +16,7 @@ export default function Login() {
         e.preventDefault();
         setError("");
 
+        await UserCommunication.login(email, password);
         try {
             const res = await fetch("BACKEND PORT EINFÜGEN", {
                 method: "POST",
@@ -41,7 +43,7 @@ export default function Login() {
         <div className="bg-[#B2E9CD] flex justify-center items-center h-screen">
             <div className="w-1/2 h-screen hidden lg:block relative">
                 <Image
-                    src={logo}
+                    src='/mietmiez_icon_512.png'
                     alt="Logo"
                     fill
                     style={{objectFit: "contain"}}
@@ -51,7 +53,7 @@ export default function Login() {
             <div className="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
                 <div className="max-w-md mx-auto mt-10 bg-white rounded-xl shadow-lg p-6">
                     <form onSubmit={handleSubmit} className="flex item-center justify-center flex-col">
-                        <h2 className="text-green-700 flex flex-col flex items-center mb-4 font-extrabold text-2xl">Login</h2>
+                        <h2 className="text-green-700 flex flex-col items-center mb-4 font-extrabold text-2xl">Login</h2>
                         {error && <p style={{color: "red"}}>{error}</p>}
                         <input
                             type="text"

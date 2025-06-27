@@ -1,6 +1,6 @@
 'use client';
 
-import React, {use, useState} from "react";
+import React, {useState} from "react";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
@@ -9,17 +9,16 @@ import {useHeaderContext} from "@/app/components/HeaderContext";
 export default function Header() {
 
     const router = useRouter();
-    const categoriesPromise = useHeaderContext();
-    const categories = use(categoriesPromise);
+    const categories = useHeaderContext();
 
     const [categoriesOpen, setCategoriesOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState("Alle Kategorien");
 
 
-    // const sampleCategories = [
+    // const categories = [
     //     "Alle Kategorien",
-    //     "Hunde",
-    //     "Katzen",
+    // new Category(1, "Hunde"),
+    // new Category(2, "Katzen"),
     //     "Kleintiere",
     //     "Vögel",
     //     "Reptilien",

@@ -1,21 +1,25 @@
 "use client";
 
 import Advertisement from "@/app/objects/advertisement";
-import User from "@/app/objects/user";
-import Pet from "@/app/objects/pet";
 import PetGrid from "@/app/components/PetGrid";
+import {useEffect, useState} from "react";
+import AdvertisementCommunication from "@/app/server_communication/AdvertisementCommunication";
 
 export default function Home() {
-    // const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
-    //
-    // useEffect(() => {
-    //     const ads = await fetchLatestAdvertisements();
-    //     setAdvertisements(ads);
-    // }, []);
+    const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
+
+    useEffect(() => {
+        async function fetchAdvertisements() {
+            const ads = await AdvertisementCommunication.fetchLatestAdvertisements();
+            setAdvertisements(ads);
+        }
+
+        fetchAdvertisements()
+    }, []);
 
 
     // Sample pet data TODO: Replace with actual data fetching logic
-    const sampleAdvertisements: Advertisement[] = [
+    /*const sampleAdvertisements: Advertisement[] = [
         new Advertisement(
             "1",
             new User(
@@ -50,7 +54,7 @@ export default function Home() {
             "Eine nette, verschmuste Katze sucht einen neuen Freund. Miau ist 2 Jahre alt, geimpft und kastriert. Sie liebt es zu spielen und zu kuscheln.",
             ['https://images.unsplash.com/photo-1511044568932-338cba0ad803']
         )
-    ];
+    ];*/
 
 
     return (
@@ -60,7 +64,7 @@ export default function Home() {
                 <h1 className="text-3xl text-center text-[#47702d] mb-8">Willkommen bei MietMiez</h1>
 
                 {/* Pet Cards Grid Example */}
-                <PetGrid advertisements={sampleAdvertisements}/>
+                <PetGrid advertisements={advertisements}/>
             </main>
         </div>
     );

@@ -1,12 +1,12 @@
-import {fetchCategories} from "@/app/server_communication/ServerCommunication";
-import {HeaderProvider} from "@/app/components/HeaderContext";
-import Category from "@/app/objects/category";
 import Header from "@/app/components/header";
+import Category from "@/app/objects/category";
+import AdvertisementCommunication from "@/app/server_communication/AdvertisementCommunication";
+import {HeaderProvider} from "@/app/components/HeaderContext";
 
 export default async function HeaderWrapper() {
-    const categoryPromise: Promise<Category[]> = fetchCategories();
+    const categories: Category[] = await AdvertisementCommunication.fetchCategories();
     return (
-        <HeaderProvider categoryPromise={categoryPromise}>
+        <HeaderProvider categories={categories}>
             <Header/>
         </HeaderProvider>
     );

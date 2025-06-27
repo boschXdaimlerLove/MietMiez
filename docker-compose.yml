@@ -31,9 +31,9 @@ services:
     restart: always
     tty: true
     healthcheck:
-      test: ["CMD", "wget --spider --no-verbose --tries=1 http://localhost:8080/v1/health"]
-      interval: 5s
-      timeout: 10s
+      test: ["CMD", "wget --spider --no-verbose --tries=1 http://127.0.0.1:8080/v1/health"]
+      interval: 10s
+      timeout: 60s
       retries: 5
     depends_on:
       database:
@@ -58,9 +58,11 @@ services:
       interval: 5s
       timeout: 10s
       retries: 5
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
-      backend:
-        condition: service_healthy
+#      backend:
+#        condition: service_healthy
       database:
         condition: service_healthy
     networks:

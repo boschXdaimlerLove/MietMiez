@@ -1,9 +1,10 @@
 import UserCard from "@/app/components/cards/UserCard";
-import {fetchAdvertisement} from "@/app/server_communication/ServerCommunication";
+import AdvertisementCommunication from "@/app/server_communication/AdvertisementCommunication";
+import Advertisement from "@/app/objects/advertisement";
 
 export default async function AdvertisementPage({params}: { params: Promise<{ id: string }> }) {
     const {id} = await params;
-    const advertisement = await fetchAdvertisement(id);
+    const advertisement: Advertisement = await AdvertisementCommunication.fetchAdvertisement(id);
     return (
         <main>
             {/* Main Row */}

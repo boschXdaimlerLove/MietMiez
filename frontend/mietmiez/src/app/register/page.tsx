@@ -26,7 +26,7 @@ export default function RegisterPage() {
                         isPrimary={true}
                         title="Register"
                         onClick={handleSubmit}
-                        type={'submit'}
+                        type='submit'
                     />
                 </form>
             </div>
