@@ -97,5 +97,11 @@ func SearchAdvertisements(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	return c.Status(fiber.StatusOK).JSON(advertisements)
+	var publicAdvertisementsList []models.PublicAdvertisement
+
+	for _, advertisement := range advertisements {
+		publicAdvertisementsList = append(publicAdvertisementsList, advertisement.ToPublic())
+	}
+
+	return c.Status(fiber.StatusOK).JSON(publicAdvertisementsList)
 }
