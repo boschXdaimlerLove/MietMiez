@@ -16,9 +16,15 @@ import . "boschXdaimlerLove/MietMiez/internal/logger"
 func AdvertisementInformation(c *fiber.Ctx) error {
 	var advertisement models.Advertisement
 	dbInstance := database.GetDB()
+
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString("id must be an integer")
+	}
+
 	result := dbInstance.
 		Preload("User").
-		First(&advertisement, "id = ?", c.Params("id"))
+		First(&advertisement, "id = ?", id)
 
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return c.SendStatus(fiber.StatusNotFound)
