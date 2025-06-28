@@ -69,3 +69,35 @@ func GetRecentAdvertisements(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(advertisements.ToPublic())
 }
+
+func DeleteAdvertisement(c *fiber.Ctx) error {
+	var userFromDB models.User
+	var isAuthenticated bool
+
+	if isAuthenticated, userFromDB = util.GetRequestUser(c); !isAuthenticated {
+		return c.SendStatus(fiber.StatusUnauthorized)
+	}
+
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString("id must be an integer")
+	}
+
+	var advertisement models.Advertisement
+
+	result := database.GetDB().
+		Preload("User").
+		Where("id = ? AND user_id = ?", id, userFromDB.ID).
+		Delete(&advertisement)
+
+	if result.RowsAffected == 0 {
+		return c.SendStatus(fiber.StatusNotFound)
+	}
+
+	if result.Error != nil {
+		Logger.Debug().Interface("result", result).Msg("cannot delete advertisement")
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	return c.SendStatus(fiber.StatusOK)
+}
