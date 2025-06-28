@@ -72,16 +72,59 @@ export default class AdvertisementCommunication {
         return Advertisement.fromJSON(adJson);
     }
 
-    static async createAdvertisement(ad: Advertisement): Promise<Advertisement> {
-
+    static async fetchUserFavorites(): Promise<Advertisement[]> {
+        const favoritesRes = await fetch(`${GeneralServerCommunication.url}/user/favorites/`, {
+            cache: 'no-cache',
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        return AdvertisementCommunication.responseToAdvertisements(favoritesRes);
     }
 
-    static async updateAdvertisement(ad: Advertisement): Promise<Advertisement> {
-        
+    static async createAdvertisement(ad: Advertisement): Promise<void> {
+        const adRes = await fetch(`${GeneralServerCommunication.url}/advertisement`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ad)
+        });
+        if (!adRes.ok) {
+            // const error = await adRes.json();
+            // console.error("Error creating advertisement:", error);
+            // throw new Error("Failed to create advertisement");
+        }
+    }
+
+    static async updateAdvertisement(ad: Advertisement): Promise<void> {
+        const adRes = await fetch(`${GeneralServerCommunication.url}/advertisement/${ad.id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(ad)
+        });
+        if (!adRes.ok) {
+            // const error = await adRes.json();
+            // console.error("Error updating advertisement:", error);
+            // throw new Error("Failed to update advertisement");
+        }
     }
 
 
     static async deleteAdvertisement(id: string): Promise<void> {
-
+        const adRes = await fetch(`${GeneralServerCommunication.url}/advertisement/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        });
+        if (!adRes.ok) {
+            // const error = await adRes.json();
+            // console.error("Error deleting advertisement:", error);
+            // throw new Error("Failed to delete advertisement");
+        }
     }
 }

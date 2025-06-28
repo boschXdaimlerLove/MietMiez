@@ -18,7 +18,7 @@ export function HomeProvider({children, advertisements}: {
 export function useHomeContext() {
     const context = useContext(HomeContext);
     if (context === null) {
-        throw new Error("useHeaderContext must be used within a HomeProvider");
+        throw new Error("useHomeContext must be used within a HomeProvider");
     }
     return context;
 }

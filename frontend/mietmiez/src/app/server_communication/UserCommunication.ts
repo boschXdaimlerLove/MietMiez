@@ -1,53 +1,93 @@
-import {router} from "next/client";
 import GeneralServerCommunication from "@/app/server_communication/GeneralServerCommunication";
 import User from "@/app/objects/user";
+import Advertisement from "@/app/objects/advertisement";
 
 export default class UserCommunication {
     static async login(email: string, password: string): Promise<void> {
-        const res = await fetch(`${GeneralServerCommunication.url}/user/login/`, {
+        await fetch(`${GeneralServerCommunication.url}/user/login/`, {
             cache: 'no-cache',
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({email, password}),
         });
-
-        const data = await res.json();
-        if (!res.ok) {
-            console.log(data);
-            return;
-        }
-        sessionStorage.setItem("token", data.token);
-        router.push('/main');
+        // sessionStorage.setItem("token", data.token);
     }
 
-    static async register(email: string, password: string, firstName: string, lastName: string): Promise<void> {
-
+    static async register(user: User): Promise<void> {
+        await fetch(`${GeneralServerCommunication.url}/user/`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(user.toJSON()),
+        });
     }
 
     static async logout(): Promise<void> {
-
+        const res = await fetch(`${GeneralServerCommunication.url}/user/logout`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+        });
+        if (!res.ok) {
+            return;
+        } else {
+            // TODO: remove token even if logout fails?
+            sessionStorage.removeItem("token");
+        }
     }
 
-    static async deleteUser(): Promise<User> {
-
+    static async deleteUser(): Promise<void> {
+        const res = await fetch(`${GeneralServerCommunication.url}/user/`, {
+            method: "DELETE",
+            headers: {"Content-Type": "application/json"},
+        });
+        if (!res.ok) {
+            return;
+        } else {
+            sessionStorage.removeItem("token");
+        }
     }
 
-    static async updateUser(user: User): Promise<User> {
-
+    static async updateUser(user: User): Promise<void> {
+        const res = await fetch(`${GeneralServerCommunication.url}/user/`, {
+            method: "PATCH",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(user.toJSON()),
+        });
+        if (!res.ok) {
+            return;
+        }
     }
 
     static async resetPassword(email: string): Promise<void> {
-
+        const res = await fetch(`${GeneralServerCommunication.url}/user/reset-password/`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({email}),
+        });
+        if (!res.ok) {
+        }
     }
 
-    static async changePassword(oldPassword: string, newPassword: string): Promise<void> {
-
+    static async changePassword(user: User, oldPassword: string, newPassword: string): Promise<void> {
+        const mail = user.email;
+        const res = await fetch(`${GeneralServerCommunication.url}/user/change-password/`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({mail, oldPassword, newPassword}),
+        });
+        if (!res.ok) {
+        }
     }
 
-    static async fetchFavorites(): Promise<User> {
-
+    static async addFavorite(ad: Advertisement): Promise<void> {
+        const id = ad.id;
+        const res = await fetch(`${GeneralServerCommunication.url}/user/favorites/`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({id}),
+        });
+        if (!res.ok) {
+        }
     }
-
 
     static async fetchUser(mail: string): Promise<User> {
         const userRes = await fetch(`${GeneralServerCommunication.url}/user/${mail}/`, {
