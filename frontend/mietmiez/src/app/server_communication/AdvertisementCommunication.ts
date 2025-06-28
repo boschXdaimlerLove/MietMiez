@@ -1,7 +1,7 @@
 import Advertisement from "@/app/objects/advertisement";
 import SearchParams from "@/app/search/SearchParams";
 import GeneralServerCommunication from "@/app/server_communication/GeneralServerCommunication";
-import Category from "@/app/objects/category";
+import Category, {CategoryJson} from "@/app/objects/category";
 
 export default class AdvertisementCommunication {
 
@@ -20,18 +20,14 @@ export default class AdvertisementCommunication {
 
     static async fetchCategories(): Promise<Category[]> {
         const categoriesRes = await fetch(`${GeneralServerCommunication.url}/categories/`, {
+            cache: 'no-cache',
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             },
         });
-        const categoriesJSON = await categoriesRes.json();
-        const cats: Category[] = [];
-        for (const categoryJSON of categoriesJSON) {
-            const catJSON = await categoryJSON.json();
-            cats.push(Category.fromJSON(catJSON));
-        }
-        return cats;
+        const categoriesJSON: string = await categoriesRes.text();
+        return JSON.parse(categoriesJSON).map((category: CategoryJson) => Category.fromJSON(category));
     }
 
 

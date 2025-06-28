@@ -1,17 +1,14 @@
 "use client";
 
-import Advertisement from "@/app/objects/advertisement";
-import PetGrid from "@/app/components/PetGrid";
-import {useEffect, useState} from "react";
-import AdvertisementCommunication from "@/app/server_communication/AdvertisementCommunication";
+import {useEffect} from "react";
 
 export default function Home() {
-    const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
+    // const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
 
     useEffect(() => {
         async function fetchAdvertisements() {
-            const ads = await AdvertisementCommunication.fetchLatestAdvertisements();
-            setAdvertisements(ads);
+            // const ads = await AdvertisementCommunication.fetchLatestAdvertisements();
+            // setAdvertisements(ads);
         }
 
         fetchAdvertisements()
@@ -64,7 +61,7 @@ export default function Home() {
                 <h1 className="text-3xl text-center text-[#47702d] mb-8">Willkommen bei MietMiez</h1>
 
                 {/* Pet Cards Grid Example */}
-                <PetGrid advertisements={advertisements}/>
+                {/*<PetGrid advertisements={advertisements}/>*/}
             </main>
         </div>
     );

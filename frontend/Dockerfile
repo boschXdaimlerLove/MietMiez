@@ -21,10 +21,20 @@ WORKDIR /app
 # Copy the rest of your application source code.
 COPY mietmiez ./
 
-RUN wget http://host.docker.internal:8080/v1/categories
+RUN apk --update add python3 py3-pip curl
+
+COPY requirements.txt ./requirements.txt
+RUN pip
+RUN pip3
+RUN pip3 install --break-system-packages -r requirements.txt
+COPY . .
+
+#COPY runFlaskAndNpmInstallAndBuild.sh ./runFlaskAndNpmInstallAndBuild.sh
+
+RUN ./runFlaskAndNpmInstallAndBuild.sh
 
 # Run the build script. This will create the .next directory inside /app.
-RUN npm install && npm run build
+# RUN npm install && npm run build
 
 
 # ─────── Runtime Stage ───────

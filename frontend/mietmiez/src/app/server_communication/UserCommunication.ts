@@ -21,7 +21,7 @@ export default class UserCommunication {
 
 
     static async fetchUser(mail: string): Promise<User> {
-        const userRes = await fetch(`${GeneralServerCommunication.url}/account/${mail}/`, {
+        const userRes = await fetch(`${GeneralServerCommunication.url}/user/${mail}/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

@@ -1,13 +1,12 @@
 'use client';
 
 import React, {createContext, useContext} from 'react';
-import Category from "@/app/objects/category";
 
-export const HeaderContext = createContext<Category[] | null>(null);
+export const HeaderContext = createContext<string | null>(null);
 
 export function HeaderProvider({children, categories}: {
     children: React.ReactNode,
-    categories: Category[]
+    categories: string
 }) {
     return (
         <HeaderContext.Provider value={categories}>

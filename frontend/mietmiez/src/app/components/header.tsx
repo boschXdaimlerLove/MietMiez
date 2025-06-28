@@ -5,11 +5,15 @@ import Link from "next/link";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
 import {useHeaderContext} from "@/app/components/HeaderContext";
+import Category from "@/app/objects/category";
 
 export default function Header() {
 
     const router = useRouter();
-    const categories = useHeaderContext();
+    const categoriesString = useHeaderContext();
+    const categories: Category[] = JSON.parse(categoriesString);
+    console.log(categoriesString);
+    console.log(categories);
 
     const [categoriesOpen, setCategoriesOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState("Alle Kategorien");
@@ -95,7 +99,7 @@ export default function Header() {
                                 <div className="py-1" role="menu" aria-orientation="vertical">
                                     {categories.map((category) => (
                                         <button
-                                            key={category.id}
+                                            key={'h' + category.id}
                                             className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                                             role="menuitem"
                                             onClick={() => {

@@ -5,8 +5,9 @@ import {HeaderProvider} from "@/app/components/HeaderContext";
 
 export default async function HeaderWrapper() {
     const categories: Category[] = await AdvertisementCommunication.fetchCategories();
+    const categoriesJSON: string = JSON.stringify(categories);
     return (
-        <HeaderProvider categories={categories}>
+        <HeaderProvider categories={categoriesJSON}>
             <Header/>
         </HeaderProvider>
     );

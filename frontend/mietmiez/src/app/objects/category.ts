@@ -1,21 +1,21 @@
 export default class Category {
-    id: number;
     name: string;
+    id: number;
 
-    constructor(id: number, name: string) {
-        this.id = id;
+    constructor(name: string, id: number) {
         this.name = name;
+        this.id = id;
     }
 
     static fromJSON(json: CategoryJson): Category {
         return new Category(
-            json["id"],
-            json["name"]
+            json["Title"],
+            json["ID"]
         );
     }
 }
 
-interface CategoryJson {
-    id: number;
-    name: string;
+export interface CategoryJson {
+    Title: string;
+    ID: number;
 }

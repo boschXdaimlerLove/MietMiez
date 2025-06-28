@@ -17,26 +17,6 @@ export default function Login() {
         setError("");
 
         await UserCommunication.login(email, password);
-        try {
-            const res = await fetch("BACKEND PORT EINFÜGEN", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify({email, password}),
-            });
-
-            if (!res.ok) {
-                const data = await res.json();
-                setError(data.error || "Login fehlgeschlagen");
-                return;
-            }
-
-            const data = await res.json();
-            sessionStorage.setItem("token", data.token);
-            router.push('/main');
-        } catch (err) {
-            setError("Serverfehler");
-            console.error("Login error:", err);
-        }
     }
 
     return (
