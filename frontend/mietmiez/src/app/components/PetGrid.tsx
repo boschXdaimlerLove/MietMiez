@@ -8,7 +8,7 @@ export default function PetGrid({advertisements}: { advertisements: Advertisemen
                 {advertisements.map((ad, index) => (
                     <PetCard
                         key={ad.id ?? index}
-                        advertisement={ad}
+                        advertisementJSON={ad.toJSON()}
                     />
                 ))}
             </div>

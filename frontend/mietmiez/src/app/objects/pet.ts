@@ -13,9 +13,16 @@ export default class Pet {
             json["type"]
         );
     }
+
+    toJSON(): PetJson {
+        return {
+            "name": this.name,
+            "type": this.type
+        };
+    }
 }
 
-interface PetJson {
+export interface PetJson {
     "name": string;
     "type": string;
 }

@@ -12,8 +12,6 @@ export default function Header() {
     const router = useRouter();
     const categoriesString = useHeaderContext();
     const categories: Category[] = JSON.parse(categoriesString);
-    console.log(categoriesString);
-    console.log(categories);
 
     const [categoriesOpen, setCategoriesOpen] = useState(false);
     const [selectedCategory, setSelectedCategory] = useState("Alle Kategorien");

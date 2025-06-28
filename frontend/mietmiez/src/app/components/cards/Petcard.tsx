@@ -1,13 +1,13 @@
 'use client';
 
 import {useRouter} from "next/navigation";
-import Advertisement from "@/app/objects/advertisement";
+import Advertisement, {AdvertisementJson} from "@/app/objects/advertisement";
 import Button from "@/app/components/button";
 import Image from "next/image";
 
-// TODO: serializable props
-export default function PetCard({advertisement}: { advertisement: Advertisement }) {
+export default function PetCard({advertisementJSON}: { advertisementJSON: AdvertisementJson }) {
 
+    const advertisement: Advertisement = Advertisement.fromJSON(advertisementJSON);
     const router = useRouter();
     return (
         <div className="max-w-sm bg-white rounded-xl shadow-md overflow-hidden border border-gray-200">

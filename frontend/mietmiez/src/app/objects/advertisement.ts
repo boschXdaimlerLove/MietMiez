@@ -1,5 +1,5 @@
-import User from "@/app/objects/user";
-import Pet from "@/app/objects/pet";
+import User, {UserJson} from "@/app/objects/user";
+import Pet, {PetJson} from "@/app/objects/pet";
 
 export default class Advertisement {
     id: string;
@@ -28,13 +28,24 @@ export default class Advertisement {
             json["images"]
         );
     }
+
+    toJSON(): AdvertisementJson {
+        return {
+            id: this.id,
+            user: this.user.toJSON(),
+            pet: this.pet.toJSON(),
+            title: this.title,
+            description: this.description,
+            images: this.images,
+        };
+    }
 }
 
 
-interface AdvertisementJson {
+export interface AdvertisementJson {
     "id": string;
-    "user": User;
-    "pet": Pet;
+    "user": UserJson;
+    "pet": PetJson;
     "title": string;
     "description": string;
     "images": [string];

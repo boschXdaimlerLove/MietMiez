@@ -21,17 +21,18 @@ WORKDIR /app
 # Copy the rest of your application source code.
 COPY mietmiez ./
 
-RUN apk --update add python3 py3-pip curl
+#RUN apk --update add python3 py3-pip curl
 
-COPY requirements.txt ./requirements.txt
-RUN pip
-RUN pip3
-RUN pip3 install --break-system-packages -r requirements.txt
-COPY . .
+#COPY requirements.txt ./requirements.txt
+#RUN pip
+#RUN pip3
+#RUN pip3 install --break-system-packages -r requirements.txt
+#COPY . .
 
 #COPY runFlaskAndNpmInstallAndBuild.sh ./runFlaskAndNpmInstallAndBuild.sh
-
-RUN ./runFlaskAndNpmInstallAndBuild.sh
+#
+#RUN ./runFlaskAndNpmInstallAndBuild.sh
+RUN npm install && npm run build
 
 # Run the build script. This will create the .next directory inside /app.
 # RUN npm install && npm run build

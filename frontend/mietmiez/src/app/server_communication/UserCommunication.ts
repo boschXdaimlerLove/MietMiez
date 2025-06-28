@@ -20,6 +20,34 @@ export default class UserCommunication {
         router.push('/main');
     }
 
+    static async register(email: string, password: string, firstName: string, lastName: string): Promise<void> {
+
+    }
+
+    static async logout(): Promise<void> {
+
+    }
+
+    static async deleteUser(): Promise<User> {
+
+    }
+
+    static async updateUser(user: User): Promise<User> {
+
+    }
+
+    static async resetPassword(email: string): Promise<void> {
+
+    }
+
+    static async changePassword(oldPassword: string, newPassword: string): Promise<void> {
+
+    }
+
+    static async fetchFavorites(): Promise<User> {
+
+    }
+
 
     static async fetchUser(mail: string): Promise<User> {
         const userRes = await fetch(`${GeneralServerCommunication.url}/user/${mail}/`, {

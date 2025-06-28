@@ -43,9 +43,19 @@ export default class User {
         }
         throw new Error("Ungültiges JSON-Objekt");
     }
+
+    toJSON(): UserJson {
+        return {
+            "first-name": this.firstName,
+            "last-name": this.lastName,
+            email: this.email,
+            city: this.city,
+            favorites: this.favorites
+        };
+    }
 }
 
-interface UserJson {
+export interface UserJson {
     "first-name": string;
     "last-name": string;
     email: string;

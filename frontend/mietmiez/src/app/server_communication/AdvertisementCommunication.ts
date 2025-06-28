@@ -35,7 +35,11 @@ export default class AdvertisementCommunication {
 
 
     static async fetchAdvertisementsFor(params: SearchParams): Promise<Advertisement[]> {
-        const ads = await fetch(`${GeneralServerCommunication.url}/search?animal=${encodeURIComponent(params.animal)}&zip-code=${encodeURIComponent(params.zipCode)}`, {
+        if (params === undefined) {
+            // set default params for build
+            params = new SearchParams("katze", "12345");
+        }
+        const ads = await fetch(`${GeneralServerCommunication.url}/search?animal=${encodeURIComponent(params.animal ?? '')}&zip-code=${encodeURIComponent(params.zipCode ?? '')}`, {
             cache: 'no-cache',
             method: 'GET',
             headers: {
@@ -66,5 +70,18 @@ export default class AdvertisementCommunication {
         });
         const adJson = await adRes.json();
         return Advertisement.fromJSON(adJson);
+    }
+
+    static async createAdvertisement(ad: Advertisement): Promise<Advertisement> {
+
+    }
+
+    static async updateAdvertisement(ad: Advertisement): Promise<Advertisement> {
+        
+    }
+
+
+    static async deleteAdvertisement(id: string): Promise<void> {
+
     }
 }
