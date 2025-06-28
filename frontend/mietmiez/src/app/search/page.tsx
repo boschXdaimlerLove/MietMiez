@@ -1,9 +1,4 @@
-export default function SearchPage() {
-    return (
-        <main>
-            <p>Test Search</p>
-        </main>
-    );
+export default async function SearchPage() {
 }
 
 // export default async function SearchPage({params}: { params: Promise<{ searchParams: SearchParams }> }) {

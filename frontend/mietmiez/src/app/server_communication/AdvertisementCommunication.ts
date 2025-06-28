@@ -36,6 +36,7 @@ export default class AdvertisementCommunication {
 
     static async fetchAdvertisementsFor(params: SearchParams): Promise<Advertisement[]> {
         const ads = await fetch(`${GeneralServerCommunication.url}/search?animal=${encodeURIComponent(params.animal)}&zip-code=${encodeURIComponent(params.zipCode)}`, {
+            cache: 'no-cache',
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -46,6 +47,7 @@ export default class AdvertisementCommunication {
 
     static async fetchLatestAdvertisements(): Promise<Advertisement[]> {
         const ads = await fetch(`${GeneralServerCommunication.url}/advertisement`, {
+            cache: 'no-cache',
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -56,6 +58,7 @@ export default class AdvertisementCommunication {
 
     static async fetchAdvertisement(id: string): Promise<Advertisement> {
         const adRes = await fetch(`${GeneralServerCommunication.url}/advertisement/${id}`, {
+            cache: 'no-cache',
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

@@ -5,6 +5,7 @@ import User from "@/app/objects/user";
 export default class UserCommunication {
     static async login(email: string, password: string): Promise<void> {
         const res = await fetch(`${GeneralServerCommunication.url}/user/login/`, {
+            cache: 'no-cache',
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({email, password}),
@@ -22,6 +23,7 @@ export default class UserCommunication {
 
     static async fetchUser(mail: string): Promise<User> {
         const userRes = await fetch(`${GeneralServerCommunication.url}/user/${mail}/`, {
+            cache: 'no-cache',
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
