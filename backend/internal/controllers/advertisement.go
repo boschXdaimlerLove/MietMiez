@@ -69,3 +69,33 @@ func GetRecentAdvertisements(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(advertisements.ToPublic())
 }
+
+func SearchAdvertisements(c *fiber.Ctx) error {
+	title := c.Query("title")
+	zipCode := c.Query("zip-code")
+	animal := c.Query("animal")
+
+	var advertisements []models.Advertisement
+
+	dbInstance := database.GetDB()
+	dbQuery := dbInstance.Preload("User").Model(&advertisements)
+
+	if title != "" {
+		dbQuery.Where("UPPER(title) LIKE UPPER(?)", "%"+title+"%")
+	}
+
+	if zipCode != "" {
+		dbQuery.Joins("LEFT JOIN users ON users.id = advertisements.user_id").Where("users.zip_code = ?", zipCode)
+	}
+
+	if animal != "" {
+		dbQuery.Where("animal = ?", animal)
+	}
+
+	result := dbQuery.Find(&advertisements)
+	if result.Error != nil {
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	return c.Status(fiber.StatusOK).JSON(advertisements)
+}
