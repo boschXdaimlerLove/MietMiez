@@ -5,7 +5,7 @@ import Advertisement from "@/app/objects/advertisement";
 import PetGrid from "@/app/components/PetGrid";
 import {useHomeContext} from "@/app/home/HomeContext";
 
-export default function DasHieristeineHomepage() {
+export default function Home() {
     // const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
 
     const advertisementsStringPromise = useHomeContext();

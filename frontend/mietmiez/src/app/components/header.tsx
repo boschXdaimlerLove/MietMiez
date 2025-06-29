@@ -129,7 +129,7 @@ export default function Header() {
                 </div>
 
                 <div className="flex items-center space-x-8">
-                    <Link href="/advertisment/new" className="flex flex-col items-center text-[var(--primaryBtnTxt)]">
+                    <Link href="/src/app/advertisement/new" className="flex flex-col items-center text-[var(--primaryBtnTxt)]">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5}
                              stroke="currentColor" className="w-6 h-6">
                             <path

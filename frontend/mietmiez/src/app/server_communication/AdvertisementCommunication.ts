@@ -6,7 +6,6 @@ import Category, {CategoryJson} from "@/app/objects/category";
 export default class AdvertisementCommunication {
 
     static async responseToAdvertisements(response: Response): Promise<Advertisement[]> {
-        console.log("Response to advertisements:", response);
         const json = await response.text();
         return JSON.parse(json).map((advertisement : AdvertisementJson) => Advertisement.fromJSON(advertisement));
     }
@@ -35,7 +34,7 @@ export default class AdvertisementCommunication {
             // set default params for build
             params = new SearchParams("katze", "12345");
         }
-        const ads = await fetch(`${GeneralServerCommunication.serverSideUrl}/search?animal=${encodeURIComponent(params.animal ?? '')}&zip-code=${encodeURIComponent(params.zipCode ?? '')}`, {
+        const ads = await fetch(`${GeneralServerCommunication.serverSideUrl}/advertisement/search?animal=${encodeURIComponent(params.animal ?? '')}&zip-code=${encodeURIComponent(params.zipCode ?? '')}`, {
             cache: 'no-cache',
             method: 'GET',
             headers: {
@@ -57,6 +56,7 @@ export default class AdvertisementCommunication {
     }
 
     static async fetchAdvertisement(id: string): Promise<Advertisement> {
+        console.log("Fetching advertisement with id: " + id);
         const adRes = await fetch(`${GeneralServerCommunication.serverSideUrl}/advertisement/${id}`, {
             cache: 'no-cache',
             method: 'GET',
@@ -64,6 +64,8 @@ export default class AdvertisementCommunication {
                 'Content-Type': 'application/json'
             },
         });
+        console.log("fetching advertisement with id: " + id);
+        console.log("Response:" + adRes);
         const adJson = await adRes.json();
         return Advertisement.fromJSON(adJson);
     }

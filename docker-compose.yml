@@ -22,6 +22,7 @@ services:
       - POSTGRES_PASSWORD=supersecretlongandcomplexpassword
       - POSTGRES_USER=mietmiez
       - POSTGRES_DB=mietmiez
+      - POSTGRES_INITDB_ARGS='--encoding=UTF-8 --lc-collate=C --lc-ctype=C'
 
   backend:
     image: localhost/mietmiez_backend:latest

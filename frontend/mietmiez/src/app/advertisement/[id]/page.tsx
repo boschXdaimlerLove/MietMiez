@@ -2,8 +2,9 @@ import Advertisement from "@/app/objects/advertisement";
 import AdvertisementCommunication from "@/app/server_communication/AdvertisementCommunication";
 import UserCard from "@/app/components/cards/UserCard";
 
-export default async function AdvertisementPage({params}: { params: Promise<{ id: string }> }) {
-    const {id} = await params;
+export default async function AdvertisementPage({params} : { params: Promise<{ id: string }> }) {
+    console.log("AdvertisementPage called with params: ", params);
+    const { id } = await params;
     const advertisement: Advertisement = await AdvertisementCommunication.fetchAdvertisement(id);
     return (
         <main>
