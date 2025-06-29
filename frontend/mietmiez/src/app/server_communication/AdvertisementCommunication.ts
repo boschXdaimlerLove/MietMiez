@@ -14,7 +14,7 @@ export default class AdvertisementCommunication {
     /* CATEGORIES */
 
     static async fetchCategories(): Promise<Category[]> {
-        const categoriesRes = await fetch(`${GeneralServerCommunication.serverSideUrl}/categories/`, {
+        const categoriesRes = await fetch(`${GeneralServerCommunication.url}/categories/`, {
             cache: 'no-cache',
             method: 'GET',
             headers: {
@@ -34,7 +34,7 @@ export default class AdvertisementCommunication {
             // set default params for build
             params = new SearchParams("katze", "12345");
         }
-        const ads = await fetch(`${GeneralServerCommunication.serverSideUrl}/advertisement/search?animal=${encodeURIComponent(params.animal ?? '')}&zip-code=${encodeURIComponent(params.zipCode ?? '')}`, {
+        const ads = await fetch(`${GeneralServerCommunication.url}/advertisement/search?animal=${encodeURIComponent(params.animal ?? '')}&zip-code=${encodeURIComponent(params.zipCode ?? '')}`, {
             cache: 'no-cache',
             method: 'GET',
             headers: {
@@ -45,7 +45,7 @@ export default class AdvertisementCommunication {
     }
 
     static async fetchLatestAdvertisements(): Promise<Advertisement[]> {
-        const ads = await fetch(`${GeneralServerCommunication.clientSideUrl}/advertisement?page=1`, {
+        const ads = await fetch(`${GeneralServerCommunication.url}/advertisement?page=1`, {
             cache: 'no-cache',
             method: 'GET',
             headers: {
@@ -57,7 +57,7 @@ export default class AdvertisementCommunication {
 
     static async fetchAdvertisement(id: string): Promise<Advertisement> {
         console.log("Fetching advertisement with id: " + id);
-        const adRes = await fetch(`${GeneralServerCommunication.serverSideUrl}/advertisement/${id}`, {
+        const adRes = await fetch(`${GeneralServerCommunication.url}/advertisement/${id}`, {
             cache: 'no-cache',
             method: 'GET',
             headers: {
@@ -71,7 +71,7 @@ export default class AdvertisementCommunication {
     }
 
     static async fetchUserFavorites(): Promise<Advertisement[]> {
-        const favoritesRes = await fetch(`${GeneralServerCommunication.serverSideUrl}/user/favorites/`, {
+        const favoritesRes = await fetch(`${GeneralServerCommunication.url}/user/favorites/`, {
             cache: 'no-cache',
             method: 'GET',
             headers: {
@@ -82,7 +82,7 @@ export default class AdvertisementCommunication {
     }
 
     static async createAdvertisement(ad: Advertisement): Promise<void> {
-        const adRes = await fetch(`${GeneralServerCommunication.serverSideUrl}/advertisement`, {
+        const adRes = await fetch(`${GeneralServerCommunication.url}/advertisement`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -97,7 +97,7 @@ export default class AdvertisementCommunication {
     }
 
     static async updateAdvertisement(ad: Advertisement): Promise<void> {
-        const adRes = await fetch(`${GeneralServerCommunication.serverSideUrl}/advertisement/${ad.id}`, {
+        const adRes = await fetch(`${GeneralServerCommunication.url}/advertisement/${ad.id}`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
@@ -113,7 +113,7 @@ export default class AdvertisementCommunication {
 
 
     static async deleteAdvertisement(id: string): Promise<void> {
-        const adRes = await fetch(`${GeneralServerCommunication.serverSideUrl}/advertisement/${id}`, {
+        const adRes = await fetch(`${GeneralServerCommunication.url}/advertisement/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
