@@ -224,7 +224,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Advertisement'
         '404':
-          description: Advertisement not found
+          description: Advertisement does not exist or was permanently removed
     delete:
       tags:
         - advertisement
@@ -272,20 +272,30 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Advertisement'
+              $ref: '#/components/schemas/AdvertisementCreation'
       responses:
-        '200':
-          description: Advertisement found
+        '201':
+          description: Advertisement created
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Advertisement'
         '404':
           description: Advertisement not found
+        '500':
+          description: Server error occurred while creating entry in db
     get:
       tags:
         - advertisement
       summary: Get the most current advertisements
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            example: 3
+          description: Page of advertisement results (page size is 30)
       responses:
         '200':
           description: A list with advertisements (length of array not specified)
@@ -295,6 +305,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Advertisement'
+        '500':
+          description: An internal server error occurred
 
   /advertisement/search:
     get:
@@ -347,7 +359,7 @@ paths:
         '500':
           description: An error has occured during the fetch of the categories
 
-      
+
 
 components:
   schemas:
@@ -360,6 +372,26 @@ components:
         message:
           type: string
           example: Service down due to maintance work
+    AdvertisementCreation:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Mümmel
+          minLength: 4
+        description:
+          type: string
+          example: Ich suche einen Halter für ein Wochenende für meinen Mümmel.
+          minLength: 25
+        animal:
+          type: string
+          example: Rabbit
+          minLength: 3
+        images:
+          type: array
+          items:
+            type: string
+            example: https://api.mietmiez.com/resources/adv-images/123abc/image.jpg
     Advertisement:
       type: object
       properties:

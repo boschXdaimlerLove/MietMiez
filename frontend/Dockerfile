@@ -11,16 +11,31 @@ WORKDIR /app
 # Copy package.json and package-lock.json first.
 # This leverages Docker's layer caching. This layer only gets rebuilt if the package files change.
 # The 'mietmiez/' prefix is needed because the Docker build context is the 'frontend' directory.
-COPY mietmiez/package*.json ./
+#COPY mietmiez/package*.json ./
+# COPY mietmiez ./
 
 # Install all dependencies, including devDependencies needed for the build.
-RUN npm install
+#RUN npm install
+#RUN npm run build
 
 # Copy the rest of your application source code.
-COPY mietmiez/ .
+COPY mietmiez ./
+
+#RUN apk --update add python3 py3-pip curl
+#
+#COPY requirements.txt ./requirements.txt
+#RUN pip
+#RUN pip3
+#RUN pip3 install --break-system-packages -r requirements.txt
+#COPY . .
+#
+#COPY runFlaskAndNpmInstallAndBuild.sh ./runFlaskAndNpmInstallAndBuild.sh
+#
+#RUN ./runFlaskAndNpmInstallAndBuild.sh
+RUN npm install && npm run build
 
 # Run the build script. This will create the .next directory inside /app.
-RUN npm run build
+# RUN npm install && npm run build
 
 
 # ─────── Runtime Stage ───────
@@ -40,6 +55,7 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/next.config.ts ./next.config.ts
 COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/src/app ./
 
 # The port the application will run on.
 EXPOSE 3000

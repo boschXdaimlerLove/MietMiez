@@ -22,6 +22,7 @@ type User struct {
 // ToPublic convert a user object (with hash, salt, id and so on) to a public user object which only contains non senstitive data
 func (u *User) ToPublic() PublicUser {
 	return PublicUser{
+		ID:        u.ID,
 		FirstName: u.FirstName,
 		LastName:  u.LastName,
 		Email:     u.Email,
@@ -31,6 +32,7 @@ func (u *User) ToPublic() PublicUser {
 }
 
 type PublicUser struct {
+	ID        uint   `json:"id"`
 	FirstName string `json:"first-name"`
 	LastName  string `json:"last-name"`
 	Email     string `json:"email"`
