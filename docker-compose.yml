@@ -22,6 +22,7 @@ services:
       - POSTGRES_PASSWORD=supersecretlongandcomplexpassword
       - POSTGRES_USER=mietmiez
       - POSTGRES_DB=mietmiez
+      - POSTGRES_INITDB_ARGS='--encoding=UTF-8 --lc-collate=C --lc-ctype=C'
 
   backend:
     image: localhost/mietmiez_backend:latest
@@ -31,9 +32,9 @@ services:
     restart: always
     tty: true
     healthcheck:
-      test: ["CMD", "wget --spider --no-verbose --tries=1 http://localhost:8080/v1/health"]
-      interval: 5s
-      timeout: 10s
+      test: ["CMD", "wget --spider --no-verbose --tries=1 http://127.0.0.1:8080/v1/health"]
+      interval: 10s
+      timeout: 60s
       retries: 5
     depends_on:
       database:
@@ -58,9 +59,11 @@ services:
       interval: 5s
       timeout: 10s
       retries: 5
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
-      backend:
-        condition: service_healthy
+#      backend:
+#        condition: service_healthy
       database:
         condition: service_healthy
     networks:
