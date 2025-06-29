@@ -1,9 +1,9 @@
 "use client";
 
-import HomeWrapper from "@/app/HomeWrapper";
+import {useRouter} from "next/navigation";
 
 export default function HomeWrapperCaller() {
-    return (
-        <HomeWrapper/>
-    );
+    const router = useRouter();
+    router.push("/home");
+    return (<main><p>Du bist hier falsch</p></main>);
 }

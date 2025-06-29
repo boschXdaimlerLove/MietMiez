@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useState} from "react";
+import React, {use, useState} from "react";
 import Link from "next/link";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
@@ -10,7 +10,8 @@ import Category from "@/app/objects/category";
 export default function Header() {
 
     const router = useRouter();
-    const categoriesString = useHeaderContext();
+    const categoriesStringPromise = useHeaderContext();
+    const categoriesString: string = use(categoriesStringPromise);
     const categories: Category[] = JSON.parse(categoriesString);
 
     const [categoriesOpen, setCategoriesOpen] = useState(false);

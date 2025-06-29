@@ -19,7 +19,7 @@ export default async function AdvertisementPage({params}: { params: Promise<{ id
                 {/*  Advertisement info  */}
                 <div>
                     <h1>{advertisement.title}</h1>
-                    <p>Pet: {advertisement.pet.name} ({advertisement.pet.type})</p>
+                    <p>Animal: {advertisement.animal}</p>
                     <p>Location: {advertisement.user.city}</p>
                 </div>
             </div>

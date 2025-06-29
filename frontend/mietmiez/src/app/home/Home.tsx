@@ -1,13 +1,26 @@
-import {useState} from "react";
+'use client';
+
+import {use} from "react";
 import Advertisement from "@/app/objects/advertisement";
-import {useHomeContext} from "@/app/HomeContext";
 import PetGrid from "@/app/components/PetGrid";
+import {useHomeContext} from "@/app/home/HomeContext";
 
-export default function Home() {
-    const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
+export default function DasHieristeineHomepage() {
+    // const [advertisements, setAdvertisements] = useState<Advertisement[]>([]);
 
-    const advertisementsString = useHomeContext();
-    setAdvertisements(JSON.parse(advertisementsString));
+    const advertisementsStringPromise = useHomeContext();
+    const advertisementsString = use(advertisementsStringPromise);
+    const advertisements : Advertisement[] = JSON.parse(advertisementsString);
+    // setAdvertisements(advertisementsParsed);
+
+    // useEffect(() => {
+    //     async function fetchAdvertisements() : Promise<Advertisement[]> {
+    //         return await AdvertisementCommunication.fetchLatestAdvertisements();
+    //     }
+    //     fetchAdvertisements().then((ads) => {
+    //         setAdvertisements(ads);
+    //     });
+    // }, [])
 
 
     // Sample pet data TODO: Replace with actual data fetching logic

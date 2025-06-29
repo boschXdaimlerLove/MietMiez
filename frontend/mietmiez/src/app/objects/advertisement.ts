@@ -1,18 +1,16 @@
 import User, {UserJson} from "@/app/objects/user";
-import Pet, {PetJson} from "@/app/objects/pet";
-
 export default class Advertisement {
     id: string;
     user: User;
-    pet: Pet;
+    animal: string;
     title: string;
     description: string;
     images: [string];
 
-    constructor(id: string, user: User, pet: Pet, title: string, description: string, images: [string]) {
+    constructor(id: string, user: User, title : string, description: string, animal : string, images: [string]) {
         this.id = id;
         this.user = user;
-        this.pet = pet;
+        this.animal = animal;
         this.title = title;
         this.description = description;
         this.images = images;
@@ -22,9 +20,9 @@ export default class Advertisement {
         return new Advertisement(
             json["id"],
             User.fromJSONObject(json["user"]),
-            Pet.fromJSON(json["pet"]),
             json["title"],
             json["description"],
+            json["animal"],
             json["images"]
         );
     }
@@ -33,7 +31,7 @@ export default class Advertisement {
         return {
             id: this.id,
             user: this.user.toJSON(),
-            pet: this.pet.toJSON(),
+            animal: this.animal,
             title: this.title,
             description: this.description,
             images: this.images,
@@ -45,7 +43,7 @@ export default class Advertisement {
 export interface AdvertisementJson {
     "id": string;
     "user": UserJson;
-    "pet": PetJson;
+    "animal": string;
     "title": string;
     "description": string;
     "images": [string];

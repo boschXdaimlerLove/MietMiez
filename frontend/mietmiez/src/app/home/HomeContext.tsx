@@ -2,11 +2,11 @@
 
 import React, {createContext, useContext} from 'react';
 
-export const HomeContext = createContext<string | null>(null);
+export const HomeContext = createContext<Promise<string> | null>(null);
 
 export function HomeProvider({children, advertisements}: {
     children: React.ReactNode,
-    advertisements: string
+    advertisements: Promise<string>
 }) {
     return (
         <HomeContext.Provider value={advertisements}>

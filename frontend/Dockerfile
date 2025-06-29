@@ -22,13 +22,13 @@ WORKDIR /app
 COPY mietmiez ./
 
 #RUN apk --update add python3 py3-pip curl
-
+#
 #COPY requirements.txt ./requirements.txt
 #RUN pip
 #RUN pip3
 #RUN pip3 install --break-system-packages -r requirements.txt
 #COPY . .
-
+#
 #COPY runFlaskAndNpmInstallAndBuild.sh ./runFlaskAndNpmInstallAndBuild.sh
 #
 #RUN ./runFlaskAndNpmInstallAndBuild.sh

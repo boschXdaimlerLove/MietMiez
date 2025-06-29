@@ -2,11 +2,11 @@
 
 import React, {createContext, useContext} from 'react';
 
-export const HeaderContext = createContext<string | null>(null);
+export const HeaderContext = createContext<Promise<string> | null>(null);
 
 export function HeaderProvider({children, categories}: {
     children: React.ReactNode,
-    categories: string
+    categories: Promise<string>
 }) {
     return (
         <HeaderContext.Provider value={categories}>
