@@ -28,7 +28,6 @@ export default function PetCard({advertisementJSON}: { advertisementJSON: string
                 <Button
                     isPrimary={true}
                     onClick={() => {
-                        console.log("Navigating to advertisement with ID: ", advertisement.id);
                         router.push(`/advertisement/${advertisement.id}`);
                     }
                 }
