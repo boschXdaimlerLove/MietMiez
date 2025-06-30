@@ -62,6 +62,57 @@ func CreateAdvertisement(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(advertisement.ToPublic())
 }
 
+func UpdateAdvertisement(c *fiber.Ctx) error {
+	var advertisementFromDB, advertisementFromUser models.Advertisement
+	dbInstance := database.GetDB()
+
+	isLoggedIn, user := util.GetRequestUser(c)
+	if !isLoggedIn {
+		return c.SendStatus(fiber.StatusUnauthorized)
+	}
+
+	result := dbInstance.
+		Preload("User").
+		Where("id = ?", c.Params("id")).
+		First(&advertisementFromDB)
+
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		return c.SendStatus(fiber.StatusNotFound)
+	} else if result.Error != nil {
+		Logger.Err(result.Error).Msg("Failed to update advertisement")
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	if advertisementFromDB.UserID != user.ID {
+		return c.SendStatus(fiber.StatusForbidden)
+	}
+
+	err := util.GetJsonFromRequest(c, &advertisementFromUser)
+	if err != nil {
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	if advertisementFromUser.Title != "" {
+		advertisementFromDB.Title = advertisementFromUser.Title
+	}
+
+	if advertisementFromUser.Description != "" {
+		advertisementFromDB.Description = advertisementFromUser.Description
+	}
+
+	if advertisementFromUser.Animal != "" {
+		advertisementFromDB.Animal = advertisementFromUser.Animal
+	}
+
+	if len(advertisementFromUser.Images) > 0 {
+		advertisementFromDB.Images = advertisementFromUser.Images
+	}
+
+	dbInstance.Save(&advertisementFromDB)
+
+	return c.SendStatus(fiber.StatusOK)
+}
+  
 func GetRecentAdvertisements(c *fiber.Ctx) error {
 	var advertisements models.AdvertisementList
 	dbInstance := database.GetDB()
