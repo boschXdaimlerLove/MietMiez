@@ -4,6 +4,9 @@ import 'react';
 import ImageCarousel from '../components/ImageCarousel';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import Button from '../components/button';
+import UserCommunication from '../server_communication/UserCommunication';
+import User from '../objects/user';
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -16,8 +19,8 @@ const Register: React.FC = () => {
   const [city, setCity] = useState("");
   const [zipCode, setZipCode] = useState("");
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
+
     setError("");
 
     if (password !== confirmPassword) {
@@ -30,31 +33,22 @@ const Register: React.FC = () => {
       return;
     }
 
-    try {
-      const res = await fetch("http://localhost:8080/user", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          "first-name": firstName,
-          "last-name": lastName,
-          email,
-          password,
-          city,
-          "zip-code": zipCode
-        }),
-      });
+    const user = new User(
+    firstName,
+    lastName,
+    email,
+    city,
+    zipCode
+);
 
-      if (res.status === 201) {
-        router.push('/login');
-      } else {
-        const data = await res.json();
-        setError(data.error || "Registrierung fehlgeschlagen.");
-      }
-    } catch (err) {
-      console.error(err);
-      setError("Serverfehler. Bitte versuche es später erneut.");
-    }
-  };
+  try {
+    await UserCommunication.register(user, password);
+    router.push('/login'); 
+  } catch (err) {
+    console.error(err);
+    setError("Registrierung fehlgeschlagen");
+  }
+};
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-white p-4 sm:p-6 md:gap-16">
@@ -140,14 +134,24 @@ const Register: React.FC = () => {
             />
           </div>
 
+                  
+          
+
           <div className="flex justify-end mt-4">
-            <button
-              type="submit"
-              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-400 text-white font-semibold shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300"
+            {/* <button
+                type="submit"
+                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-400 text-white font-semibold shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300"
             >
-              Absenden
-            </button>
-          </div>
+                Absenden
+            </button> */}
+            <Button
+            title="Absenden"
+            onClick={handleSubmit}
+            isPrimary
+            className=""
+            type="submit"
+            />
+        </div>
         </form>
       </div>
     </div>

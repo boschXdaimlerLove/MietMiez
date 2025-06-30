@@ -61,16 +61,15 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-        <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased bg`}
-        >
-        {/* Header and children fill the complete screen */}
-        <div className="h-screen w-screen">
-            <HeaderWrapper/> {/* show header on top of every page */}
-            {children} {/* page content itself */}
-        </div>
-        <Footer/> {/* show footer on the bottom of every page */}
-        </body>
+            <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg`}>
+            <div className="flex flex-col min-h-screen">
+                <HeaderWrapper /> 
+                <main className="flex-1">
+                {children} 
+                </main>
+                <Footer /> 
+            </div>
+            </body>
         </html>
     );
 }

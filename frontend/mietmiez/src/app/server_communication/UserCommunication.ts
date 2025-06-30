@@ -13,11 +13,15 @@ export default class UserCommunication {
         // sessionStorage.setItem("token", data.token);
     }
 
-    static async register(user: User): Promise<void> {
+    static async register(user: User, password: string): Promise<void> {
+        const body = {
+        ...user.toJSON(),
+        password: password
+    };
         await fetch(`${GeneralServerCommunication.url}/user/`, {
             method: "POST",
             headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(user.toJSON()),
+            body: JSON.stringify(body),
         });
     }
 
