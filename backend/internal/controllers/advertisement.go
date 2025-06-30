@@ -75,7 +75,7 @@ func SearchAdvertisements(c *fiber.Ctx) error {
 	zipCode := c.Query("zip-code")
 	animal := c.Query("animal")
 
-	var advertisements []models.Advertisement
+	advertisements := make(models.AdvertisementList, 0) // hacky, so the slice is non-nil and empty so fiber doesn't return null
 
 	dbInstance := database.GetDB()
 	dbQuery := dbInstance.Preload("User").Model(&advertisements)
@@ -94,14 +94,13 @@ func SearchAdvertisements(c *fiber.Ctx) error {
 
 	result := dbQuery.Find(&advertisements)
 	if result.Error != nil {
+		Logger.Err(result.Error).Msg("Failed to search advertisements")
 		return c.SendStatus(fiber.StatusInternalServerError)
+	} else if result.RowsAffected == 0 {
+		return c.Status(fiber.StatusNotFound).JSON(advertisements)
 	}
 
-	var publicAdvertisementsList []models.PublicAdvertisement
-
-	for _, advertisement := range advertisements {
-		publicAdvertisementsList = append(publicAdvertisementsList, advertisement.ToPublic())
-	}
+	publicAdvertisementsList := advertisements.ToPublic()
 
 	return c.Status(fiber.StatusOK).JSON(publicAdvertisementsList)
 }

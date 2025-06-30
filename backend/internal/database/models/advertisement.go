@@ -39,7 +39,7 @@ func (advertisement *Advertisement) ToPublic() PublicAdvertisement {
 type AdvertisementList []Advertisement
 
 func (advertisements AdvertisementList) ToPublic() []PublicAdvertisement {
-	var publicAds []PublicAdvertisement
+	publicAds := make([]PublicAdvertisement, 0)
 	for _, e := range advertisements {
 		publicAds = append(publicAds, e.ToPublic())
 	}
