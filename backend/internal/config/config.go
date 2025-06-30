@@ -3,7 +3,6 @@ package config
 import (
 	"github.com/gofiber/fiber/v2/middleware/compress"
 	"github.com/gofiber/fiber/v2/middleware/csrf"
-	"github.com/gofiber/fiber/v2/middleware/encryptcookie"
 	"log/slog"
 	"os"
 	"time"
@@ -27,9 +26,8 @@ type Config struct {
 	Server struct {
 		TokenLength     int
 		SessionDuration time.Duration
-		Port            int    `yaml:"port" envconfig:"BACKEND_PORT"`
-		CookieKey       string `yaml:"cookie_key" envconfig:"BACKEND_COOKIE_KEY"` // MUST BE 32 CHAR STRING!!!!
-		Production      bool   `yaml:"production" envconfig:"BACKEND_PRODUCTION"`
+		Port            int  `yaml:"port" envconfig:"BACKEND_PORT"`
+		Production      bool `yaml:"production" envconfig:"BACKEND_PRODUCTION"`
 	} `yaml:"backend"`
 
 	Database struct {
@@ -84,14 +82,6 @@ func SetupConfig() {
 func GetCompressionConfig() compress.Config {
 	return compress.Config{
 		Level: compress.LevelBestSpeed,
-	}
-}
-
-// GetCookieEncryptionConfig https://docs.gofiber.io/api/middleware/encryptcookie
-func GetCookieEncryptionConfig() encryptcookie.Config {
-	return encryptcookie.Config{
-		Key:    Cfg.Server.CookieKey,                    // MUST BE 32 CHAR STRING
-		Except: []string{csrf.ConfigDefault.CookieName}, // exclude CSRF cookie
 	}
 }
 

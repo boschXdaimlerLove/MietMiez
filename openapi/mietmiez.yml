@@ -471,10 +471,11 @@ components:
       properties:
         token:
           type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-        expires_in:
-          type: integer
-          example: 3600
+          # noinspection SpellCheckingInspection
+          example: umxBkyW3P-wHb2AW1L_rmTRIi99S6beIyZnva3N8ZOI=
+        expires_at:
+          type: string
+          example: 2025-07-07T09:23:36.937392461Z
     LoginRequest:
       type: object
       required:
