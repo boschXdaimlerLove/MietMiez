@@ -349,6 +349,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Advertisement'
+        '404':
+          description: no advertisements were found
+          content:
+            application/json:
+              schema:
+                type: object
+        '500':
+          description: internal server error occurred
   
   /categories:
     get:

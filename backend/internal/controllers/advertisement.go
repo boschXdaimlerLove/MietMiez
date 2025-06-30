@@ -126,3 +126,38 @@ func GetRecentAdvertisements(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(advertisements.ToPublic())
 }
+
+func SearchAdvertisements(c *fiber.Ctx) error {
+	title := c.Query("title")
+	zipCode := c.Query("zip-code")
+	animal := c.Query("animal")
+
+	advertisements := make(models.AdvertisementList, 0) // hacky, so the slice is non-nil and empty so fiber doesn't return null
+
+	dbInstance := database.GetDB()
+	dbQuery := dbInstance.Preload("User").Model(&advertisements)
+
+	if title != "" {
+		dbQuery.Where("UPPER(title) LIKE UPPER(?)", "%"+title+"%")
+	}
+
+	if zipCode != "" {
+		dbQuery.Joins("LEFT JOIN users ON users.id = advertisements.user_id").Where("users.zip_code = ?", zipCode)
+	}
+
+	if animal != "" {
+		dbQuery.Where("animal = ?", animal)
+	}
+
+	result := dbQuery.Find(&advertisements)
+	if result.Error != nil {
+		Logger.Err(result.Error).Msg("Failed to search advertisements")
+		return c.SendStatus(fiber.StatusInternalServerError)
+	} else if result.RowsAffected == 0 {
+		return c.Status(fiber.StatusNotFound).JSON(advertisements)
+	}
+
+	publicAdvertisementsList := advertisements.ToPublic()
+
+	return c.Status(fiber.StatusOK).JSON(publicAdvertisementsList)
+}
