@@ -7,6 +7,9 @@ export default class AdvertisementCommunication {
 
     static async responseToAdvertisements(response: Response): Promise<Advertisement[]> {
         const json = await response.text();
+        if (json == 'null') {
+            return [];
+        }
         return JSON.parse(json).map((advertisement : AdvertisementJson) => Advertisement.fromJSON(advertisement));
     }
 
@@ -22,6 +25,9 @@ export default class AdvertisementCommunication {
             },
         });
         const categoriesJSON: string = await categoriesRes.text();
+        if (categoriesJSON == 'null') {
+            return [];
+        }
         return JSON.parse(categoriesJSON).map((category: CategoryJson) => Category.fromJSON(category));
     }
 
