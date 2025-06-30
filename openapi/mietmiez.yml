@@ -294,6 +294,14 @@ paths:
       tags:
         - advertisement
       summary: Get the most current advertisements
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            example: 3
+          description: Page of advertisement results (page size is 30)
       responses:
         '200':
           description: A list with advertisements (length of array not specified)
@@ -303,6 +311,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Advertisement'
+        '500':
+          description: An internal server error occurred
 
   /advertisement/search:
     get:
@@ -355,7 +365,7 @@ paths:
         '500':
           description: An error has occured during the fetch of the categories
 
-      
+
 
 components:
   schemas:
