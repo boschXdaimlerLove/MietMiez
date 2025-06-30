@@ -223,6 +223,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Advertisement'
+        '400':
+          description: id was not an integer
         '404':
           description: Advertisement does not exist or was permanently removed
     delete:
