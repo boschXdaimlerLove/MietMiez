@@ -1,10 +1,10 @@
 "use client";
 
-import React, {useState} from "react";
-import {useRouter} from 'next/navigation';
-import Image from 'next/image';
-import UserCommunication from "@/app/server_communication/UserCommunication";
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 import Button from "../components/button";
+import ClientUserCommunication from "@/app/server_communication/ClientUserCommunication";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -12,42 +12,46 @@ const Login: React.FC = () => {
   const [error, setError] = useState("");
   const router = useRouter();
 
-  async function handleSubmit() {
-        setError("");
-
-        try {
-            await UserCommunication.login(email, password);
-            router.push('/home');
-          } catch (err) {
-            console.error(err);
-            setError("Login fehlgeschlagen");
-          }
-    }
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError("");
+    ClientUserCommunication.login(email, password).then((success) => {
+      console.log("Login success:", success);
+      if (!success) {
+        setError("Login fehlgeschlagen. Bitte überprüfe deine Anmeldedaten.");
+      } else {
+        // router.push("/home");
+      }
+    });
   }
 
   return (
     <div className="bg-[#B2E9CD] min-h-screen flex flex-col md:flex-row items-center justify-center">
       <div className="w-full md:w-1/2 flex-1 relative min-h-[250px] md:min-h-screen">
         <Image
-            src='/mietmiez_icon_512.png'
-            alt="Logo"
-            fill
-            style={{objectFit: "contain"}}
-            priority
-          />
+          src="/mietmiez_icon_512.png"
+          alt="Logo"
+          fill
+          style={{ objectFit: "contain" }}
+          priority
+        />
       </div>
 
       <div className="w-full md:w-1/2 p-6 sm:p-10 lg:p-20 flex flex-col justify-center">
         <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg p-6">
           <form onSubmit={handleSubmit} className="flex flex-col">
-            <h2 className="text-green-700 text-center mb-4 font-extrabold text-2xl">Login</h2>
+            <h2 className="text-green-700 text-center mb-4 font-extrabold text-2xl">
+              Login
+            </h2>
 
-            {error && <p className="text-red-500 mb-3 text-sm text-center">{error}</p>}
+            {error && (
+              <p className="text-red-500 mb-3 text-sm text-center">{error}</p>
+            )}
             <input
               type="text"
               placeholder="Email"
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               required
               className="text-gray-700 w-full p-3 border border-gray-300 rounded-lg text-base mb-3 text-center"
             />
@@ -55,7 +59,7 @@ const Login: React.FC = () => {
               type="password"
               placeholder="Passwort"
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               required
               className="text-gray-700 w-full p-3 border border-gray-300 rounded-lg text-base mb-5 text-center"
             />
@@ -77,21 +81,22 @@ const Login: React.FC = () => {
               
             */}
             <div className="flex flex-col sm:flex-row justify-between gap-4">
-            <Button
-                title="Login"
-                onClick={handleSubmit}
-                isPrimary
-                className=""
-                type="submit"
-            />
+              <button type="submit">Anmelden</button>
+              {/*<Button*/}
+              {/*  title="Login"*/}
+              {/*  onClick={handleSubmit}*/}
+              {/*  isPrimary*/}
+              {/*  className=""*/}
+              {/*  type="submit"*/}
+              {/*/>*/}
 
-            <Button
+              <Button
                 title="Registrieren"
-                onClick={() => router.push('register')}
+                onClick={() => router.push("register")}
                 isPrimary
                 className=""
                 type="button"
-            />
+              />
             </div>
           </form>
         </div>

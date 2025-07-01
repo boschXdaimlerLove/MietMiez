@@ -25,6 +25,7 @@ export default class AdvertisementCommunication {
         cache: "no-cache",
         method: "GET",
         headers: await GeneralServerCommunication.getHeaders(),
+        credentials: "include",
       },
     );
     const categoriesJSON: string = await categoriesRes.text();
@@ -51,6 +52,7 @@ export default class AdvertisementCommunication {
         cache: "no-cache",
         method: "GET",
         headers: await GeneralServerCommunication.getHeaders(),
+        credentials: "include",
       },
     );
     return AdvertisementCommunication.responseToAdvertisements(ads);
@@ -63,6 +65,7 @@ export default class AdvertisementCommunication {
         cache: "no-cache",
         method: "GET",
         headers: await GeneralServerCommunication.getHeaders(),
+        credentials: "include",
       },
     );
     return AdvertisementCommunication.responseToAdvertisements(ads);
@@ -75,6 +78,7 @@ export default class AdvertisementCommunication {
         cache: "no-cache",
         method: "GET",
         headers: await GeneralServerCommunication.getHeaders(),
+        credentials: "include",
       },
     );
     const adJson = await adRes.json();
@@ -88,6 +92,7 @@ export default class AdvertisementCommunication {
         cache: "no-cache",
         method: "GET",
         headers: await GeneralServerCommunication.getHeaders(),
+        credentials: "include",
       },
     );
     return AdvertisementCommunication.responseToAdvertisements(favoritesRes);
@@ -100,6 +105,7 @@ export default class AdvertisementCommunication {
         method: "POST",
         headers: await GeneralServerCommunication.getHeaders(),
         body: JSON.stringify(ad),
+        credentials: "include",
       },
     );
     if (!adRes.ok) {
@@ -116,6 +122,7 @@ export default class AdvertisementCommunication {
         method: "PATCH",
         headers: await GeneralServerCommunication.getHeaders(),
         body: JSON.stringify(ad),
+        credentials: "include",
       },
     );
     if (!adRes.ok) {
@@ -131,6 +138,7 @@ export default class AdvertisementCommunication {
       {
         method: "DELETE",
         headers: await GeneralServerCommunication.getHeaders(),
+        credentials: "include",
       },
     );
     if (!adRes.ok) {
