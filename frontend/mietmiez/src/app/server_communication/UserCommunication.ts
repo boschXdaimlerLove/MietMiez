@@ -5,7 +5,8 @@ import { cookies } from "next/headers";
 
 export default class UserCommunication {
   static async fetchUserCookies(): Promise<string | undefined> {
-    return cookies().then((cookies) => cookies.get("token")?.value);
+    const cookieStore = await cookies();
+    return cookieStore.get("token")?.value;
   }
 
   static async login(
@@ -19,30 +20,38 @@ export default class UserCommunication {
         method: "POST",
         headers: await GeneralServerCommunication.getHeaders(),
         body: JSON.stringify({ email, password }),
+        credentials: "include",
       },
     );
     if (!loginRes.ok) {
       throw new Error("Login failed");
     }
     return await loginRes.json();
-   }
-  
-  static async register(user: User, password : string): Promise<void> {
+  }
+
+  static async register(user: User, password: string): Promise<void> {
     const body = {
-        ...user.toJSON(),
-        password: password
+      ...user.toJSON(),
+      password: password,
     };
-    await fetch(`${GeneralServerCommunication.url}/user/`, {
+    const res = await fetch(`${GeneralServerCommunication.url}/user/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
+      credentials: "include",
     });
+    if (!res.ok) {
+      const error = await res.json();
+      console.error("Error registering user:", error);
+      throw new Error("Failed to register user");
+    }
   }
 
   static async logout(): Promise<boolean> {
     const res = await fetch(`${GeneralServerCommunication.url}/user/logout`, {
       method: "POST",
       headers: await GeneralServerCommunication.getHeaders(),
+      credentials: "include",
     });
     return res.ok;
   }
@@ -51,6 +60,7 @@ export default class UserCommunication {
     const res = await fetch(`${GeneralServerCommunication.url}/user/`, {
       method: "DELETE",
       headers: await GeneralServerCommunication.getHeaders(),
+      credentials: "include",
     });
     if (!res.ok) {
       return;
@@ -64,6 +74,7 @@ export default class UserCommunication {
       method: "PATCH",
       headers: await GeneralServerCommunication.getHeaders(),
       body: JSON.stringify(user.toJSON()),
+      credentials: "include",
     });
     if (!res.ok) {
       return;
@@ -77,6 +88,7 @@ export default class UserCommunication {
         method: "POST",
         headers: await GeneralServerCommunication.getHeaders(),
         body: JSON.stringify({ email }),
+        credentials: "include",
       },
     );
     if (!res.ok) {
@@ -95,6 +107,7 @@ export default class UserCommunication {
         method: "POST",
         headers: await GeneralServerCommunication.getHeaders(),
         body: JSON.stringify({ mail, oldPassword, newPassword }),
+        credentials: "include",
       },
     );
     if (!res.ok) {
@@ -109,10 +122,24 @@ export default class UserCommunication {
         method: "POST",
         headers: await GeneralServerCommunication.getHeaders(),
         body: JSON.stringify({ id }),
+        credentials: "include",
       },
     );
     if (!res.ok) {
     }
+  }
+
+  static async fetchSelfUser(): Promise<User> {
+    const userRes = await fetch(`${GeneralServerCommunication.url}/user/`, {
+      cache: "no-cache",
+      method: "GET",
+      headers: await GeneralServerCommunication.getHeaders(),
+      credentials: "include",
+    });
+    if (!userRes.ok) {
+      throw new Error("Failed to fetch user");
+    }
+    return User.fromJSON(JSON.parse(await userRes.text()));
   }
 
   static async fetchUser(mail: string): Promise<User> {
@@ -122,9 +149,14 @@ export default class UserCommunication {
         cache: "no-cache",
         method: "GET",
         headers: await GeneralServerCommunication.getHeaders(),
+        credentials: "include",
       },
     );
-    const json = await userRes.json();
-    return User.fromJSON(json);
+    const body = await userRes.text();
+    if (!userRes.ok) {
+      throw new Error(`Failed to fetch user: ${body}`);
+    } else {
+      return User.fromJSON(JSON.parse(body));
+    }
   }
 }
