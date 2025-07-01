@@ -74,8 +74,8 @@ services:
       - configs/.postgres.env
       - configs/.backend.env
     labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.mietmiez-backend.rule=Host(`mietmiez.de`)"
+      - "traefik.enable=false"
+      - "traefik.http.routers.mietmiez-backend.rule=Host(`api.mietmiez.de`)"
       - "traefik.http.routers.mietmiez-backend.service=mietmiez-backend"
       - "traefik.http.services.mietmiez-backend.loadbalancer.server.port=8080"
 
