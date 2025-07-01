@@ -23,7 +23,7 @@ assert {
 
 script:post-response {
   // grab any Set‑Cookie headers the server sent
-  const cookies = res.getHeader('set-cookie');
+  const cookies = ["session=" + res.body.token]
   
   if (cookies) {
     // join them into a single header string…

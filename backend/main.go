@@ -20,7 +20,8 @@ func main() {
 	minio.InitMinio()
 
 	// setup http server
-	app := fiber.New()
+	app := fiber.New(fiber.Config{BodyLimit: Cfg.Server.MaxBodySizeMB * 1024 * 1024})
+	Logger.Info().Int("MaxBodySizeMB", Cfg.Server.MaxBodySizeMB).Msg("max request body size set")
 	routes.SetupRoutes(app)
 
 	err := app.Listen(":" + strconv.Itoa(Cfg.Server.Port))

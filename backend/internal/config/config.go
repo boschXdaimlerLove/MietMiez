@@ -27,6 +27,7 @@ type Config struct {
 		SessionDuration time.Duration
 		Port            int  `envconfig:"BACKEND_PORT"`
 		Production      bool `envconfig:"BACKEND_PRODUCTION"`
+		MaxBodySizeMB   int  `envconfig:"BACKEND_MAX_BODY_SIZE_MB"`
 	}
 
 	Database struct {
