@@ -37,6 +37,7 @@ func setupV1Routes(app *fiber.App) {
 	v1.Get("/advertisement:page?", controllers.GetRecentAdvertisements)
 	v1.Get("/advertisement/search", controllers.SearchAdvertisements)
 	v1.Get("/advertisement/:id", controllers.AdvertisementInformation)
+	v1.Delete("/advertisement/:id", controllers.DeleteAdvertisement)
 	v1.Patch("/advertisement/:id", controllers.UpdateAdvertisement)
 
 	// --- category paths ---
