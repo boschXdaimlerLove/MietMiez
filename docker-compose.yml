@@ -90,9 +90,11 @@ services:
       interval: 5s
       timeout: 10s
       retries: 5
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
-      backend:
-        condition: service_healthy
+#      backend:
+#        condition: service_healthy
       database:
         condition: service_healthy
     ports:
