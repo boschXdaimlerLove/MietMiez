@@ -6,7 +6,6 @@ import (
 	"boschXdaimlerLove/MietMiez/internal/middleware"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
-	"github.com/gofiber/fiber/v2/middleware/encryptcookie"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
 )
 
@@ -51,9 +50,6 @@ func SetupRoutes(app *fiber.App) {
 
 	// enable compression
 	app.Use(compress.New(config.GetCompressionConfig()))
-
-	// encrypt cookie
-	app.Use(encryptcookie.New(config.GetCookieEncryptionConfig()))
 
 	// set csrf cookie
 	//app.Use(csrf.New(config.GetCSRFConfig()))
