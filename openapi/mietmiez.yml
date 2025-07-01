@@ -223,6 +223,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Advertisement'
+        '400':
+          description: id was not an integer
         '404':
           description: Advertisement does not exist or was permanently removed
     delete:
@@ -259,8 +261,14 @@ paths:
       responses:
         '200':
           description: Advertisement changed
+        '401':
+          description: User is not authorized to change advertisement (not logged in)
+        '403':
+          description: User tried to change ad which wasn't created by him
         '404':
           description: Advertisement not found
+        '500':
+          description: Internal server error occurred
 
   /advertisement:
     post:
@@ -341,6 +349,14 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Advertisement'
+        '404':
+          description: no advertisements were found
+          content:
+            application/json:
+              schema:
+                type: object
+        '500':
+          description: internal server error occurred
   
   /categories:
     get:
@@ -455,10 +471,11 @@ components:
       properties:
         token:
           type: string
-          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-        expires_in:
-          type: integer
-          example: 3600
+          # noinspection SpellCheckingInspection
+          example: umxBkyW3P-wHb2AW1L_rmTRIi99S6beIyZnva3N8ZOI=
+        expires_at:
+          type: string
+          example: 2025-07-07T09:23:36.937392461Z
     LoginRequest:
       type: object
       required:

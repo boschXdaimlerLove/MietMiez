@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import React, {useState} from "react";
 import {useRouter} from 'next/navigation';
@@ -23,6 +23,7 @@ const Login: React.FC = () => {
             setError("Login fehlgeschlagen");
           }
     }
+  }
 
   return (
     <div className="bg-[#B2E9CD] min-h-screen flex flex-col md:flex-row items-center justify-center">
@@ -42,7 +43,6 @@ const Login: React.FC = () => {
             <h2 className="text-green-700 text-center mb-4 font-extrabold text-2xl">Login</h2>
 
             {error && <p className="text-red-500 mb-3 text-sm text-center">{error}</p>}
-
             <input
               type="text"
               placeholder="Email"
@@ -101,4 +101,3 @@ const Login: React.FC = () => {
 };
 
 export default Login;
-
