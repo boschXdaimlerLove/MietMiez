@@ -1,0 +1,45 @@
+meta {
+  name: upload /image
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/v1/image
+  body: multipartForm
+  auth: inherit
+}
+
+headers {
+  Content-Type: multipart/form-data
+}
+
+body:multipart-form {
+  document: @file(beaver.gif)
+}
+
+assert {
+  res.status: eq 201
+}
+
+script:pre-request {
+  // retrieve the cookie string you stored earlier
+  const cookie = bru.getVar("cookie_user1");
+  
+  if (cookie) {
+    // set it as the Cookie header on the outgoing request
+    req.setHeader("Cookie", cookie);
+  }
+  
+  
+}
+
+script:post-response {
+  if (res.status == 201) {
+    bru.setVar("img_id1", res.body.id)
+  }
+}
+
+docs {
+  Hier in der Request die beaver.gif in mietmiez/openapi/mietmiez-api-coverage auswählen als datei
+}

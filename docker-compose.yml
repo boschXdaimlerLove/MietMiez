@@ -1,13 +1,32 @@
+#file: noinspection HttpUrlsUsage,SpellCheckingInspection
 networks:
   internal:
+  minio:
+  #traefik-proxy:
+  #  external: true
+
+x-minio-common: &minio-common
+  image: quay.io/minio/minio:latest
+  env_file:
+    - configs/.minio.env
+  networks:
+    - minio
+  healthcheck:
+    test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/ready" ]
+    interval: 10s
+    timeout: 5s
+    retries: 5
+    start_period: 10s
+  command: server --console-address ":9001" http://minio{1...4}/data
+
 
 services:
-  database:
+  postgres:
     image: docker.io/library/postgres:17-bookworm
     container_name: mietmiez-postgres
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready"]
+      test: [ "CMD-SHELL", "pg_isready" ]
       interval: 3s
       timeout: 5s
       retries: 5
@@ -17,12 +36,8 @@ services:
       - "5432:5432"
     networks:
       - internal
-    environment:
-      # change in backend-config.yml as well!
-      - POSTGRES_PASSWORD=supersecretlongandcomplexpassword
-      - POSTGRES_USER=mietmiez
-      - POSTGRES_DB=mietmiez
-      #- POSTGRES_INITDB_ARGS='--encoding=UTF-8 --lc-collate=C --lc-ctype=C'
+    env_file:
+      - configs/.postgres.env
 
   backend:
     image: localhost/mietmiez_backend:latest
@@ -32,21 +47,37 @@ services:
     restart: always
     tty: true
     healthcheck:
-      test: ["CMD", "wget --spider --no-verbose --tries=1 http://127.0.0.1:8080/v1/health"]
-      interval: 10s
-      timeout: 60s
+      test: [ "CMD", "wget --spider --no-verbose --tries=1 http://localhost:8080/v1/health" ]
+      interval: 5s
+      timeout: 10s
       retries: 5
     depends_on:
-      database:
+      postgres:
+        condition: service_healthy
+      minio1:
+        condition: service_healthy
+      minio2:
+        condition: service_healthy
+      minio3:
+        condition: service_healthy
+      minio4:
         condition: service_healthy
     networks:
       - internal
+      - minio
     ports:
-      # change in backend-config.yml as well!
       - "8080:8080"
     volumes:
-      - ./backend-config.yml:/app/config.yml
       - ./openapi/mietmiez.yml:/app/openapi_v1.yml
+    env_file:
+      - configs/.minio.env
+      - configs/.postgres.env
+      - configs/.backend.env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mietmiez-backend.rule=Host(`mietmiez.de`)"
+      - "traefik.http.routers.mietmiez-backend.service=mietmiez-backend"
+      - "traefik.http.services.mietmiez-backend.loadbalancer.server.port=8080"
 
   frontend:
     image: localhost/mietmiez_frontend:latest
@@ -66,7 +97,50 @@ services:
 #        condition: service_healthy
       database:
         condition: service_healthy
-    networks:
-      - internal
     ports:
       - "3000:3000"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.mietmiez-frontend.rule=Host(`mietmiez.de`)"
+      - "traefik.http.routers.mietmiez-frontend.service=mietmiez-frontend"
+      - "traefik.http.services.mietmiez-frontend.loadbalancer.server.port=3000"
+
+
+
+
+  minio1:
+    <<: *minio-common
+    container_name: minio1
+    hostname: minio1
+    volumes:
+      - ./data/minio1:/data
+    ports:
+      - "9000:9000"  # API
+      - "9001:9001"  # Web Console (Admin UI)
+
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.minio-api.rule=Host(`minio.mietmiez.de`)"
+      - "traefik.http.routers.minio-api.service=minio-api"
+      - "traefik.http.services.minio-api.loadbalancer.server.port=9000"
+
+  minio2:
+    <<: *minio-common
+    container_name: minio2
+    hostname: minio2
+    volumes:
+      - ./data/minio2:/data
+
+  minio3:
+    <<: *minio-common
+    container_name: minio3
+    hostname: minio3
+    volumes:
+      - ./data/minio3:/data
+
+  minio4:
+    <<: *minio-common
+    container_name: minio4
+    hostname: minio4
+    volumes:
+      - ./data/minio4:/data

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"boschXdaimlerLove/MietMiez/internal/minio"
 	"boschXdaimlerLove/MietMiez/routes"
 	"strconv"
 
@@ -16,7 +17,8 @@ func main() {
 	Logger.Info().Msg("Server starting!")
 	SetupConfig()
 	ConnectDB()
-	
+	minio.InitMinio()
+
 	// setup http server
 	app := fiber.New()
 	routes.SetupRoutes(app)
