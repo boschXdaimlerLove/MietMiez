@@ -239,10 +239,12 @@ paths:
       responses:
         '200':
           description: Advertisement deleted
+        '401':
+          description: User is not authorized
         '404':
-          description: advertisement does not exist or user hasn't rights to remove advertisement
+          description: User is not owner of advertisement
         '500':
-          description: internal server error occurred while removing advertisement
+          description: Internal server error occurred while removing advertisement
     patch:
       tags:
         - advertisement
