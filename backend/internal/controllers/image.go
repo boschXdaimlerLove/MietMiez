@@ -3,6 +3,7 @@ package controllers
 import (
 	"boschXdaimlerLove/MietMiez/internal/config"
 	minioclient "boschXdaimlerLove/MietMiez/internal/minio"
+	"boschXdaimlerLove/MietMiez/internal/util"
 	"bytes"
 	"context"
 	"crypto/sha256"
@@ -17,6 +18,11 @@ import (
 import . "boschXdaimlerLove/MietMiez/internal/logger"
 
 func UploadImage(c *fiber.Ctx) error {
+	isAuthenticated, _ := util.GetRequestUser(c)
+	if !isAuthenticated {
+		return c.SendStatus(fiber.StatusUnauthorized)
+	}
+
 	// 1) FormFile öffnen
 	file, err := c.FormFile("document")
 	if err != nil {
