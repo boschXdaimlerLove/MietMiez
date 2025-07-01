@@ -11,6 +11,9 @@ tags:
     description: Everything realated about the backend system and availability
   - name: advertisement
     description: Everything related about pet advertising
+  - name: image
+    description: Everything related about advertisement images
+
 paths:
   /health:
     get:
@@ -349,7 +352,54 @@ paths:
         '500':
           description: An error has occured during the fetch of the categories
 
-      
+  /image/{id}:
+    get:
+      tags:
+        - image
+      summary: Image download
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: The id provided after the upload (will be saved in the advertisement)
+          schema:
+            type: string
+            example: 72819f0581ad72528a90f06d0de618b22bcaf11611485267a95df1f4866911c4.jpg
+      responses:
+        '200':
+          description: Image has been found and will be sent
+          content:
+            image/*:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Image not found
+        '500':
+          description: Internal server error occurred
+  /image:
+    post:
+      tags:
+        - image
+      summary: Image upload
+      requestBody:
+        required: true
+        content:
+          image/*:
+            schema:
+              type: string
+              format: binary
+      responses:
+        '201':
+          description: Image was uploaded successful
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/imageUploadResponse'
+        '400':
+          description: Bad Request; Image was probably malformed
+        '500':
+          description: Internal server error while uploading the image
 
 components:
   schemas:
@@ -381,7 +431,7 @@ components:
           type: array
           items:
             type: string
-            example: https://api.mietmiez.com/resources/adv-images/123abc/image.jpg
+            example: 72819f0581ad72528a90f06d0de618b22bcaf11611485267a95df1f4866911c4.jpg
     Advertisement:
       type: object
       properties:
@@ -410,7 +460,7 @@ components:
           type: array
           items:
             type: string
-            example: https://api.mietmiez.com/resources/adv-images/123abc/image.jpg
+            example: 72819f0581ad72528a90f06d0de618b22bcaf11611485267a95df1f4866911c4.jpg
     AdvertisementPatch:
       type: object
       properties:
@@ -523,3 +573,9 @@ components:
           example: 71034
           minLength: 2
           nullable: true
+    imageUploadResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: 72819f0581ad72528a90f06d0de618b22bcaf11611485267a95df1f4866911c4.jpg

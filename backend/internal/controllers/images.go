@@ -17,11 +17,8 @@ import (
 import . "boschXdaimlerLove/MietMiez/internal/logger"
 
 func UploadImage(c *fiber.Ctx) error {
-	Logger.Debug().Msg("Uploading image")
-	Logger.Debug().Str("Content-Type", c.Get("Content-Type")).Msg("Incoming upload")
-
 	// 1) FormFile öffnen
-	file, err := c.FormFile("fileUpload")
+	file, err := c.FormFile("document")
 	if err != nil {
 		Logger.Err(err).Msg("Error uploading image")
 		return c.SendStatus(fiber.StatusBadRequest)
@@ -55,7 +52,7 @@ func UploadImage(c *fiber.Ctx) error {
 		ending = parts[len(parts)-1]
 	}
 	objectName := fmt.Sprintf("%x.%s", hash, ending)
-	Logger.Debug().Str("objectName", objectName).Msg("Computed object name")
+	Logger.Debug().Str("objectName", objectName).Msg("Uploading image to minio...")
 
 	// 5) Für PutObject einen neuen Reader erzeugen
 	reader := bytes.NewReader(buf.Bytes())
@@ -78,8 +75,8 @@ func UploadImage(c *fiber.Ctx) error {
 
 	Logger.Info().Any("object", object).Msg("Uploaded image to minio")
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"objectName": objectName,
+	return c.Status(fiber.StatusCreated).JSON(fiber.Map{
+		"id": objectName,
 	})
 }
 

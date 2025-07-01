@@ -51,9 +51,6 @@ func SetupRoutes(app *fiber.App) {
 	// enable compression
 	app.Use(compress.New(config.GetCompressionConfig()))
 
-	// set csrf cookie
-	//app.Use(csrf.New(config.GetCSRFConfig()))
-
 	// enable logging of requests
 	app.Use(middleware.LoggingMiddleware())
 
