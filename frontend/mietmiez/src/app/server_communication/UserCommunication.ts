@@ -31,15 +31,20 @@ export default class UserCommunication {
 
   static async register(user: User, password: string): Promise<void> {
     const body = {
-      user: user.toJSON(),
+      ...user.toJSON(),
       password: password,
     };
-    await fetch(`${GeneralServerCommunication.url}/user/`, {
+    const res = await fetch(`${GeneralServerCommunication.url}/user/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),
       credentials: "include",
     });
+    if (!res.ok) {
+      const error = await res.json();
+      console.error("Error registering user:", error);
+      throw new Error("Failed to register user");
+    }
   }
 
   static async logout(): Promise<boolean> {
