@@ -78,15 +78,10 @@ func UserLogin(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	cookie := &fiber.Cookie{
-		Name:    "session",
-		Value:   session.ID,
-		Expires: time.Now().Add(config.Cfg.Server.SessionDuration),
-		Secure:  config.Cfg.Server.Production,
-	}
-
-	c.Cookie(cookie)
-	return c.SendStatus(fiber.StatusOK)
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"token":      session.ID,
+		"expires_at": time.Now().Add(config.Cfg.Server.SessionDuration),
+	})
 }
 
 func UserDelete(c *fiber.Ctx) error {

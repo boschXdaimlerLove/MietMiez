@@ -6,7 +6,6 @@ import (
 	"boschXdaimlerLove/MietMiez/internal/middleware"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/compress"
-	"github.com/gofiber/fiber/v2/middleware/encryptcookie"
 	"github.com/gofiber/fiber/v2/middleware/monitor"
 )
 
@@ -36,8 +35,10 @@ func setupV1Routes(app *fiber.App) {
 	// --- advertisement paths ---
 	v1.Post("/advertisement", controllers.CreateAdvertisement)
 	v1.Get("/advertisement:page?", controllers.GetRecentAdvertisements)
+	v1.Get("/advertisement/search", controllers.SearchAdvertisements)
 	v1.Get("/advertisement/:id", controllers.AdvertisementInformation)
 	v1.Delete("/advertisement/:id", controllers.DeleteAdvertisement)
+	v1.Patch("/advertisement/:id", controllers.UpdateAdvertisement)
 
 	// --- category paths ---
 	v1.Get("/categories", controllers.CategoryList)
@@ -49,9 +50,6 @@ func SetupRoutes(app *fiber.App) {
 
 	// enable compression
 	app.Use(compress.New(config.GetCompressionConfig()))
-
-	// encrypt cookie
-	app.Use(encryptcookie.New(config.GetCookieEncryptionConfig()))
 
 	// set csrf cookie
 	//app.Use(csrf.New(config.GetCSRFConfig()))
