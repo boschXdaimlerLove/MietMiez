@@ -24,9 +24,7 @@ export default class AdvertisementCommunication {
       {
         cache: "no-cache",
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: await GeneralServerCommunication.getHeaders(),
       },
     );
     const categoriesJSON: string = await categoriesRes.text();
@@ -52,9 +50,7 @@ export default class AdvertisementCommunication {
       {
         cache: "no-cache",
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: await GeneralServerCommunication.getHeaders(),
       },
     );
     return AdvertisementCommunication.responseToAdvertisements(ads);
@@ -66,9 +62,7 @@ export default class AdvertisementCommunication {
       {
         cache: "no-cache",
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: await GeneralServerCommunication.getHeaders(),
       },
     );
     return AdvertisementCommunication.responseToAdvertisements(ads);
@@ -80,9 +74,7 @@ export default class AdvertisementCommunication {
       {
         cache: "no-cache",
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: await GeneralServerCommunication.getHeaders(),
       },
     );
     const adJson = await adRes.json();
@@ -95,9 +87,7 @@ export default class AdvertisementCommunication {
       {
         cache: "no-cache",
         method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: await GeneralServerCommunication.getHeaders(),
       },
     );
     return AdvertisementCommunication.responseToAdvertisements(favoritesRes);
@@ -108,9 +98,7 @@ export default class AdvertisementCommunication {
       `${GeneralServerCommunication.url}/advertisement`,
       {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: await GeneralServerCommunication.getHeaders(),
         body: JSON.stringify(ad),
       },
     );
@@ -126,9 +114,7 @@ export default class AdvertisementCommunication {
       `${GeneralServerCommunication.url}/advertisement/${ad.id}`,
       {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: await GeneralServerCommunication.getHeaders(),
         body: JSON.stringify(ad),
       },
     );
@@ -144,9 +130,7 @@ export default class AdvertisementCommunication {
       `${GeneralServerCommunication.url}/advertisement/${id}`,
       {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: await GeneralServerCommunication.getHeaders(),
       },
     );
     if (!adRes.ok) {
