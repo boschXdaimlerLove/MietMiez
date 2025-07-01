@@ -25,9 +25,10 @@ type Config struct {
 	Server struct {
 		TokenLength     int
 		SessionDuration time.Duration
-		Port            int  `envconfig:"BACKEND_PORT"`
-		Production      bool `envconfig:"BACKEND_PRODUCTION"`
-		MaxBodySizeMB   int  `envconfig:"BACKEND_MAX_BODY_SIZE_MB"`
+		Port            int    `envconfig:"BACKEND_PORT"`
+		Production      bool   `envconfig:"BACKEND_PRODUCTION"`
+		MaxBodySizeMB   int    `envconfig:"BACKEND_MAX_BODY_SIZE_MB"`
+		LogLevel        string `envconfig:"BACKEND_LOG_LEVEL"`
 	}
 
 	Database struct {
@@ -61,7 +62,7 @@ func SetupConfig() {
 	readConfigEnv(&Cfg)
 	Cfg.Server.TokenLength = 32
 	Cfg.Server.SessionDuration = time.Hour * 24 * 7 // 7 days cookie
-	Logger.Info().Any("config", Cfg).Msg("Config loaded!")
+	Logger.Info().Msg("Config loaded successful!")
 }
 
 // GetCompressionConfig https://docs.gofiber.io/api/middleware/compress
