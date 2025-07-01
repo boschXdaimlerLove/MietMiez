@@ -14,7 +14,5 @@ export async function POST(req: Request): Promise<NextResponse> {
     maxAge: maxAge,
     sameSite: "lax",
   });
-  console.log(res);
-  console.log("Login successful, token set in cookies:", token);
   return res;
 }

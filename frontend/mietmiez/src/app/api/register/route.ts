@@ -4,7 +4,6 @@ import User from "@/app/objects/user";
 export async function POST(req: Request) {
   const body = await req.text();
   const { user, password } = JSON.parse(body);
-  console.log("Registering user in next api:", user);
 
   try {
     await UserCommunication.register(User.fromJSON(user), password);

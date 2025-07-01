@@ -6,7 +6,6 @@ import { cookies } from "next/headers";
 export default class UserCommunication {
   static async fetchUserCookies(): Promise<string | undefined> {
     const cookieStore = await cookies();
-    console.log("Cookies", cookieStore);
     return cookieStore.get("token")?.value;
   }
 
@@ -24,7 +23,6 @@ export default class UserCommunication {
         credentials: "include",
       },
     );
-    console.log("Login response from backend", loginRes);
     if (!loginRes.ok) {
       throw new Error("Login failed");
     }
@@ -32,12 +30,10 @@ export default class UserCommunication {
   }
 
   static async register(user: User, password: string): Promise<void> {
-    console.log("Registering user in server func register:", user);
     const body = {
       user: user.toJSON(),
       password: password,
     };
-    console.log("Registering user body:", body);
     await fetch(`${GeneralServerCommunication.url}/user/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -135,11 +131,6 @@ export default class UserCommunication {
       headers: await GeneralServerCommunication.getHeaders(),
       credentials: "include",
     });
-    console.log(
-      "Headers for user fetch",
-      await GeneralServerCommunication.getHeaders(),
-    );
-    console.log("User response from backend", userRes);
     if (!userRes.ok) {
       throw new Error("Failed to fetch user");
     }

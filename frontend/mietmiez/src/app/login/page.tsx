@@ -16,7 +16,6 @@ const Login: React.FC = () => {
     e.preventDefault();
     setError("");
     ClientUserCommunication.login(email, password).then((success) => {
-      console.log("Login success:", success);
       if (!success) {
         setError("Login fehlgeschlagen. Bitte überprüfe deine Anmeldedaten.");
       } else {

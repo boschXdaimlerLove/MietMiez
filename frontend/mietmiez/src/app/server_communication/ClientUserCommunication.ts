@@ -10,7 +10,6 @@ export default class ClientUserCommunication {
       body: JSON.stringify({ email, password }),
       credentials: "include",
     });
-    console.log("Login response:", res);
     return res.ok;
   }
 
@@ -30,7 +29,6 @@ export default class ClientUserCommunication {
       body: JSON.stringify({ user: user.toJSON(), password }),
       credentials: "include",
     });
-    console.log("Register response:", res);
     return res.ok;
   }
 }
