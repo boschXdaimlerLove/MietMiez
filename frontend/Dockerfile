@@ -2,29 +2,33 @@
 # 'current' can change and potentially break your build in the future.
 FROM docker.io/library/node:24-alpine AS base
 
+# Install necessary dependencies for building native modules
+RUN apk add --no-cache libc6-compat python3 make g++
+
 # ─────── Builder Stage ───────
 # This stage builds the application.
 FROM base AS builder
 # Set the working directory for the entire application.
 WORKDIR /app
 
-# Copy package.json and package-lock.json first.
-# This leverages Docker's layer caching. This layer only gets rebuilt if the package files change.
-# The 'mietmiez/' prefix is needed because the Docker build context is the 'frontend' directory.
-#COPY mietmiez/package*.json ./
-# COPY mietmiez ./
+# Copy package files first for better Docker layer caching
+COPY mietmiez/package*.json ./
 
-# Install all dependencies, including devDependencies needed for the build.
-#RUN npm install
-#RUN npm run build
+# Set environment variables to help with native module compilation
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=development
+
+# Install all dependencies (including devDependencies for build)
+RUN npm ci
 
 # Copy the rest of your application source code.
 COPY mietmiez ./
 
-RUN npm install && npm run build
+# Set production environment for build
+ENV NODE_ENV=production
 
-# Run the build script. This will create the .next directory inside /app.
-# RUN npm install && npm run build
+# Build the application
+RUN npm run build
 
 
 # ─────── Runtime Stage ───────
@@ -44,7 +48,6 @@ COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/next.config.ts ./next.config.ts
 COPY --from=builder /app/package.json ./package.json
-COPY --from=builder /app/src/app ./
 
 # The port the application will run on.
 EXPOSE 3000

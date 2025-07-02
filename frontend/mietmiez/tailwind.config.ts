@@ -1,6 +1,13 @@
 import type {Config} from "tailwindcss";
 
 const config: Config = {
+    content: [
+        "./app/**/*.{ts,tsx}",
+        "./components/**/*.{ts,tsx}",
+        "./src/app/**/*.{ts,tsx}",
+        "./src/components/**/*.{ts,tsx}",
+        "./src/**/*.{js,ts,jsx,tsx,mdx}",
+    ],
     theme: {
         extend: {
             colors: {
@@ -10,15 +17,13 @@ const config: Config = {
                 primaryBtn: "var(--primaryBtn)",
                 card: "var(--card)",
             },
+            fontFamily: {
+                'sans': ['var(--font-inter)', 'system-ui', 'sans-serif'],
+                'mono': ['var(--font-jetbrains-mono)', 'monospace'],
+            },
         },
     },
-    content: [
-        "./app/**/*.{ts,tsx}",
-        "./components/**/*.{ts,tsx}",
-        "./src/app/**/*.{ts,tsx}",
-        "./src/components/**/*.{ts,tsx}",
-        "./globals.css",
-    ],
+    plugins: [],
 };
 
 export default config;
