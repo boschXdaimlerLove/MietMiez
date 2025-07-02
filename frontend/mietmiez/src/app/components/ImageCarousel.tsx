@@ -1,18 +1,15 @@
-'use client';
-import React, { useState, useEffect } from 'react';
+"use client";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
 
-const images: string[] = [
-  '/dogs.jpg',
-  '/cat.jpg',
-  '/dolphin.jpg',
-];
+const images: string[] = ["/dogs.jpg", "/cat.jpg", "/dolphin.jpg"];
 
 const ImageCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentIndex(prevIndex => (prevIndex + 1) % images.length);
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
     }, 3000);
 
     return () => clearInterval(timer);
@@ -20,10 +17,10 @@ const ImageCarousel: React.FC = () => {
 
   return (
     <div className="w-full max-w-xl aspect-video overflow-hidden mx-auto rounded-xl shadow-md">
-      <img
+      <Image
         src={images[currentIndex]}
         alt={`Bild ${currentIndex + 1}`}
-        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
       />
     </div>
   );
