@@ -70,14 +70,14 @@ export default class UserCommunication {
   }
 
   static async updateUser(user: User): Promise<void> {
-    const res = await fetch(`${GeneralServerCommunication.url}/user/`, {
-      method: "PATCH",
+    const res = await fetch(`${GeneralServerCommunication.url}/user`, {
+      method: "PUT",
       headers: await GeneralServerCommunication.getHeaders(),
       body: JSON.stringify(user.toJSON()),
       credentials: "include",
     });
     if (!res.ok) {
-      return;
+      throw new Error("Failed to update user");
     }
   }
 
@@ -100,17 +100,21 @@ export default class UserCommunication {
     oldPassword: string,
     newPassword: string,
   ): Promise<void> {
-    const mail = user.email;
     const res = await fetch(
-      `${GeneralServerCommunication.url}/user/change-password/`,
+      `${GeneralServerCommunication.url}/user/change-password`,
       {
         method: "POST",
         headers: await GeneralServerCommunication.getHeaders(),
-        body: JSON.stringify({ mail, oldPassword, newPassword }),
+        body: JSON.stringify({ 
+          email: user.email, 
+          "old-password": oldPassword, 
+          "new-password": newPassword 
+        }),
         credentials: "include",
       },
     );
     if (!res.ok) {
+      throw new Error("Failed to change password");
     }
   }
 

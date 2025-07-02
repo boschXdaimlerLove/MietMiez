@@ -16,7 +16,7 @@ COPY mietmiez/package*.json ./
 
 # Set environment variables to help with native module compilation
 ENV NEXT_TELEMETRY_DISABLED=1
-ENV NODE_ENV=development
+ENV NODE_ENV=production
 
 # Install all dependencies (including devDependencies for build)
 RUN npm ci
