@@ -120,6 +120,7 @@ services:
       - "9001:9001"  # Web Console (Admin UI)
     networks:
       - traefik-proxy
+      - minio
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.minio-api.rule=Host(`minio.mietmiez.de`)"
