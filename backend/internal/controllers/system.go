@@ -16,3 +16,11 @@ func OpenApiSpecs(c *fiber.Ctx) error {
 	}
 	return c.Send(data)
 }
+
+func GetAboutInformation(c *fiber.Ctx) error {
+	data, err := os.ReadFile("./about.json")
+	if err != nil {
+		return c.SendStatus(500)
+	}
+	return c.Send(data)
+}

@@ -69,6 +69,7 @@ services:
       - "8080:8080"
     volumes:
       - ./openapi/mietmiez.yml:/app/openapi_v1.yml
+      - ./configs/static/about.json:/app/about.json
     env_file:
       - configs/.minio.env
       - configs/.postgres.env
@@ -120,6 +121,7 @@ services:
       - "9001:9001"  # Web Console (Admin UI)
     networks:
       - traefik-proxy
+      - minio
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.minio-api.rule=Host(`minio.mietmiez.de`)"

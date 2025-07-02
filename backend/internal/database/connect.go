@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 	"time"
 )
 
@@ -19,7 +20,9 @@ func ConnectDB() {
 	// Connection URL to connect to Postgres Database
 	dbconf := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", Cfg.Database.Hostname, Cfg.Database.Port, Cfg.Database.Username, Cfg.Database.Password, Cfg.Database.Dbname)
 	// Connect to the DB and initialize the DB variable
-	dbInstance, err = gorm.Open(postgres.Open(dbconf))
+	dbInstance, err = gorm.Open(postgres.Open(dbconf), &gorm.Config{
+		Logger: logger.Default.LogMode(logger.Silent),
+	})
 	if err != nil {
 		Logger.Panic().Err(err).Msg("Failed to connect to database")
 	}

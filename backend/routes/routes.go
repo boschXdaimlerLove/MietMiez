@@ -16,6 +16,7 @@ func setupV1Routes(app *fiber.App) {
 	v1 := app.Group("/v1")
 	v1.Get("/health", controllers.Health)
 	v1.Get("/openapi.yml", controllers.OpenApiSpecs)
+	v1.Get("/about.json", controllers.GetAboutInformation)
 
 	// --- user paths ---
 	v1.Post("/user", controllers.UserCreate)
@@ -31,6 +32,7 @@ func setupV1Routes(app *fiber.App) {
 	v1.Post("/user/favourites", controllers.UserAddFavourite)
 
 	v1.Get("/user/:email", controllers.UserInfo)
+	v1.Get("/user/activate/:token", controllers.UserActivate)
 
 	// --- advertisement paths ---
 	v1.Post("/advertisement", controllers.CreateAdvertisement)
