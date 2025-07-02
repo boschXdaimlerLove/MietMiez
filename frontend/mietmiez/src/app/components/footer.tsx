@@ -38,7 +38,7 @@ export default async function Footer() {
               </li>
               <li>
                 <Link
-                  href="/sitters"
+                  href="/register"
                   className="text-gray-300 hover:text-[#c9e265]"
                 >
                   Tiersitter werden
@@ -53,10 +53,7 @@ export default async function Footer() {
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/todo"
-                  className="text-gray-300 hover:text-[#c9e265]"
-                >
+                <Link href="/" className="text-gray-300 hover:text-[#c9e265]">
                   Falls noch wem was einfällt :D
                 </Link>
               </li>
@@ -77,7 +74,7 @@ export default async function Footer() {
               </li>
               <li>
                 <Link
-                  href="/terms"
+                  href="/about"
                   className="text-gray-300 hover:text-[#c9e265]"
                 >
                   AGB
