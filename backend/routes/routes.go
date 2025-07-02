@@ -16,6 +16,7 @@ func setupV1Routes(app *fiber.App) {
 	v1 := app.Group("/v1")
 	v1.Get("/health", controllers.Health)
 	v1.Get("/openapi.yml", controllers.OpenApiSpecs)
+	v1.Get("/about.json", controllers.GetAboutInformation)
 
 	// --- user paths ---
 	v1.Post("/user", controllers.UserCreate)
