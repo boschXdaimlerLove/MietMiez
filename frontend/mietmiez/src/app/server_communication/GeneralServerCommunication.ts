@@ -1,4 +1,5 @@
 import UserCommunication from "@/app/server_communication/UserCommunication";
+import About from "@/app/objects/about";
 
 export default class GeneralServerCommunication {
   // const url: string = 'https://mietmietz.de/v1';
@@ -10,5 +11,20 @@ export default class GeneralServerCommunication {
       "Content-Type": "application/json",
       Cookie: `session=${token}`,
     };
+  }
+
+  static async fetchAbout(): Promise<About> {
+    console.log("Fetching about information from:", this.url);
+    const response = await fetch(`${this.url}/about.json`, {
+      method: "GET",
+      cache: "no-cache",
+      headers: await this.getHeaders(),
+    });
+    if (!response.ok) {
+      throw new Error("Failed to fetch about information");
+    }
+    const text = await response.text();
+    const json = JSON.parse(text);
+    return About.fromJSON(json);
   }
 }

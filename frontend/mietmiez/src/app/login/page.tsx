@@ -19,7 +19,7 @@ const Login: React.FC = () => {
       if (!success) {
         setError("Login fehlgeschlagen. Bitte überprüfe deine Anmeldedaten.");
       } else {
-        // router.push("/home");
+        router.push("/home");
       }
     });
   }
@@ -80,21 +80,17 @@ const Login: React.FC = () => {
               
             */}
             <div className="flex flex-col sm:flex-row justify-between gap-4">
-              <button type="submit">Anmelden</button>
-              {/*<Button*/}
-              {/*  title="Login"*/}
-              {/*  onClick={handleSubmit}*/}
-              {/*  isPrimary*/}
-              {/*  className=""*/}
-              {/*  type="submit"*/}
-              {/*/>*/}
-
               <Button
-                title="Registrieren"
+                title="Register"
                 onClick={() => router.push("register")}
-                isPrimary
-                className=""
+                isPrimary={false}
                 type="button"
+              />
+              <Button
+                title="Login"
+                onClick={() => {}}
+                isPrimary={true}
+                type="submit"
               />
             </div>
           </form>
