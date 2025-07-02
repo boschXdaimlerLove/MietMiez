@@ -138,6 +138,8 @@ paths:
                 $ref: '#/components/schemas/LoginResponse'
         '401':
           description: Invalid credentials
+        '423':
+          description: User has not been activated (email)
   /user/logout:
     post:
       tags:
@@ -216,6 +218,26 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Advertisement'
+
+  /user/activate/{token}:
+    get:
+      tags:
+        - user
+      summary: Activate user account with token from Email
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+            example:
+      responses:
+        '200':
+          description: User has been activated
+        '400':
+          description: Bad Request (token invalid or user already activated)
+        '500':
+          description: Internal server error occurred
   
   /advertisement/{advertisement-id}:
     get:

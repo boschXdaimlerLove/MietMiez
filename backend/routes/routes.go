@@ -32,6 +32,7 @@ func setupV1Routes(app *fiber.App) {
 	v1.Post("/user/favourites", controllers.UserAddFavourite)
 
 	v1.Get("/user/:email", controllers.UserInfo)
+	v1.Get("/user/activate/:token", controllers.UserActivate)
 
 	// --- advertisement paths ---
 	v1.Post("/advertisement", controllers.CreateAdvertisement)
