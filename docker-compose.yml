@@ -92,13 +92,13 @@ services:
       retries: 5
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    depends_on:
+#    depends_on:
 #      backend:
 #        condition: service_healthy
-      postgres:
-        condition: service_healthy
-      database:
-        condition: service_healthy
+#      postgres:
+#        condition: service_healthy
+    networks:
+      - internal
     ports:
       - "3000:3000"
     labels:
