@@ -1,6 +1,7 @@
 import Advertisement from "@/app/objects/advertisement";
 import AdvertisementCommunication from "@/app/server_communication/AdvertisementCommunication";
 import UserCard from "@/app/components/cards/UserCard";
+import ImageSlider from "@/app/components/ImageSlider";
 
 export default async function AdvertisementPage({params} : { params: Promise<{ id: string }> }) {
     const { id } = await params;
@@ -12,6 +13,7 @@ export default async function AdvertisementPage({params} : { params: Promise<{ i
                 {/* IMAGES */}
                 <div>
                     {/*  TODO: add image slideshow  */}
+                    <ImageSlider images={advertisement.images} ></ImageSlider>
                 </div>
 
                 {/* USER INFO */}

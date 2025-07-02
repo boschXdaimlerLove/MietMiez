@@ -95,6 +95,8 @@ services:
     depends_on:
 #      backend:
 #        condition: service_healthy
+      postgres:
+        condition: service_healthy
       database:
         condition: service_healthy
     ports:
