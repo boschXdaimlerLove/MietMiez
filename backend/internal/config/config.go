@@ -23,11 +23,12 @@ type Config struct {
 	}
 
 	Server struct {
-		TokenLength     int
-		SessionDuration time.Duration
-		Port            int  `envconfig:"BACKEND_PORT"`
-		Production      bool `envconfig:"BACKEND_PRODUCTION"`
-		MaxBodySizeMB   int  `envconfig:"BACKEND_MAX_BODY_SIZE_MB"`
+		TokenLength            int
+		SessionDuration        time.Duration
+		Port                   int  `envconfig:"BACKEND_PORT"`
+		Production             bool `envconfig:"BACKEND_PRODUCTION"`
+		MaxBodySizeMB          int  `envconfig:"BACKEND_MAX_BODY_SIZE_MB"`
+		EnforceEmailActivation bool `envconfig:"BACKEND_ENFORCE_EMAIL_ACTIVATION"`
 	}
 
 	Database struct {

@@ -11,6 +11,7 @@ var migrationsList = []interface{}{
 	&models.Category{},
 	&models.Favourite{},
 	&models.PasswordResetToken{},
+	&models.UserActivationToken{},
 	&models.Session{},
 	&models.User{},
 }
