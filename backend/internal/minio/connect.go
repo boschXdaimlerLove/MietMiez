@@ -31,11 +31,12 @@ func InitMinio() {
 		// Check to see if we already own this bucket (which happens if you run this twice)
 		exists, errBucketExists := Client.BucketExists(ctx, config.Cfg.Minio.BucketName)
 		if errBucketExists == nil && exists {
-			Logger.Info().Str("bucketname", config.Cfg.Minio.BucketName).Msg("minio bucket already exists")
+			Logger.Debug().Str("bucketname", config.Cfg.Minio.BucketName).Msg("minio bucket already exists")
 		} else {
 			Logger.Err(err).Msg("Client.BucketExists failed")
 		}
 	} else {
-		Logger.Info().Str("bucketname", config.Cfg.Minio.BucketName).Msg("Successfully created bucket")
+		Logger.Debug().Str("bucketname", config.Cfg.Minio.BucketName).Msg("Successfully created bucket")
 	}
+	Logger.Info().Msg("minio setup successful!")
 }
