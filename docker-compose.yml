@@ -2,7 +2,7 @@
 networks:
   internal:
   minio:
-  #traefik-proxy:
+  traefik-proxy:
   #  external: true
 
 x-minio-common: &minio-common
@@ -90,13 +90,14 @@ services:
       interval: 5s
       timeout: 10s
       retries: 5
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    depends_on:
+#    depends_on:
 #      backend:
 #        condition: service_healthy
-      database:
-        condition: service_healthy
+#      postgres:
+#        condition: service_healthy
+    networks:
+      - internal
+      - traefik-proxy
     ports:
       - "3000:3000"
     labels:
@@ -117,7 +118,8 @@ services:
     ports:
       - "9000:9000"  # API
       - "9001:9001"  # Web Console (Admin UI)
-
+    networks:
+      - traefik-proxy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.minio-api.rule=Host(`minio.mietmiez.de`)"

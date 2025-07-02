@@ -1,26 +1,24 @@
-'use client';
+"use client";
 
-import 'react';
-import ImageCarousel from '../components/ImageCarousel';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import Button from '../components/button';
-import UserCommunication from '../server_communication/UserCommunication';
-import User from '../objects/user';
+import "react";
+import ImageCarousel from "../components/ImageCarousel";
+import React, { useState } from "react";
+import Button from "../components/button";
+import ClientUserCommunication from "@/app/server_communication/ClientUserCommunication";
+import User from "@/app/objects/user";
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter();
+  // const router = useRouter();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [city, setCity] = useState("");
   const [zipCode, setZipCode] = useState("");
 
   const handleSubmit = async () => {
-
     setError("");
 
     if (password !== confirmPassword) {
@@ -33,22 +31,16 @@ const Register: React.FC = () => {
       return;
     }
 
-    const user = new User(
-    firstName,
-    lastName,
-    email,
-    city,
-    zipCode
-);
+    const user = new User(firstName, lastName, email, city, zipCode);
 
-  try {
-    await UserCommunication.register(user, password);
-    router.push('/login'); 
-  } catch (err) {
-    console.error(err);
-    setError("Registrierung fehlgeschlagen");
-  }
-};
+    try {
+      await ClientUserCommunication.register(user, password);
+      // router.push("/login");
+    } catch (err) {
+      console.error(err);
+      setError("Registrierung fehlgeschlagen");
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-white p-4 sm:p-6 md:gap-16">
@@ -72,7 +64,7 @@ const Register: React.FC = () => {
               type="text"
               placeholder="Vorname"
               value={firstName}
-              onChange={e => setFirstName(e.target.value)}
+              onChange={(e) => setFirstName(e.target.value)}
               required
               className="text-gray-700 w-full p-3 border border-gray-300 rounded-lg text-base mb-3 text-center"
             />
@@ -81,7 +73,7 @@ const Register: React.FC = () => {
               type="text"
               placeholder="Nachname"
               value={lastName}
-              onChange={e => setLastName(e.target.value)}
+              onChange={(e) => setLastName(e.target.value)}
               required
               className="text-gray-700 w-full p-3 border border-gray-300 rounded-lg text-base mb-3 text-center"
             />
@@ -91,7 +83,7 @@ const Register: React.FC = () => {
             type="email"
             placeholder="Email"
             value={email}
-            onChange={e => setEmail(e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
             className="text-gray-700 w-full p-3 border border-gray-300 rounded-lg text-base mb-3 text-center"
           />
@@ -100,7 +92,7 @@ const Register: React.FC = () => {
             type="password"
             placeholder="Passwort"
             value={password}
-            onChange={e => setPassword(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
             className="text-gray-700 w-full p-3 border border-gray-300 rounded-lg text-base mb-3 text-center"
           />
@@ -109,7 +101,7 @@ const Register: React.FC = () => {
             type="password"
             placeholder="Passwort bestätigen"
             value={confirmPassword}
-            onChange={e => setConfirmPassword(e.target.value)}
+            onChange={(e) => setConfirmPassword(e.target.value)}
             required
             className="text-gray-700 w-full p-3 border border-gray-300 rounded-lg text-base mb-3 text-center"
           />
@@ -119,7 +111,7 @@ const Register: React.FC = () => {
               type="number"
               placeholder="Postleitzahl"
               value={zipCode}
-              onChange={e => setZipCode(e.target.value)}
+              onChange={(e) => setZipCode(e.target.value)}
               required
               className="text-gray-700 w-full p-3 border border-gray-300 rounded-lg text-base mb-3 text-center"
             />
@@ -128,14 +120,11 @@ const Register: React.FC = () => {
               type="text"
               placeholder="Stadt"
               value={city}
-              onChange={e => setCity(e.target.value)}
+              onChange={(e) => setCity(e.target.value)}
               required
               className="text-gray-700 w-full p-3 border border-gray-300 rounded-lg text-base mb-3 text-center"
             />
           </div>
-
-                  
-          
 
           <div className="flex justify-end mt-4">
             {/* <button
@@ -145,13 +134,13 @@ const Register: React.FC = () => {
                 Absenden
             </button> */}
             <Button
-            title="Absenden"
-            onClick={handleSubmit}
-            isPrimary
-            className=""
-            type="submit"
+              title="Absenden"
+              onClick={handleSubmit}
+              isPrimary
+              className=""
+              type="submit"
             />
-        </div>
+          </div>
         </form>
       </div>
     </div>
@@ -159,4 +148,3 @@ const Register: React.FC = () => {
 };
 
 export default Register;
-

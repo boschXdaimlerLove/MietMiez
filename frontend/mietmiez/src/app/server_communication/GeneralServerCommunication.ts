@@ -8,7 +8,7 @@ export default class GeneralServerCommunication {
     const token = await UserCommunication.fetchUserCookies();
     return {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
+      Cookie: `session=${token}`,
     };
   }
 }

@@ -17,7 +17,7 @@ func CategoryList(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	publicCategoryList := make([]models.PublicCategory, len(categoryList))
+	publicCategoryList := make([]models.PublicCategory, 0)
 	for _, category := range categoryList {
 		publicCategoryList = append(publicCategoryList, category.ToPublic())
 	}

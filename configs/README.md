@@ -10,8 +10,8 @@
 | `BACKEND_PRODUCTION`               | Enables cookie secure flag if set                            |
 | `BACKEND_MAX_BODY_SIZE_MB`         | Max image file size in mb for uploads to minio               |
 | `BACKEND_ENFORCE_EMAIL_ACTIVATION` | Enforce email confirmation on registration                   |
+| `BACKEND_LOG_LEVEL`                | Backend log level `(trace,debug,info,warn,error,fatal,panic)` |
 | `POSTGRES_USER`                    | Database username                                            |
 | `POSTGRES_PASSWORD`                | Database password                                            |
 | `POSTGRES_HOSTNAME`                | Database host (e.g., `database`)                             |
 | `POSTGRES_DB`                      | Name of the database                                         |
-
