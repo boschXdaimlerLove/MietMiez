@@ -1,0 +1,19 @@
+meta {
+  name: Activate user
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/user/activate/:token
+  body: none
+  auth: inherit
+}
+
+params:path {
+  token: eKdiZkxV3iVZpP_10MqeyHwhqWX2TcbKuGZrJsm0S78=
+}
+
+docs {
+  You need to copy the token from the server console in here, otherwise login won't work when email confirmations are being enforced
+}

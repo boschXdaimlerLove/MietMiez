@@ -10,13 +10,14 @@ import (
 // use the conversion method user.ToPublic()!!!!!!!!!
 type User struct {
 	gorm.Model
-	FirstName string `json:"first-name"`
-	LastName  string `json:"last-name"`
-	Email     string `json:"email" gorm:"uniqueIndex"`
-	City      string `json:"city"`
-	ZipCode   string `json:"zip-code"`
-	Hash      string `json:"password"`
-	Salt      string
+	FirstName   string `json:"first-name"`
+	LastName    string `json:"last-name"`
+	Email       string `json:"email" gorm:"uniqueIndex"`
+	City        string `json:"city"`
+	ZipCode     string `json:"zip-code"`
+	Hash        string `json:"password"`
+	Salt        string
+	IsActivated bool
 }
 
 // ToPublic convert a user object (with hash, salt, id and so on) to a public user object which only contains non senstitive data
@@ -56,6 +57,16 @@ type PasswordResetRequest struct {
 }
 
 type PasswordResetToken struct {
+	ID         string `gorm:"primarykey"`
+	UserID     uint
+	User       User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	ValidUntil time.Time
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
+	DeletedAt  gorm.DeletedAt `gorm:"index"`
+}
+
+type UserActivationToken struct {
 	ID         string `gorm:"primarykey"`
 	UserID     uint
 	User       User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`

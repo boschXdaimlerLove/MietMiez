@@ -15,7 +15,7 @@ import (
 import . "boschXdaimlerLove/MietMiez/internal/logger"
 
 func UserCreate(c *fiber.Ctx) error {
-	user := new(models.User)
+	user := &models.User{}
 
 	if err := util.GetJsonFromRequest(c, user); err != nil {
 		return c.SendStatus(fiber.StatusInternalServerError)
@@ -28,18 +28,63 @@ func UserCreate(c *fiber.Ctx) error {
 
 	user.Hash = hash
 	user.Salt = salt
+	user.IsActivated = !config.Cfg.Server.EnforceEmailActivation
 
 	dbInstance := database.GetDB()
-	result := dbInstance.Clauses(clause.OnConflict{DoNothing: true}).Create(&user)
+	result := dbInstance.Clauses(clause.OnConflict{DoNothing: true}).Create(user)
 	if result.RowsAffected == 0 {
 		Logger.Debug().Str("email", user.Email).Msg("user creation: duplicate user error")
 		return c.SendStatus(fiber.StatusConflict)
 	} else if result.Error != nil {
 		Logger.Err(err).Msg("User Creation Failed")
+		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	// TODO eventually add email confirmations for accounts (or manual confirmation)
+	if !user.IsActivated {
+		Logger.Debug().Str("email", user.Email).Msg("generating activation token")
+		activationToken := models.UserActivationToken{}
+		activationToken.UserID = user.ID
+		activationToken.ID = util.GetRandomText(config.Cfg.Server.TokenLength)
+		if err := dbInstance.Create(&activationToken).Error; err != nil {
+			Logger.Err(err).Msg("User Activation Token Create Failed")
+			return c.SendStatus(fiber.StatusInternalServerError)
+		}
+		util.SendUserActivationMail(activationToken.ID, user.Email)
+	}
 	return c.SendStatus(fiber.StatusCreated)
+}
+
+func UserActivate(c *fiber.Ctx) error {
+	activationToken := models.UserActivationToken{
+		ID: c.Params("token"),
+	}
+
+	dbInstance := database.GetDB()
+	result := dbInstance.
+		Preload("User").
+		First(&activationToken)
+	if result.RowsAffected == 0 {
+		return c.SendStatus(fiber.StatusBadRequest)
+	} else if result.Error != nil {
+		Logger.Err(result.Error).Msg("UserActivation getting token from db failed")
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	user := activationToken.User
+	user.IsActivated = true
+
+	result = dbInstance.Save(&user)
+	if result.Error != nil {
+		Logger.Err(result.Error).Msg("UserActivation save user failed")
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	result = dbInstance.Delete(&activationToken)
+	if result.Error != nil {
+		Logger.Err(result.Error).Msg("UserActivation delete token failed")
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+	return c.SendStatus(fiber.StatusOK)
 }
 
 func UserLogin(c *fiber.Ctx) error {
@@ -57,6 +102,11 @@ func UserLogin(c *fiber.Ctx) error {
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
+
+	if !user.IsActivated && config.Cfg.Server.EnforceEmailActivation {
+		return c.SendStatus(fiber.StatusLocked)
+	}
+
 	passwordCorrect, err := util.CheckPasswordHash(request.Password, user.Hash, user.Salt)
 	if err != nil {
 		return c.SendStatus(fiber.StatusInternalServerError)
