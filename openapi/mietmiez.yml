@@ -29,6 +29,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/SystemStatus'
 
+  /about.json:
+    get:
+      tags:
+        - system
+      responses:
+        '200':
+          description: About information of MietMiez instance, content not specified, can be changed as you like
+        '500':
+          description: Static file not found
+
   /user:
     get:
       tags:

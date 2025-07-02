@@ -1,5 +1,7 @@
 ### Config
 
+#### Environment configuration
+
 | Env Variable               | Description                                                   |
 |----------------------------|---------------------------------------------------------------|
 | `SMTP_HOST`                | SMTP server address including port, e.g., `mail.bla.com:587`  |
@@ -15,3 +17,6 @@
 | `POSTGRES_HOSTNAME`        | Database host (e.g., `database`)                              |
 | `POSTGRES_DB`              | Name of the database                                          |
 
+#### Static content
+
+The `about.json` contains static information about your MietMiez instance. Reachable via `/about.json`.
