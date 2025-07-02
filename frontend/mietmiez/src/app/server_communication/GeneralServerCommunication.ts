@@ -14,15 +14,17 @@ export default class GeneralServerCommunication {
   }
 
   static async fetchAbout(): Promise<About> {
+    console.log("Fetching about information from:", this.url);
     const response = await fetch(`${this.url}/about.json`, {
       method: "GET",
       cache: "no-cache",
       headers: await this.getHeaders(),
     });
-    console.log("Response from fetchAbout:", response);
     if (!response.ok) {
       throw new Error("Failed to fetch about information");
     }
-    return About.fromJSON(JSON.parse(await response.text()));
+    const text = await response.text();
+    const json = JSON.parse(text);
+    return About.fromJSON(json);
   }
 }

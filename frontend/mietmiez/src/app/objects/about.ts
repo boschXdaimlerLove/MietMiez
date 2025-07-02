@@ -27,15 +27,15 @@ export default class About {
 
   static fromJSON(json: AboutJson): About {
     if (
-      typeof json !== "object" ||
-      (json === null &&
-        "disclaimer" in json &&
-        "short-about" in json &&
-        "about" in json &&
-        "privacy-note" in json &&
-        "mail" in json &&
-        "copyright" in json &&
-        "license" in json)
+      typeof json === "object" &&
+      json !== null &&
+      "disclaimer" in json &&
+      "short-about" in json &&
+      "about" in json &&
+      "privacy-note" in json &&
+      "mail" in json &&
+      "copyright" in json &&
+      "license" in json
     ) {
       return new About(
         json["disclaimer"],
