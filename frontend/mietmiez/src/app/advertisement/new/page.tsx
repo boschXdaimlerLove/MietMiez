@@ -13,9 +13,7 @@ export default function NewAdvertisementPage() {
 
   async function handleImageUpload(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
-    console.log("File selected:", file);
     if (file) {
-      console.log(URL.createObjectURL(file));
       const newFiles = [...files, file];
       setFiles(newFiles);
       const uploadRes: Advertisement =
@@ -24,14 +22,11 @@ export default function NewAdvertisementPage() {
           newFiles,
         );
       setAdvertisement(uploadRes);
-      console.log("Advertisement after upload:", uploadRes);
-      console.log("files", files);
     }
   }
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    console.log("Form submitted");
   }
 
   return (
