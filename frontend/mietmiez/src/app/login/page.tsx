@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Button from "../components/button";
-import ClientUserCommunication from "@/app/server_communication/ClientUserCommunication";
+import ClientUserCommunication from "@/app/server_communication/client/ClientUserCommunication";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");

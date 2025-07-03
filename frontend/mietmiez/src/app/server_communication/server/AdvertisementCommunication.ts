@@ -1,9 +1,11 @@
 import Advertisement, { AdvertisementJson } from "@/app/objects/advertisement";
 import SearchParams from "@/app/search/SearchParams";
-import GeneralServerCommunication from "@/app/server_communication/GeneralServerCommunication";
+import GeneralServerCommunication from "@/app/server_communication/server/GeneralServerCommunication";
 import Category, { CategoryJson } from "@/app/objects/category";
 
 export default class AdvertisementCommunication {
+  /* CATEGORIES */
+
   static async responseToAdvertisements(
     response: Response,
   ): Promise<Advertisement[]> {
@@ -16,7 +18,7 @@ export default class AdvertisementCommunication {
     );
   }
 
-  /* CATEGORIES */
+  /* ADVERTISEMENTS */
 
   static async fetchCategories(): Promise<Category[]> {
     const categoriesRes = await fetch(
@@ -36,8 +38,6 @@ export default class AdvertisementCommunication {
       Category.fromJSON(category),
     );
   }
-
-  /* ADVERTISEMENTS */
 
   static async fetchAdvertisementsFor(
     params: SearchParams,
@@ -112,6 +112,26 @@ export default class AdvertisementCommunication {
       // const error = await adRes.json();
       // console.error("Error creating advertisement:", error);
       // throw new Error("Failed to create advertisement");
+    }
+  }
+
+  static async uploadImageForAdvertisement(image: File): Promise<string> {
+    const formData = new FormData();
+    formData.append("document", image);
+
+    const uploadRes = await fetch(`${GeneralServerCommunication.url}/image`, {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+      headers: await GeneralServerCommunication.getHeadersForFormData(),
+    });
+    console.log("uploadRes", uploadRes);
+    if (!uploadRes.ok) {
+      // const error = await uploadRes.json();
+      // console.error("Error uploading image:", error);
+      throw new Error("Failed to upload image");
+    } else {
+      return await uploadRes.text();
     }
   }
 

@@ -1,4 +1,4 @@
-import GeneralServerCommunication from "@/app/server_communication/GeneralServerCommunication";
+import GeneralServerCommunication from "@/app/server_communication/server/GeneralServerCommunication";
 import User from "@/app/objects/user";
 import Advertisement from "@/app/objects/advertisement";
 import { cookies } from "next/headers";
@@ -13,6 +13,8 @@ export default class UserCommunication {
     email: string,
     password: string,
   ): Promise<{ token: string; expires_at: string }> {
+    console.log("Logging in with email:", email);
+    console.log("Password:", password);
     const loginRes = await fetch(
       `${GeneralServerCommunication.url}/user/login/`,
       {
@@ -23,6 +25,7 @@ export default class UserCommunication {
         credentials: "include",
       },
     );
+    console.log("Login res", loginRes);
     if (!loginRes.ok) {
       throw new Error("Login failed");
     }

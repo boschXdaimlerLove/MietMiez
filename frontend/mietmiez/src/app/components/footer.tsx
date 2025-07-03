@@ -1,5 +1,5 @@
 import Link from "next/link";
-import GeneralServerCommunication from "@/app/server_communication/GeneralServerCommunication";
+import GeneralServerCommunication from "@/app/server_communication/server/GeneralServerCommunication";
 
 export default async function Footer() {
   const about = await GeneralServerCommunication.fetchAbout();
