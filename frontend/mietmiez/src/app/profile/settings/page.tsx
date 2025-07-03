@@ -477,49 +477,7 @@ export default function AccountSettingsPage() {
             </div>
           </div>
         </div>
-
-        {/* Datenschutz */}
-        <div className="bg-white rounded-xl shadow-lg p-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
-            <Shield size={20} className="text-[#47702d]" />
-            Datenschutz & Sichtbarkeit
-          </h2>
-
-          <div className="space-y-4">
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <div>
-                <h3 className="font-medium text-gray-800">Profil öffentlich sichtbar</h3>
-                <p className="text-sm text-gray-600">Andere Nutzer können Ihr Profil finden und kontaktieren</p>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={settings.profileVisible}
-                  onChange={() => handleSettingToggle("profileVisible")}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#47702d]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#47702d]"></div>
-              </label>
-            </div>
-
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <div>
-                <h3 className="font-medium text-gray-800">E-Mail Adresse anzeigen</h3>
-                <p className="text-sm text-gray-600">Ihre E-Mail Adresse im Profil sichtbar machen</p>
-              </div>
-              <label className="relative inline-flex items-center cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={settings.showEmail}
-                  onChange={() => handleSettingToggle("showEmail")}
-                  className="sr-only peer"
-                />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-[#47702d]/20 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#47702d]"></div>
-              </label>
-            </div>
-          </div>
-        </div>
-
+        
         {/* Gefährliche Aktionen */}
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h2 className="text-xl font-semibold text-red-600 mb-6 flex items-center gap-2">
