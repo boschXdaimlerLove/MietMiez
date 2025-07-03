@@ -10,8 +10,6 @@ export default class ClientAdvertisementCommunication {
     for (const imageIndex in images) {
       const formData = new FormData();
       formData.append("document", images[imageIndex]);
-      console.log("Uploading image:", images[imageIndex].name);
-      console.log("FormData image:", formData.get("document"));
       const uploadRes = await fetch(`/api/advertisement/image`, {
         method: "POST",
         body: formData,
@@ -22,8 +20,9 @@ export default class ClientAdvertisementCommunication {
         // console.error("Error uploading image:", error);
         // throw new Error("Failed to upload image");
       } else {
-        const imageUrl = await uploadRes.text();
-        advertisement.images.push(imageUrl);
+        const json = await uploadRes.text();
+        const imageID = JSON.parse(json).imageID;
+        advertisement.images.push(imageID);
       }
     }
     return advertisement;

@@ -125,13 +125,15 @@ export default class AdvertisementCommunication {
       credentials: "include",
       headers: await GeneralServerCommunication.getHeadersForFormData(),
     });
-    console.log("uploadRes", uploadRes);
+    const responseText = await uploadRes.text();
+    const json = JSON.parse(responseText);
+    const imageID = json.id;
     if (!uploadRes.ok) {
       // const error = await uploadRes.json();
       // console.error("Error uploading image:", error);
       throw new Error("Failed to upload image");
     } else {
-      return await uploadRes.text();
+      return imageID;
     }
   }
 
