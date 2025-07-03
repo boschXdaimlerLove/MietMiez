@@ -1,4 +1,4 @@
-import UserCommunication from "@/app/server_communication/UserCommunication";
+import UserCommunication from "@/app/server_communication/server/UserCommunication";
 import About from "@/app/objects/about";
 
 export default class GeneralServerCommunication {
@@ -13,8 +13,14 @@ export default class GeneralServerCommunication {
     };
   }
 
+  static async getHeadersForFormData() {
+    const token = await UserCommunication.fetchUserCookies();
+    return {
+      Cookie: `session=${token}`,
+    };
+  }
+
   static async fetchAbout(): Promise<About> {
-    console.log("Fetching about information from:", this.url);
     const response = await fetch(`${this.url}/about.json`, {
       method: "GET",
       cache: "no-cache",
