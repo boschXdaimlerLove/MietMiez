@@ -56,12 +56,6 @@ services:
         condition: service_healthy
       minio1:
         condition: service_healthy
-      minio2:
-        condition: service_healthy
-      minio3:
-        condition: service_healthy
-      minio4:
-        condition: service_healthy
     networks:
       - internal
       - minio
