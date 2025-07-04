@@ -1,86 +1,44 @@
-import Button from "@/app/components/button";
-import { useState } from "react";
+"use client";
 
-const NewAdvertisementPage = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [animal, setAnimal] = useState("");
-    const [error, setError] = useState("");
+import React from "react";
+import Advertisement from "@/app/objects/advertisement";
+import User from "@/app/objects/user";
+import ClientAdvertisementCommunication from "@/app/server_communication/client/ClientAdvertisementCommunication";
 
-     async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-         e.preventDefault();
-         setError("");
-         ClientUserCommunication.login(email, password).then((success) => {
-           if (!success) {
-             setError("Login fehlgeschlagen. Bitte überprüfe deine Anmeldedaten.");
-           } else {
-             // router.push("/home");
-           }
-         });
-       }
+export default function NewAdvertisementPage() {
+  const [files, setFiles] = React.useState<File[]>([]);
+  const [advertisement, setAdvertisement] = React.useState<Advertisement>(
+    Advertisement.forUpload(new User("", "", "", "", "", [])),
+  );
 
-    return (
-        <main>
-            {isLoggedIn ?
+  async function handleImageUpload(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    if (file) {
+      const newFiles = [...files, file];
+      setFiles(newFiles);
+      const uploadRes: Advertisement =
+        await ClientAdvertisementCommunication.uploadImagesForAdvertisement(
+          advertisement,
+          newFiles,
+        );
+      setAdvertisement(uploadRes);
+    }
+  }
 
-            <div>
-                {error && (
-                    <p className="text-red-500 mb-3 text-sm text-center">{error}</p>
-                )}
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Name des Tieres"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                        required
-                        />
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+  }
 
-                    <input
-                        type="text"
-                        placeholder="Gib an was man über dein Tier wissen sollte..."
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        required
-                        />
-
-                    <input
-                        type="text"
-                        placeholder="Art des Tieres"
-                        value={animal}
-                        onChange={(e) => setAnimal(e.target.value)}
-                        required
-                        />
-
-                    <input
-                        type="submit"
-                        placeholder="Veröffentlichen"
-                    ></input>
-                </form>      
-            </div>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            : <p>Bitte einloggen.</p>}
-        </main>
-    );
+  return (
+    <main>
+      <h1>Create new advertisement here</h1>
+      <form onSubmit={handleSubmit}>
+        <label>
+          Upload Image:
+          <input type="file" accept="image/*" onChange={handleImageUpload} />
+        </label>
+        <button type="submit">Submit</button>
+      </form>
+    </main>
+  );
 }
-
-export default NewAdvertisementPage;

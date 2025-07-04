@@ -1,4 +1,4 @@
-import GeneralServerCommunication from "@/app/server_communication/GeneralServerCommunication";
+import GeneralServerCommunication from "@/app/server_communication/server/GeneralServerCommunication";
 import User from "@/app/objects/user";
 import Advertisement from "@/app/objects/advertisement";
 import { cookies } from "next/headers";

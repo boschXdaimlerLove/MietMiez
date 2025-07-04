@@ -1,4 +1,4 @@
-import UserCommunication from "@/app/server_communication/UserCommunication";
+import UserCommunication from "@/app/server_communication/server/UserCommunication";
 import User from "@/app/objects/user";
 
 export async function POST(req: Request) {

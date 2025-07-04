@@ -4,7 +4,7 @@ import "react";
 import ImageCarousel from "../components/ImageCarousel";
 import React, { useState } from "react";
 import Button from "../components/button";
-import ClientUserCommunication from "@/app/server_communication/ClientUserCommunication";
+import ClientUserCommunication from "@/app/server_communication/client/ClientUserCommunication";
 import User from "@/app/objects/user";
 
 const Register: React.FC = () => {

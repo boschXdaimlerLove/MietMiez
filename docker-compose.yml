@@ -17,7 +17,7 @@ x-minio-common: &minio-common
     timeout: 5s
     retries: 5
     start_period: 10s
-  command: server --console-address ":9001" http://minio{1...4}/data
+  command: server --console-address ":9001" /data
 
 
 services:
@@ -55,12 +55,6 @@ services:
       postgres:
         condition: service_healthy
       minio1:
-        condition: service_healthy
-      minio2:
-        condition: service_healthy
-      minio3:
-        condition: service_healthy
-      minio4:
         condition: service_healthy
     networks:
       - internal
@@ -107,9 +101,6 @@ services:
       - "traefik.http.routers.mietmiez-frontend.service=mietmiez-frontend"
       - "traefik.http.services.mietmiez-frontend.loadbalancer.server.port=3000"
 
-
-
-
   minio1:
     <<: *minio-common
     container_name: minio1
@@ -127,24 +118,3 @@ services:
       - "traefik.http.routers.minio-api.rule=Host(`minio.mietmiez.de`)"
       - "traefik.http.routers.minio-api.service=minio-api"
       - "traefik.http.services.minio-api.loadbalancer.server.port=9000"
-
-  minio2:
-    <<: *minio-common
-    container_name: minio2
-    hostname: minio2
-    volumes:
-      - ./data/minio2:/data
-
-  minio3:
-    <<: *minio-common
-    container_name: minio3
-    hostname: minio3
-    volumes:
-      - ./data/minio3:/data
-
-  minio4:
-    <<: *minio-common
-    container_name: minio4
-    hostname: minio4
-    volumes:
-      - ./data/minio4:/data
