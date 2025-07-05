@@ -27,4 +27,20 @@ export default class ClientAdvertisementCommunication {
     }
     return advertisement;
   }
+
+  static async fetchImage(id: string): Promise<File> {
+    const res = await fetch(`/api/advertisement/image`, {
+      method: "GET",
+      credentials: "include",
+      body: id,
+    });
+    if (!res.ok) {
+      // const error = await res.json();
+      // console.error("Error fetching image:", error);
+      // throw new Error("Failed to fetch image");
+    }
+    const blob: Blob = await res.blob();
+    const mimeType: string = blob.type;
+    return new File([blob], id, { type: mimeType });
+  }
 }
