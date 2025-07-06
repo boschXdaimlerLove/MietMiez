@@ -11,28 +11,46 @@ export default async function AdvertisementPage({
   const { id } = await params;
   const advertisement: AdvertisementFetched =
     await AdvertisementCommunication.fetchAdvertisement(id);
+
   return (
-    <main>
-      {/* Main Row */}
-      <div>
-        {/* IMAGES */}
-        <div>
-          <ImageSlider images={advertisement.images}></ImageSlider>
+    <main className="px-4 py-8 md:px-12 lg:px-24 max-w-6xl mx-auto">
+      {/* Grid: Image + Info */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        {/* Images Section */}
+        <div className="w-full aspect-video overflow-hidden rounded-2xl shadow-md">
+          <ImageSlider images={advertisement.images} />
         </div>
 
-        {/* USER INFO */}
-        <UserCard user={advertisement.user} />
-        {/*  Advertisement info  */}
-        <div>
-          <h1>{advertisement.title}</h1>
-          <p>Animal: {advertisement.animal}</p>
-          <p>Location: {advertisement.user.city}</p>
+        {/* Info Section */}
+        <div className="space-y-6">
+          {/* User Info */}
+          <div className="rounded-xl shadow-md p-4 bg-white dark:bg-gray-900">
+            <UserCard user={advertisement.user} />
+          </div>
+
+          {/* Advertisement Text Info */}
+          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md p-6">
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+              {advertisement.title}
+            </h1>
+            <p className="text-lg text-gray-600 dark:text-gray-300">
+              <strong>Animal:</strong> {advertisement.animal}
+            </p>
+            <p className="text-lg text-gray-600 dark:text-gray-300">
+              <strong>Location:</strong> {advertisement.user.city}
+            </p>
+          </div>
         </div>
       </div>
-      {/* More information */}
-      <div>
-        <h2>Description</h2>
-        <p>{advertisement.description}</p>
+
+      {/* Description Section */}
+      <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md p-6">
+        <h2 className="text-2xl font-semibold text-gray-800 dark:text-white mb-2">
+          Description
+        </h2>
+        <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">
+          {advertisement.description}
+        </p>
       </div>
     </main>
   );
