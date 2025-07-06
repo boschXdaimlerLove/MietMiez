@@ -1,12 +1,12 @@
 "use client";
 
-import Advertisement from "@/app/objects/advertisement";
+import AdvertisementUpload from "@/app/objects/advertisement/AdvertisementUpload";
 
 export default class ClientAdvertisementCommunication {
   static async uploadImagesForAdvertisement(
-    advertisement: Advertisement,
+    advertisement: AdvertisementUpload,
     images: File[],
-  ): Promise<Advertisement> {
+  ): Promise<AdvertisementUpload> {
     for (const imageIndex in images) {
       const formData = new FormData();
       formData.append("document", images[imageIndex]);
@@ -27,24 +27,20 @@ export default class ClientAdvertisementCommunication {
     }
     return advertisement;
   }
-  
-  static async createAdvertisement(ad: Advertisement): Promise<void> {
-  const res = await fetch(`/api/advertisement/create`, {
-    method: "POST",
-    body: JSON.stringify(ad),
-    headers: {
-      "Content-Type": "application/json",
-    },
-    credentials: "include",
-  });
 
-  if (!res.ok) {
-    //const error = await res.text();
-    //console.error("Fehler beim Erstellen der Anzeige:", error);
-    //throw new Error("Anzeige konnte nicht erstellt werden");
-    }
+  static async createAdvertisement(ad: AdvertisementUpload): Promise<boolean> {
+    const res = await fetch(`/api/advertisement`, {
+      method: "POST",
+      body: JSON.stringify(ad),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+
+    return res.ok;
   }
-    
+
   static async fetchImage(id: string): Promise<File> {
     const res = await fetch(`/api/advertisement/image`, {
       method: "GET",
@@ -59,5 +55,5 @@ export default class ClientAdvertisementCommunication {
     const blob: Blob = await res.blob();
     const mimeType: string = blob.type;
     return new File([blob], id, { type: mimeType });
+  }
 }
-

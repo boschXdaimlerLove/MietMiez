@@ -1,6 +1,6 @@
-import User, { UserJson } from "@/app/objects/user";
+import User, { UserJson } from "@/app/objects/user/user";
 
-export default class Advertisement {
+export default class AdvertisementFetched {
   id: string;
   user: User;
   animal: string;
@@ -24,8 +24,8 @@ export default class Advertisement {
     this.images = images;
   }
 
-  static fromJSON(json: AdvertisementJson): Advertisement {
-    return new Advertisement(
+  static fromJSON(json: AdvertisementFetchedJson): AdvertisementFetched {
+    return new AdvertisementFetched(
       json["id"],
       User.fromJSONObject(json["user"]),
       json["title"],
@@ -35,11 +35,11 @@ export default class Advertisement {
     );
   }
 
-  static forUpload(user: User): Advertisement {
-    return new Advertisement("", user, "", "", "", []);
+  static forUpload(user: User): AdvertisementFetched {
+    return new AdvertisementFetched("", user, "", "", "", []);
   }
 
-  toJSON(): AdvertisementJson {
+  toJSON(): AdvertisementFetchedJson {
     return {
       id: this.id,
       user: this.user.toJSON(),
@@ -51,7 +51,7 @@ export default class Advertisement {
   }
 }
 
-export interface AdvertisementJson {
+export interface AdvertisementFetchedJson {
   id: string;
   user: UserJson;
   animal: string;

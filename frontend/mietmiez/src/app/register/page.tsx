@@ -5,14 +5,15 @@ import ImageCarousel from "../components/ImageCarousel";
 import React, { useState } from "react";
 import Button from "../components/button";
 import ClientUserCommunication from "@/app/server_communication/client/ClientUserCommunication";
-import User from "@/app/objects/user";
+import User from "@/app/objects/user/user";
+import { useRouter } from "next/navigation";
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  // const router = useRouter();
+  const router = useRouter();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [city, setCity] = useState("");
@@ -25,17 +26,14 @@ const Register: React.FC = () => {
       setError("Passwörter stimmen nicht überein");
       return;
     }
-
-    if (zipCode.length !== 5) {
+    if (zipCode.length < 5) {
       setError("Ungültige Postleitzahl");
       return;
     }
-
     const user = new User(firstName, lastName, email, city, zipCode);
-
     try {
       await ClientUserCommunication.register(user, password);
-      // router.push("/login");
+      router.push("/login");
     } catch (err) {
       console.error(err);
       setError("Registrierung fehlgeschlagen");
@@ -135,8 +133,8 @@ const Register: React.FC = () => {
             </button> */}
             <Button
               title="Absenden"
-              onClick={handleSubmit}
-              isPrimary
+              onClick={() => {}}
+              isPrimary={true}
               className=""
               type="submit"
             />

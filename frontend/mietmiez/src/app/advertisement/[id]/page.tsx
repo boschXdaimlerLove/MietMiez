@@ -1,4 +1,4 @@
-import Advertisement from "@/app/objects/advertisement";
+import AdvertisementFetched from "@/app/objects/advertisement/AdvertisementFetched";
 import AdvertisementCommunication from "@/app/server_communication/server/AdvertisementCommunication";
 import UserCard from "@/app/components/cards/UserCard";
 import ImageSlider from "@/app/components/ImageSlider";
@@ -9,15 +9,15 @@ export default async function AdvertisementPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const advertisement: Advertisement =
+  const advertisement: AdvertisementFetched =
     await AdvertisementCommunication.fetchAdvertisement(id);
   return (
     <main>
       {/* Main Row */}
       <div>
         {/* IMAGES */}
-        <div>                    
-            <ImageSlider images={advertisement.images} ></ImageSlider>
+        <div>
+          <ImageSlider images={advertisement.images}></ImageSlider>
         </div>
 
         {/* USER INFO */}

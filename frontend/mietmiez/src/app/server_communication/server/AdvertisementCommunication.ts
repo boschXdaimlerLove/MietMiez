@@ -1,20 +1,23 @@
-import Advertisement, { AdvertisementJson } from "@/app/objects/advertisement";
+import AdvertisementFetched, {
+  AdvertisementFetchedJson,
+} from "@/app/objects/advertisement/AdvertisementFetched";
 import SearchParams from "@/app/search/SearchParams";
 import GeneralServerCommunication from "@/app/server_communication/server/GeneralServerCommunication";
 import Category, { CategoryJson } from "@/app/objects/category";
+import AdvertisementUpload from "@/app/objects/advertisement/AdvertisementUpload";
 
 export default class AdvertisementCommunication {
   /* CATEGORIES */
 
   static async responseToAdvertisements(
     response: Response,
-  ): Promise<Advertisement[]> {
+  ): Promise<AdvertisementFetched[]> {
     const json = await response.text();
     if (json == "null" || json == "{}") {
       return [];
     }
-    return JSON.parse(json).map((advertisement: AdvertisementJson) =>
-      Advertisement.fromJSON(advertisement),
+    return JSON.parse(json).map((advertisement: AdvertisementFetchedJson) =>
+      AdvertisementFetched.fromJSON(advertisement),
     );
   }
 
@@ -41,7 +44,7 @@ export default class AdvertisementCommunication {
 
   static async fetchAdvertisementsFor(
     params: SearchParams,
-  ): Promise<Advertisement[]> {
+  ): Promise<AdvertisementFetched[]> {
     if (params === undefined) {
       // set default params for build
       params = new SearchParams("katze", "12345");
@@ -58,7 +61,7 @@ export default class AdvertisementCommunication {
     return AdvertisementCommunication.responseToAdvertisements(ads);
   }
 
-  static async fetchLatestAdvertisements(): Promise<Advertisement[]> {
+  static async fetchLatestAdvertisements(): Promise<AdvertisementFetched[]> {
     const ads = await fetch(
       `${GeneralServerCommunication.url}/advertisement?page=1`,
       {
@@ -71,7 +74,7 @@ export default class AdvertisementCommunication {
     return AdvertisementCommunication.responseToAdvertisements(ads);
   }
 
-  static async fetchAdvertisement(id: string): Promise<Advertisement> {
+  static async fetchAdvertisement(id: string): Promise<AdvertisementFetched> {
     const adRes = await fetch(
       `${GeneralServerCommunication.url}/advertisement/${id}`,
       {
@@ -82,10 +85,10 @@ export default class AdvertisementCommunication {
       },
     );
     const adJson = await adRes.json();
-    return Advertisement.fromJSON(adJson);
+    return AdvertisementFetched.fromJSON(adJson);
   }
 
-  static async fetchUserFavorites(): Promise<Advertisement[]> {
+  static async fetchUserFavorites(): Promise<AdvertisementFetched[]> {
     const favoritesRes = await fetch(
       `${GeneralServerCommunication.url}/user/favorites/`,
       {
@@ -98,7 +101,7 @@ export default class AdvertisementCommunication {
     return AdvertisementCommunication.responseToAdvertisements(favoritesRes);
   }
 
-  static async createAdvertisement(ad: Advertisement): Promise<void> {
+  static async createAdvertisement(ad: AdvertisementUpload): Promise<void> {
     const adRes = await fetch(
       `${GeneralServerCommunication.url}/advertisement`,
       {
@@ -148,7 +151,7 @@ export default class AdvertisementCommunication {
     );
   }
 
-  static async updateAdvertisement(ad: Advertisement): Promise<void> {
+  static async updateAdvertisement(ad: AdvertisementFetched): Promise<void> {
     const adRes = await fetch(
       `${GeneralServerCommunication.url}/advertisement/${ad.id}`,
       {

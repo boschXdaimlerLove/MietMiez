@@ -1,6 +1,6 @@
 import GeneralServerCommunication from "@/app/server_communication/server/GeneralServerCommunication";
-import User from "@/app/objects/user";
-import Advertisement from "@/app/objects/advertisement";
+import User from "@/app/objects/user/user";
+import AdvertisementFetched from "@/app/objects/advertisement/AdvertisementFetched";
 import { cookies } from "next/headers";
 
 export default class UserCommunication {
@@ -114,7 +114,7 @@ export default class UserCommunication {
     }
   }
 
-  static async addFavorite(ad: Advertisement): Promise<void> {
+  static async addFavorite(ad: AdvertisementFetched): Promise<void> {
     const id = ad.id;
     const res = await fetch(
       `${GeneralServerCommunication.url}/user/favorites/`,

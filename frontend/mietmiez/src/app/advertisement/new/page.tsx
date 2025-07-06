@@ -1,14 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import Advertisement from "@/app/objects/advertisement";
-import User from "@/app/objects/user";
 import ClientAdvertisementCommunication from "@/app/server_communication/client/ClientAdvertisementCommunication";
+import AdvertisementUpload from "@/app/objects/advertisement/AdvertisementUpload";
 
 export default function NewAdvertisementPage() {
   const [files, setFiles] = React.useState<File[]>([]);
-  const [advertisement, setAdvertisement] = React.useState<Advertisement>(
-    Advertisement.forUpload(new User("", "", "", "", "", [])),
+  const [advertisement, setAdvertisement] = React.useState<AdvertisementUpload>(
+    AdvertisementUpload.forUpload(),
   );
 
   const [title, setTitle] = useState("");
@@ -21,7 +20,7 @@ export default function NewAdvertisementPage() {
     if (file) {
       const newFiles = [...files, file];
       setFiles(newFiles);
-      const uploadRes: Advertisement =
+      const uploadRes: AdvertisementUpload =
         await ClientAdvertisementCommunication.uploadImagesForAdvertisement(
           advertisement,
           newFiles,
@@ -30,34 +29,37 @@ export default function NewAdvertisementPage() {
     }
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if(animal.length === 0 || title.length === 0 || description.length === 0){
+    if (animal.length === 0 || title.length === 0 || description.length === 0) {
       setError("Daten unvollständig");
       console.log(error);
       return;
     }
+    const localAd = advertisement;
+    localAd.animal = animal;
+    localAd.title = title;
+    localAd.description = description;
+    setAdvertisement(localAd);
 
-    const user = new User("test", "test", "test", "test", "test");
-
-    const ad = new Advertisement("1", user, title, description, animal, [""]);
-
-    ClientAdvertisementCommunication.createAdvertisement(ad)
-    .then(() => {
+    const success =
+      await ClientAdvertisementCommunication.createAdvertisement(localAd);
+    if (success) {
       alert("Anzeige erfolgreich erstellt!");
       setTitle("");
       setAnimal("");
       setDescription("");
-    })
-    .catch((error) => {
+    } else {
       console.error("Fehler beim Erstellen:", error);
       alert("Fehler beim Erstellen der Anzeige.");
-    });
+    }
   }
 
   return (
     <main className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-md mt-10">
-      <h1 className="text-3xl font-semibold mb-6 text-center text-gray-800">Create new advertisement here</h1>
+      <h1 className="text-3xl font-semibold mb-6 text-center text-gray-800">
+        Create new advertisement here
+      </h1>
       {error && (
         <p className="text-red-600 text-center mb-4 text-sm">{error}</p>
       )}
