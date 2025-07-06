@@ -64,7 +64,6 @@ export default function Header() {
             onClick={() => {
               async function logout() {
                 const logoutSuccessful = await ClientUserCommunication.logout();
-                console.log("logoutSuccessful", logoutSuccessful);
               }
 
               if (isLoggedIn) {

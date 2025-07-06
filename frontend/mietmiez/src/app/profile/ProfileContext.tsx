@@ -2,14 +2,14 @@
 
 import React, { createContext, useContext } from "react";
 
-export const ProfileContext = createContext<Promise<string> | null>(null);
+export const ProfileContext = createContext<string | null>(null);
 
 export function ProfileProvider({
   children,
   user,
 }: {
   children: React.ReactNode;
-  user: Promise<string>;
+  user: string;
 }) {
   return (
     <ProfileContext.Provider value={user}>{children}</ProfileContext.Provider>

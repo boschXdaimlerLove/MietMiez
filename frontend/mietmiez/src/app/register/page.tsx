@@ -21,7 +21,6 @@ const Register: React.FC = () => {
 
   const handleSubmit = async () => {
     setError("");
-
     if (password !== confirmPassword) {
       setError("Passwörter stimmen nicht überein");
       return;
@@ -125,12 +124,6 @@ const Register: React.FC = () => {
           </div>
 
           <div className="flex justify-end mt-4">
-            {/* <button
-                type="submit"
-                className="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-400 text-white font-semibold shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300"
-            >
-                Absenden
-            </button> */}
             <Button
               title="Absenden"
               onClick={() => {}}

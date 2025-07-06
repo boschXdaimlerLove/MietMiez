@@ -1,7 +1,7 @@
 "use client";
 
 import { useProfileContext } from "@/app/profile/ProfileContext";
-import { use, useState } from "react";
+import { useState } from "react";
 import User from "@/app/objects/user/user";
 import {
   Edit,
@@ -17,11 +17,9 @@ import ClientUserCommunication from "@/app/server_communication/client/ClientUse
 import { useRouter } from "next/navigation";
 
 export default function Profile() {
-  const userPromise = useProfileContext();
-  const userString = use(userPromise);
+  const userString = useProfileContext();
   const userJSON = JSON.parse(userString);
   const userFetched = User.fromJSON(userJSON);
-  console.log("Fetched User:", userFetched);
 
   const router = useRouter();
 
@@ -79,7 +77,6 @@ export default function Profile() {
     setIsSaving(true);
     try {
       await ClientUserCommunication.update(user);
-      console.log("successfully changed profile:", user);
       setIsEditing(false);
       setError(null);
 
