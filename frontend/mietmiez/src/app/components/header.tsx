@@ -63,7 +63,7 @@ export default function Header() {
           <Button
             onClick={() => {
               async function logout() {
-                const logoutSuccessful = await ClientUserCommunication.logout();
+                await ClientUserCommunication.logout();
               }
 
               if (isLoggedIn) {
