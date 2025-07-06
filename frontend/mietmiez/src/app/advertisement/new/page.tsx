@@ -49,6 +49,7 @@ export default function NewAdvertisementPage() {
       setTitle("");
       setAnimal("");
       setDescription("");
+      setFiles([]);
     } else {
       console.error("Fehler beim Erstellen:", error);
       alert("Fehler beim Erstellen der Anzeige.");
