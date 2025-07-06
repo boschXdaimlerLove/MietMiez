@@ -1,11 +1,12 @@
 import User from "@/app/objects/user/user";
+import Image from "next/image";
 
 export default function UserCard({ user }: { user: User }) {
   return (
     <div className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-md w-full max-w-md mx-auto">
       <div className="w-14 h-14 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center">
         {/* Hier unbedingt das Image ersetzen mit einem neutralen User avatar*/}
-        <img
+        <Image
           src="/cat.jpg"
           alt="User avatar"
           className="object-cover w-full h-full"
