@@ -1,12 +1,26 @@
 import GeneralServerCommunication from "@/app/server_communication/server/GeneralServerCommunication";
 import User from "@/app/objects/user/user";
 import AdvertisementFetched from "@/app/objects/advertisement/AdvertisementFetched";
-import { cookies } from "next/headers";
 
 export default class UserCommunication {
+
+    static getClientCookie(name: string): string | undefined {
+    if (typeof window === 'undefined') return undefined;
+    
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) {
+      return parts.pop()?.split(';').shift();
+    }
+    return undefined;
+  }
+
   static async fetchUserCookies(): Promise<string | undefined> {
-    const cookieStore = await cookies();
-    return cookieStore.get("token")?.value;
+    if (typeof window !== 'undefined') {
+      return this.getClientCookie("token");
+    }
+    
+    return undefined;
   }
 
   static async login(
