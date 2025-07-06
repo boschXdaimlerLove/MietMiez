@@ -9,24 +9,28 @@ export default function NewAdvertisementPage() {
   const [advertisement, setAdvertisement] = React.useState<AdvertisementUpload>(
     AdvertisementUpload.forUpload(),
   );
+  const fileInputRed = React.useRef<HTMLInputElement>(null);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [animal, setAnimal] = useState("");
   const [error, setError] = useState("");
 
-  async function handleImageUpload(event: React.ChangeEvent<HTMLInputElement>) {
+  async function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];
     if (file) {
       const newFiles = [...files, file];
       setFiles(newFiles);
-      const uploadRes: AdvertisementUpload =
-        await ClientAdvertisementCommunication.uploadImagesForAdvertisement(
-          advertisement,
-          newFiles,
-        );
-      setAdvertisement(uploadRes);
     }
+  }
+
+  async function handleImageUpload() {
+    const uploadResAdvertisement: AdvertisementUpload =
+      await ClientAdvertisementCommunication.uploadImagesForAdvertisement(
+        advertisement,
+        files,
+      );
+    setAdvertisement(uploadResAdvertisement);
   }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -41,15 +45,19 @@ export default function NewAdvertisementPage() {
     localAd.title = title;
     localAd.description = description;
     setAdvertisement(localAd);
+    await handleImageUpload();
 
     const success =
       await ClientAdvertisementCommunication.createAdvertisement(localAd);
     if (success) {
       alert("Anzeige erfolgreich erstellt!");
       setTitle("");
-      setAnimal("");
       setDescription("");
+      setAnimal("");
       setFiles([]);
+      if (fileInputRed.current) {
+        fileInputRed.current.value = "";
+      }
     } else {
       console.error("Fehler beim Erstellen:", error);
       alert("Fehler beim Erstellen der Anzeige.");
@@ -95,9 +103,10 @@ export default function NewAdvertisementPage() {
         <label className="block text-gray-700 font-medium">
           Upload Image:
           <input
+            ref={fileInputRed}
             type="file"
             accept="image/*"
-            onChange={handleImageUpload}
+            onChange={handleImageChange}
             className="mt-2 block w-full text-sm text-gray-500
               file:mr-4 file:py-2 file:px-4
               file:rounded-lg file:border-0
