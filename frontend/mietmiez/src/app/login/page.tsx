@@ -20,6 +20,7 @@ const Login: React.FC = () => {
         setError("Login fehlgeschlagen. Bitte überprüfe deine Anmeldedaten.");
       } else {
         router.push("/home");
+        router.refresh();
       }
     });
   }
@@ -62,23 +63,6 @@ const Login: React.FC = () => {
               required
               className="text-gray-700 w-full p-3 border border-gray-300 rounded-lg text-base mb-5 text-center"
             />
-            {/*
-            
-              <button
-                type="submit"
-                className="w-full sm:w-auto px-4 md:px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-lime-400 text-white font-semibold shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 text-sm md:text-base"
-              >
-                Einloggen
-              </button>
-              <button
-                type="button"
-                onClick={() => router.push('register')}
-                className="w-full sm:w-auto px-4 md:px-6 py-3 rounded-xl bg-gradient-to-r from-lime-400 to-green-500 text-white font-semibold shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 text-sm md:text-base"
-              >
-                Registrieren
-              </button>
-              
-            */}
             <div className="flex flex-col sm:flex-row justify-between gap-4">
               <Button
                 title="Register"

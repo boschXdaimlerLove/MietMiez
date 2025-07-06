@@ -137,6 +137,17 @@ export default class AdvertisementCommunication {
     }
   }
 
+  static async fetchImage(id: string): Promise<Response> {
+    return await fetch(
+      `${GeneralServerCommunication.url}/image/${encodeURIComponent(id)}`,
+      {
+        method: "GET",
+        headers: await GeneralServerCommunication.getHeaders(),
+        credentials: "include",
+      },
+    );
+  }
+
   static async updateAdvertisement(ad: Advertisement): Promise<void> {
     const adRes = await fetch(
       `${GeneralServerCommunication.url}/advertisement/${ad.id}`,

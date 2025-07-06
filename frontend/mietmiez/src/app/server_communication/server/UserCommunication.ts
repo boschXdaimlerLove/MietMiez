@@ -137,7 +137,7 @@ export default class UserCommunication {
       credentials: "include",
     });
     if (!userRes.ok) {
-      throw new Error("Failed to fetch user");
+      throw new Error("Failed to fetch user or user not logged in");
     }
     return User.fromJSON(JSON.parse(await userRes.text()));
   }
