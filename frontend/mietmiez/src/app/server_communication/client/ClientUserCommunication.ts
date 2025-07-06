@@ -31,4 +31,16 @@ export default class ClientUserCommunication {
     });
     return res.ok;
   }
+
+  static async deleteUser() {}
+
+  static async changePassword(oldPassword: string, newPassword: string) {
+    console.log("Changing password is not implemented in the client.");
+    console.log(oldPassword, newPassword);
+  }
+
+  static async update(user: User): Promise<void> {
+    console.log("Updating user is not implemented in the client.");
+    console.log(user.toJSON());
+  }
 }
