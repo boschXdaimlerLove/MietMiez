@@ -1,6 +1,6 @@
 "use client";
 
-import User from "@/app/objects/user";
+import User from "@/app/objects/user/user";
 
 export default class ClientUserCommunication {
   static async login(email: string, password: string): Promise<boolean> {

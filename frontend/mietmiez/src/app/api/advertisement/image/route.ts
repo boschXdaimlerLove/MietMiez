@@ -9,3 +9,8 @@ export async function POST(req: Request): Promise<Response> {
   );
   return NextResponse.json({ success: true, imageID });
 }
+
+export async function GET(req: Request): Promise<Response> {
+  const id = await req.text();
+  return await AdvertisementCommunication.fetchImage(id);
+}

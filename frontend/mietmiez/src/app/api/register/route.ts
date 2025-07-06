@@ -1,10 +1,9 @@
 import UserCommunication from "@/app/server_communication/server/UserCommunication";
-import User from "@/app/objects/user";
+import User from "@/app/objects/user/user";
 
 export async function POST(req: Request) {
   const body = await req.text();
   const { user, password } = JSON.parse(body);
-
   try {
     await UserCommunication.register(User.fromJSON(user), password);
     return new Response("User registered successfully", { status: 201 });

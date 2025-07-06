@@ -9,9 +9,10 @@ export async function POST() {
   const res = NextResponse.json({ success: true });
   res.cookies.set("token", "", {
     httpOnly: true,
-    secure: true,
+    secure: false,
     path: "/",
     maxAge: 0, // Token valid for 0 seconds => token invalidated
+    sameSite: "lax",
   });
   return res;
 }

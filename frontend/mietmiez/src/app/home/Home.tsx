@@ -1,14 +1,15 @@
 "use client";
 
 import { use } from "react";
-import Advertisement from "@/app/objects/advertisement";
+import AdvertisementFetched from "@/app/objects/advertisement/AdvertisementFetched";
 import PetGrid from "@/app/components/PetGrid";
 import { useHomeContext } from "@/app/home/HomeContext";
 
 export default function Home() {
   const advertisementsStringPromise = useHomeContext();
   const advertisementsString = use(advertisementsStringPromise);
-  const advertisements: Advertisement[] = JSON.parse(advertisementsString);
+  const advertisements: AdvertisementFetched[] =
+    JSON.parse(advertisementsString);
 
   return (
     <div className="min-h-screen flex flex-col">
