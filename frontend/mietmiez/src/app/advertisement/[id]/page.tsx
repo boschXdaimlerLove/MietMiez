@@ -25,7 +25,7 @@ export default async function AdvertisementPage({
         <div className="space-y-6">
           {/* User Info */}
           <div className="rounded-xl shadow-md p-4 bg-white dark:bg-gray-900">
-            <UserCard user={advertisement.user} />
+            <UserCard userJSON={JSON.stringify(advertisement.user.toJSON())} />
           </div>
 
           {/* Advertisement Text Info */}
