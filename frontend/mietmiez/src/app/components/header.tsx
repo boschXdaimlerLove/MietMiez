@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -21,6 +21,24 @@ export default function Header() {
 
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Alle Kategorien");
+
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setCategoriesOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -102,7 +120,7 @@ export default function Header() {
       <div className="w-full bg-[var(--primary)] py-4 px-4 flex flex-wrap gap-4 items-center justify-between">
         <div className="flex flex-wrap gap-2 items-center w-full md:w-auto">
           {/* Category Dropdown */}
-          <div className="relative">
+          <div ref={dropdownRef} className="relative">
             <button
               className="flex items-center text-gray-700 px-4 py-2 bg-white rounded-md max-w-[200px] truncate"
               onClick={() => setCategoriesOpen(!categoriesOpen)}
