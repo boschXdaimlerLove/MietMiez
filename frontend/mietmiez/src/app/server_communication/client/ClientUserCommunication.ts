@@ -62,4 +62,13 @@ export default class ClientUserCommunication {
     });
     return res.ok;
   }
+
+  static async alreadyLoggedIn(): Promise<boolean> {
+    const res = await fetch("/api/user", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    return res.ok;
+  }
 }
