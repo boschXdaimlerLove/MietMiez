@@ -22,7 +22,11 @@ export default function PetCard({
       <Image
         className="w-full h-48 object-cover rounded-t-xl"
         alt={advertisement.animal}
-        src={hasImages ? advertisement.images[0] : "/mietmiez_icon_256.png"}
+        src={
+          hasImages
+            ? `/api/advertisement/image?id=${encodeURIComponent(advertisement.images[0])}`
+            : "/mietmiez_icon_256.png"
+        }
         width={500}
         height={300}
       />

@@ -11,6 +11,25 @@ export async function POST(req: Request): Promise<Response> {
 }
 
 export async function GET(req: Request): Promise<Response> {
-  const id = await req.text();
-  return await AdvertisementCommunication.fetchImage(id);
+  console.log("Entering GET for image");
+  const { searchParams } = new URL(req.url);
+  console.log("Search params", searchParams);
+  const id = searchParams.get("id");
+  console.log("ID", id);
+  if (!id) {
+    return Response.json({ success: false, id });
+  }
+  const res = await AdvertisementCommunication.fetchImage(id);
+  if (!res.ok) {
+    return NextResponse.error();
+  }
+  const contentType = res.headers.get("content-type") ?? "image/jpeg";
+  const buff = await res.arrayBuffer();
+  return new NextResponse(buff, {
+    status: 200,
+    headers: {
+      "Content-Type": contentType,
+      "Cache-Control": "public, max-age=3600",
+    },
+  });
 }
