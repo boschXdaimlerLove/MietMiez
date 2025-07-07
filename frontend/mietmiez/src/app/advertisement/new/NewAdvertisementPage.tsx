@@ -41,10 +41,9 @@ export default function NewAdvertisementPage() {
   }, []);
 
   async function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (file) {
-      const newFiles = [...files, file];
-      setFiles(newFiles);
+    const selectedFiles = Array.from(event.target.files || []);
+    if (selectedFiles) {
+      setFiles(selectedFiles);
     }
   }
 
@@ -161,6 +160,7 @@ export default function NewAdvertisementPage() {
           <input
             ref={fileInputRed}
             type="file"
+            multiple
             accept="image/*"
             onChange={handleImageChange}
             className="mt-2 block w-full text-sm text-gray-500
