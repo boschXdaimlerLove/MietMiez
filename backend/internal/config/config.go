@@ -29,7 +29,7 @@ type Config struct {
 		Production             bool   `envconfig:"BACKEND_PRODUCTION"`
 		MaxBodySizeMB          int    `envconfig:"BACKEND_MAX_BODY_SIZE_MB"`
 		LogLevel               string `envconfig:"BACKEND_LOG_LEVEL"`
-    EnforceEmailActivation bool `envconfig:"BACKEND_ENFORCE_EMAIL_ACTIVATION"`
+		EnforceEmailActivation bool   `envconfig:"BACKEND_ENFORCE_EMAIL_ACTIVATION"`
 	}
 
 	Database struct {
