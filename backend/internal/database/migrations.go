@@ -25,7 +25,7 @@ var categoryList = []string{
 	"Chickens",
 	"Horses",
 	"Birds",
-	"Snake",
+	"Snakes",
 	"Cuddle Toy",
 	"Edible", // yummy cat
 	"Giraffe",
