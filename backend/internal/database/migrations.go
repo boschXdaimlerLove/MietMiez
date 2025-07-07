@@ -17,16 +17,18 @@ var migrationsList = []interface{}{
 }
 
 var categoryList = []string{
-	"Katzen",
-	"Hunde",
-	"Affen",
-	"Fische",
-	"Mäuse",
-	"Hühner",
-	"Pferde",
-	"Vögel",
-	"Schlangen",
-	"Kuscheltiere",
+	"Cats",
+	"Dogs",
+	"Monkeys",
+	"Fish",
+	"Mouses",
+	"Chickens",
+	"Horses",
+	"Birds",
+	"Snakes",
+	"Cuddle Toy",
+	"Edible", // yummy cat
+	"Giraffe",
 }
 
 // Create all categories that don't exist already (needed for future migration)
