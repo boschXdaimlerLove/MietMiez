@@ -1,27 +1,31 @@
-import SearchParams from "@/app/search/SearchParams";
 import AdvertisementCommunication from "@/app/server_communication/server/AdvertisementCommunication";
 import PetGrid from "@/app/components/PetGrid";
+import SearchParams from "@/app/objects/SearchParams";
 
 export default async function SearchPage({
-  params,
+  searchParams,
 }: {
-  params: Promise<{ searchParams: SearchParams }>;
+  searchParams: Promise<{ animal?: string; zipCode?: string }>;
 }) {
-  if (params === undefined) {
+  const extractedParams = await searchParams;
+  const { animal, zipCode } = extractedParams;
+  const searchObject = new SearchParams(animal, zipCode);
+  const advertisements =
+    await AdvertisementCommunication.fetchAdvertisementsFor(searchObject);
+  if (advertisements.length === 0) {
     return (
-      <div>
-        <p>Compiled search page for build</p>
-      </div>
+      <main>
+        <h1 className="text-2xl font-bold text-center mt-8">
+          Keine Anzeigen gefunden
+        </h1>
+        <p className="text-center mt-4">
+          Versuche es mit anderen Suchkriterien oder erstelle eine neue Anzeige.
+        </p>
+      </main>
     );
   }
-  const { searchParams } = await params;
-  const advertisements =
-    await AdvertisementCommunication.fetchAdvertisementsFor(searchParams);
   return (
     <main>
-      <h1>Search with following params</h1>
-      <p>Animal: {searchParams.animal}</p>
-      <p>City: {searchParams.zipCode}</p>
       <PetGrid advertisements={advertisements} />
     </main>
   );
