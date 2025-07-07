@@ -1,5 +1,6 @@
 import UserCommunication from "@/app/server_communication/server/UserCommunication";
 import User from "@/app/objects/user/user";
+import EmailField from "@/app/components/routing/EmailField";
 
 export default async function ProfilePage({
   params,
@@ -22,7 +23,8 @@ export default async function ProfilePage({
           <span className="font-semibold">Nachname:</span> {user.lastName}
         </p>
         <p>
-          <span className="font-semibold">Email:</span> {user.email}
+          <span className="font-semibold">Email:</span>{" "}
+          <EmailField mail={user.email} />
         </p>
         <p>
           <span className="font-semibold">Stadt:</span> {user.city}
