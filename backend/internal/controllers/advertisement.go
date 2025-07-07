@@ -15,6 +15,10 @@ import (
 
 import . "boschXdaimlerLove/MietMiez/internal/logger"
 
+// AdvertisementInformation gets information about specific advertisement
+// see [models.Advertisement] for more information about advertisements (same for following functions)
+// notice `Atoi` integer conversion -> handling is same in following functions,
+// not documentated in api specification because "default server behaviour"
 func AdvertisementInformation(c *fiber.Ctx) error {
 	var advertisement models.Advertisement
 	dbInstance := database.GetDB()
@@ -38,6 +42,7 @@ func AdvertisementInformation(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(advertisement.ToPublic())
 }
 
+// CreateAdvertisement creates new advertisement
 func CreateAdvertisement(c *fiber.Ctx) error {
 	var userFromDB models.User
 	var isAuthenticated bool
@@ -78,7 +83,6 @@ func CreateAdvertisement(c *fiber.Ctx) error {
 	dbInstance := database.GetDB()
 	result := dbInstance.Clauses(clause.OnConflict{DoNothing: true}).Create(&advertisement)
 	if result.RowsAffected == 0 {
-		// abracadabra here's an error with bad logging
 		Logger.Warn().Interface("advertisement", advertisement).Msg("cannot create new advertisement")
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
@@ -86,6 +90,7 @@ func CreateAdvertisement(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusCreated).JSON(advertisement.ToPublic())
 }
 
+// UpdateAdvertisement updates specified advertisement, id must be given, new advertisement must be given
 func UpdateAdvertisement(c *fiber.Ctx) error {
 	var advertisementFromDB, advertisementFromUser models.Advertisement
 	dbInstance := database.GetDB()
@@ -95,15 +100,20 @@ func UpdateAdvertisement(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
+	id, err := strconv.Atoi(c.Params("id"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString("id must be an integer")
+	}
+
 	result := dbInstance.
 		Preload("User").
-		Where("id = ?", c.Params("id")).
+		Where("id = ?", id).
 		First(&advertisementFromDB)
 
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return c.SendStatus(fiber.StatusNotFound)
 	} else if result.Error != nil {
-		Logger.Err(result.Error).Msg("Failed to update advertisement")
+		Logger.Err(result.Error).Msg("failed to update advertisement")
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
@@ -111,11 +121,12 @@ func UpdateAdvertisement(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusForbidden)
 	}
 
-	err := util.GetJsonFromRequest(c, &advertisementFromUser)
+	err = util.GetJsonFromRequest(c, &advertisementFromUser)
 	if err != nil {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
+	// TODO: ads can be created without title, description and specified animal?
 	if advertisementFromUser.Title != "" {
 		advertisementFromDB.Title = advertisementFromUser.Title
 	}
@@ -137,11 +148,17 @@ func UpdateAdvertisement(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusOK)
 }
 
+// GetRecentAdvertisements returns the latest advertisements
+// Notice paging
 func GetRecentAdvertisements(c *fiber.Ctx) error {
 	var advertisements models.AdvertisementList
 	dbInstance := database.GetDB()
 
-	page, _ := strconv.Atoi(c.Query("page"))
+	page, err := strconv.Atoi(c.Query("page"))
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString("page must be an integer")
+	}
+
 	result := dbInstance.Scopes(util.Paginate(page)).Order("created_at desc").Preload("User").Find(&advertisements)
 
 	if result.Error != nil {
@@ -151,6 +168,7 @@ func GetRecentAdvertisements(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(advertisements.ToPublic())
 }
 
+// DeleteAdvertisement deletes specified advertisement, the ad is set as param in url
 func DeleteAdvertisement(c *fiber.Ctx) error {
 	var userFromDB models.User
 	var isAuthenticated bool
@@ -183,6 +201,7 @@ func DeleteAdvertisement(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusOK)
 }
 
+// SearchAdvertisements searches all advertisements with title or zip-code or animal
 func SearchAdvertisements(c *fiber.Ctx) error {
 	title := c.Query("title")
 	zipCode := c.Query("zip-code")
