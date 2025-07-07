@@ -26,16 +26,20 @@ export default class ClientUserCommunication {
     console.log("Attempting to register user:", user);
     const body = JSON.stringify({ user: user.toJSON(), password });
     console.log("Request body for registration:", body);
+    let res: Response = Response.json("Default response");
     try {
-      await fetch("/api/user/register", {
+      res = await fetch("/api/user/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: body,
         credentials: "include",
       });
     } catch (error) {
-      console.error("Error during registration in client user:", error);
-      return false;
+      if (!res.ok) {
+        console.log(res);
+        console.error("Error during registration in client user:", error);
+        return false;
+      }
     }
     // console.log("Registration response:", res);
     // return res.ok;

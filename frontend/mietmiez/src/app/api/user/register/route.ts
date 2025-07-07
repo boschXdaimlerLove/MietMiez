@@ -8,13 +8,19 @@ export async function POST(req: Request): Promise<Response> {
   console.log("Received request body:", body);
   const { user, password } = JSON.parse(body);
   console.log("Received user data:", user);
-  const registerSuccessful = await UserCommunication.register(
-    User.fromJSON(user),
-    password,
-  );
+  let registerSuccessful: boolean;
+  try {
+    registerSuccessful = await UserCommunication.register(
+      User.fromJSON(user),
+      password,
+    );
+  } catch (error) {
+    console.log("Error in route.ts in api/user/register", error);
+    registerSuccessful = false;
+  }
   if (!registerSuccessful) {
     console.log("Registration failed");
-    return NextResponse.error();
+    return NextResponse.json({ success: false });
   } else {
     console.log("Registration successful");
     const res = NextResponse.json({ success: true });

@@ -32,7 +32,11 @@ const Register: React.FC = () => {
     const user = new User(firstName, lastName, email, city, zipCode);
     try {
       console.log("Versuche, Benutzer zu registrieren:", user);
-      ClientUserCommunication.register(user, password).then((success) => {
+      const success = await ClientUserCommunication.register(
+        user,
+        password,
+      ).then((success) => {
+        console.log("Success in then method", success);
         if (!success) {
           console.log("Registrierung fehlgeschlagen");
           setError("Registrierung fehlgeschlagen");
@@ -42,10 +46,10 @@ const Register: React.FC = () => {
           router.push("/login");
         }
       });
+      console.log("success:", success);
     } catch (error) {
       console.error("Fehler bei der Registrierung:", error);
       setError("Fehler bei der Registrierung");
-      return;
     }
   }
 
