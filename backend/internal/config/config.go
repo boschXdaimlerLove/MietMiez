@@ -17,6 +17,7 @@ var Cfg Config
 type Config struct {
 	Smtp struct {
 		Host     string `envconfig:"SMTP_HOST"`
+		Port     string `envconfig:"SMTP_PORT"`
 		Username string `envconfig:"SMTP_USER"`
 		Password string `envconfig:"SMTP_PASSWORD"`
 		From     string `envconfig:"SMTP_FROM"`
@@ -29,7 +30,7 @@ type Config struct {
 		Production             bool   `envconfig:"BACKEND_PRODUCTION"`
 		MaxBodySizeMB          int    `envconfig:"BACKEND_MAX_BODY_SIZE_MB"`
 		LogLevel               string `envconfig:"BACKEND_LOG_LEVEL"`
-    EnforceEmailActivation bool `envconfig:"BACKEND_ENFORCE_EMAIL_ACTIVATION"`
+		EnforceEmailActivation bool   `envconfig:"BACKEND_ENFORCE_EMAIL_ACTIVATION"`
 	}
 
 	Database struct {

@@ -49,7 +49,7 @@ func UserCreate(c *fiber.Ctx) error {
 			Logger.Err(err).Msg("User Activation Token Create Failed")
 			return c.SendStatus(fiber.StatusInternalServerError)
 		}
-		util.SendUserActivationMail(activationToken.ID, user.Email)
+		go util.SendUserActivationMail(activationToken.ID, user.Email)
 	}
 	return c.SendStatus(fiber.StatusCreated)
 }
@@ -213,8 +213,9 @@ func UserResetPassword(c *fiber.Ctx) error {
 
 	// get user from email
 	dbInstance := database.GetDB()
-	result := dbInstance.First(&user, "email = ?", c.Params("email"))
+	result := dbInstance.First(&user, "email = ?", pwResetRequest.Email)
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		Logger.Debug().Any("user", user.ToPublic()).Msg("user for reset password not found")
 		return c.SendStatus(fiber.StatusOK)
 	} else if result.Error != nil {
 		return c.SendStatus(fiber.StatusInternalServerError)
@@ -237,11 +238,7 @@ func UserResetPassword(c *fiber.Ctx) error {
 	}
 
 	// sendEmail
-	err = util.SendResetMail(resetToken.ID, user.Email)
-	if err != nil {
-		Logger.Err(err).Msg("Sending reset mail failed")
-		return c.SendStatus(fiber.StatusInternalServerError)
-	}
+	go util.SendResetMail(resetToken.ID, user.Email)
 	return c.SendStatus(fiber.StatusOK)
 }
 
