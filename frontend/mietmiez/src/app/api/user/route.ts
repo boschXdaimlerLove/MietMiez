@@ -25,3 +25,14 @@ export async function PUT(req: Request) {
   }
   return NextResponse.json({ success: true });
 }
+
+export async function GET(): Promise<Response> {
+  let res: Response;
+  try {
+    await UserCommunication.fetchSelfUser();
+    res = NextResponse.json({ success: true });
+  } catch {
+    res = NextResponse.json({ success: false });
+  }
+  return res;
+}
