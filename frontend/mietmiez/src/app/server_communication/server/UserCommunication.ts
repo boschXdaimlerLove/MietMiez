@@ -70,29 +70,23 @@ export default class UserCommunication {
     return res.ok;
   }
 
-  static async deleteUser(): Promise<void> {
+  static async deleteUser(): Promise<boolean> {
     const res = await fetch(`${GeneralServerCommunication.url}/user/`, {
       method: "DELETE",
       headers: await GeneralServerCommunication.getHeaders(),
       credentials: "include",
     });
-    if (!res.ok) {
-      return;
-    } else {
-      sessionStorage.removeItem("token");
-    }
+    return res.ok;
   }
 
-  static async updateUser(user: User): Promise<void> {
+  static async update(user: User): Promise<boolean> {
     const res = await fetch(`${GeneralServerCommunication.url}/user/`, {
-      method: "PATCH",
+      method: "PUT",
       headers: await GeneralServerCommunication.getHeaders(),
       body: JSON.stringify(user.toJSON()),
       credentials: "include",
     });
-    if (!res.ok) {
-      return;
-    }
+    return res.ok;
   }
 
   static async resetPassword(email: string): Promise<void> {
@@ -110,22 +104,25 @@ export default class UserCommunication {
   }
 
   static async changePassword(
-    user: User,
     oldPassword: string,
     newPassword: string,
-  ): Promise<void> {
+  ): Promise<boolean> {
+    const user = await UserCommunication.fetchSelfUser();
     const mail = user.email;
     const res = await fetch(
       `${GeneralServerCommunication.url}/user/change-password/`,
       {
         method: "POST",
         headers: await GeneralServerCommunication.getHeaders(),
-        body: JSON.stringify({ mail, oldPassword, newPassword }),
+        body: JSON.stringify({
+          email: mail,
+          "old-password": oldPassword,
+          "new-password": newPassword,
+        }),
         credentials: "include",
       },
     );
-    if (!res.ok) {
-    }
+    return res.ok;
   }
 
   static async addFavorite(ad: AdvertisementFetched): Promise<void> {

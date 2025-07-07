@@ -4,7 +4,7 @@ import User from "@/app/objects/user/user";
 
 export default class ClientUserCommunication {
   static async login(email: string, password: string): Promise<boolean> {
-    const res = await fetch("/api/login", {
+    const res = await fetch("/api/user/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
@@ -14,7 +14,7 @@ export default class ClientUserCommunication {
   }
 
   static async logout(): Promise<boolean> {
-    const res = await fetch("/api/logout", {
+    const res = await fetch("/api/user/logout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -23,10 +23,41 @@ export default class ClientUserCommunication {
   }
 
   static async register(user: User, password: string): Promise<boolean> {
-    const res = await fetch("/api/register", {
+    const body = JSON.stringify({ user: user.toJSON(), password });
+    const res = await fetch("/api/user/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ user: user.toJSON(), password }),
+      body: body,
+      credentials: "include",
+    });
+    console.log("Registration response:", res);
+    return res.ok;
+  }
+
+  static async deleteUser(): Promise<boolean> {
+    const res = await fetch("/api/user", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+    return res.ok;
+  }
+
+  static async changePassword(oldPassword: string, newPassword: string) {
+    const res = await fetch("/api/user/change-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ oldPassword, newPassword }),
+      credentials: "include",
+    });
+    return res.ok;
+  }
+
+  static async update(user: User): Promise<boolean> {
+    const res = await fetch("/api/user", {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
       credentials: "include",
     });
     return res.ok;
