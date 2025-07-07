@@ -1,7 +1,7 @@
 import AdvertisementFetched, {
   AdvertisementFetchedJson,
 } from "@/app/objects/advertisement/AdvertisementFetched";
-import SearchParams from "@/app/search/SearchParams";
+import SearchParams from "@/app/objects/SearchParams";
 import GeneralServerCommunication from "@/app/server_communication/server/GeneralServerCommunication";
 import Category, { CategoryJson } from "@/app/objects/category";
 import AdvertisementUpload from "@/app/objects/advertisement/AdvertisementUpload";
