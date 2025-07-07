@@ -15,7 +15,7 @@ import . "boschXdaimlerLove/MietMiez/internal/logger"
 
 // AdvertisementInformation gets information about specific advertisement
 // see [models.Advertisement] for more information about advertisements (same for following functions)
-// notice `Atoi` integer convertion -> handling is same in following functions,
+// notice `Atoi` integer conversion -> handling is same in following functions,
 // not documentated in api specification because "default server behaviour"
 func AdvertisementInformation(c *fiber.Ctx) error {
 	var advertisement models.Advertisement
@@ -59,7 +59,7 @@ func CreateAdvertisement(c *fiber.Ctx) error {
 	dbInstance := database.GetDB()
 	result := dbInstance.Clauses(clause.OnConflict{DoNothing: true}).Create(&advertisement)
 	if result.RowsAffected == 0 {
-		Logger.Debug().Msg("cannot create new advertisement")
+		Logger.Warn().Interface("advertisement", advertisement).Msg("cannot create new advertisement")
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 

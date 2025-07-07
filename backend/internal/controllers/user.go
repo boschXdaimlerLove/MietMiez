@@ -201,13 +201,12 @@ func UserUpdate(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusOK)
 }
 
-// UserLogout clears the users cookie and invalidates session
+// UserLogout invalidates session
 func UserLogout(c *fiber.Ctx) error {
 	err := util.InvalidateSession(c)
 	if err != nil {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
-	c.ClearCookie("session")
 	return c.SendStatus(fiber.StatusOK)
 }
 

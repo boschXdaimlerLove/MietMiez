@@ -2,7 +2,6 @@ package config
 
 import (
 	"github.com/gofiber/fiber/v2/middleware/compress"
-	"github.com/gofiber/fiber/v2/middleware/csrf"
 	"log/slog"
 	"os"
 	"time"
@@ -71,16 +70,5 @@ func SetupConfig() {
 func GetCompressionConfig() compress.Config {
 	return compress.Config{
 		Level: compress.LevelBestSpeed,
-	}
-}
-
-// GetCSRFConfig https://docs.gofiber.io/api/middleware/csrf
-// TODO: remove not used?
-func GetCSRFConfig() csrf.Config {
-	return csrf.Config{
-		KeyLookup:      "header:" + csrf.HeaderName,
-		CookieSameSite: "Strict",
-		CookieSecure:   Cfg.Server.Production,
-		CookieHTTPOnly: false,
 	}
 }
