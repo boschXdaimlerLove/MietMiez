@@ -17,6 +17,7 @@ var Cfg Config
 type Config struct {
 	Smtp struct {
 		Host     string `envconfig:"SMTP_HOST"`
+		Port     string `envconfig:"SMTP_PORT"`
 		Username string `envconfig:"SMTP_USER"`
 		Password string `envconfig:"SMTP_PASSWORD"`
 		From     string `envconfig:"SMTP_FROM"`
