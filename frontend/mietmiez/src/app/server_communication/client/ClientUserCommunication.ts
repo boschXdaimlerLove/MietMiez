@@ -23,9 +23,7 @@ export default class ClientUserCommunication {
   }
 
   static async register(user: User, password: string): Promise<boolean> {
-    console.log("Attempting to register user:", user);
     const body = JSON.stringify({ user: user.toJSON(), password });
-    console.log("Request body for registration:", body);
     let res: Response = Response.json("Default response");
     try {
       res = await fetch("/api/user/register", {
@@ -36,7 +34,6 @@ export default class ClientUserCommunication {
       });
     } catch (error) {
       if (!res.ok) {
-        console.log(res);
         console.error("Error during registration in client user:", error);
         return false;
       }
