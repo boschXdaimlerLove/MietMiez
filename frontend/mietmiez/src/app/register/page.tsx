@@ -19,7 +19,7 @@ const Register: React.FC = () => {
   const [city, setCity] = useState("");
   const [zipCode, setZipCode] = useState("");
 
-  const handleSubmit = async () => {
+  async function handleSubmit() {
     setError("");
     if (password !== confirmPassword) {
       setError("Passwörter stimmen nicht überein");
@@ -31,13 +31,23 @@ const Register: React.FC = () => {
     }
     const user = new User(firstName, lastName, email, city, zipCode);
     try {
-      await ClientUserCommunication.register(user, password);
-      router.push("/login");
-    } catch (err) {
-      console.error(err);
-      setError("Registrierung fehlgeschlagen");
+      console.log("Versuche, Benutzer zu registrieren:", user);
+      ClientUserCommunication.register(user, password).then((success) => {
+        if (!success) {
+          console.log("Registrierung fehlgeschlagen");
+          setError("Registrierung fehlgeschlagen");
+        } else {
+          console.log("Registrierung erfolgreich");
+          console.log("Weiterleitung zur Login-Seite");
+          router.push("/login");
+        }
+      });
+    } catch (error) {
+      console.error("Fehler bei der Registrierung:", error);
+      setError("Fehler bei der Registrierung");
+      return;
     }
-  };
+  }
 
   return (
     <div className="min-h-screen flex flex-col md:flex-row items-center justify-center bg-white p-4 sm:p-6 md:gap-16">
