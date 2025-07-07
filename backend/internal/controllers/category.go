@@ -8,6 +8,8 @@ import (
 
 import . "boschXdaimlerLove/MietMiez/internal/logger"
 
+// CategoryList returns a list with all ad categories
+// see package [migrations] for default values
 func CategoryList(c *fiber.Ctx) error {
 	dbInstance := database.GetDB()
 	Logger.Debug().Msg("Getting category list")

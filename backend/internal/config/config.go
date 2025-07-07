@@ -14,6 +14,7 @@ import . "boschXdaimlerLove/MietMiez/internal/logger"
 
 var Cfg Config
 
+// The Config contains options to adjust smtp, server, database and minio settings
 type Config struct {
 	Smtp struct {
 		Host     string `envconfig:"SMTP_HOST"`
@@ -74,6 +75,7 @@ func GetCompressionConfig() compress.Config {
 }
 
 // GetCSRFConfig https://docs.gofiber.io/api/middleware/csrf
+// TODO: remove not used?
 func GetCSRFConfig() csrf.Config {
 	return csrf.Config{
 		KeyLookup:      "header:" + csrf.HeaderName,

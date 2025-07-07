@@ -14,6 +14,8 @@ import (
 
 import . "boschXdaimlerLove/MietMiez/internal/logger"
 
+// UserCreate creates a new user
+// this functionality relies on email activation; if activated, create activation token
 func UserCreate(c *fiber.Ctx) error {
 	user := &models.User{}
 
@@ -54,6 +56,8 @@ func UserCreate(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusCreated)
 }
 
+// UserActivate lets users activate/verify their mail address
+// token is sent via mail; has to be configured in config
 func UserActivate(c *fiber.Ctx) error {
 	activationToken := models.UserActivationToken{
 		ID: c.Params("token"),
@@ -134,6 +138,7 @@ func UserLogin(c *fiber.Ctx) error {
 	})
 }
 
+// UserDelete deletes logged in user
 func UserDelete(c *fiber.Ctx) error {
 	var user models.User
 	var isAuthenticated bool
@@ -143,6 +148,7 @@ func UserDelete(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
+	// TODO: dead advertisements after user delete
 	Logger.Debug().Any("user", user.ToPublic()).Msg("user deletion")
 
 	dbInstance := database.GetDB()
@@ -151,6 +157,9 @@ func UserDelete(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusOK)
 }
 
+// UserUpdate allows users to update their profile
+// user can edit: city, first name, last name, zip code and mail
+// password can be changed via UserChangePassword
 func UserUpdate(c *fiber.Ctx) error {
 	var userFromDB, userFromRequest models.User
 	var isAuthenticated bool
@@ -192,6 +201,7 @@ func UserUpdate(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusOK)
 }
 
+// UserLogout clears the users cookie and invalidates session
 func UserLogout(c *fiber.Ctx) error {
 	err := util.InvalidateSession(c)
 	if err != nil {
@@ -245,6 +255,9 @@ func UserResetPassword(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusOK)
 }
 
+// UserInfo returns a public user profile
+// there's a difference between public and internal user profile!
+// see [models.User] for mor information
 func UserInfo(c *fiber.Ctx) error {
 	var user models.User
 	dbInstance := database.GetDB()
@@ -259,6 +272,8 @@ func UserInfo(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(user.ToPublic())
 }
 
+// UserChangePassword changes password of user
+// notice check of old password
 func UserChangePassword(c *fiber.Ctx) error {
 	request := new(models.ChangePasswordRequest)
 
@@ -295,6 +310,7 @@ func UserChangePassword(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusOK)
 }
 
+// UserGetFavourites returns an JSON array with all user's favourites
 func UserGetFavourites(c *fiber.Ctx) error {
 	var user models.User
 	var isAuthenticated bool
@@ -319,10 +335,13 @@ func UserGetFavourites(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(favourites)
 }
 
+// UserAddFavourite adds a new favourite to user favourites
+// currently not implemented :( Todo?
 func UserAddFavourite(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusNotImplemented)
 }
 
+// GetUser returns currently logged-in user who made request
 func GetUser(c *fiber.Ctx) error {
 	if isAuthenticated, user := util.GetRequestUser(c); isAuthenticated {
 		// only public data -> hash and salt is not needed by frontend to do basic operations and check data
