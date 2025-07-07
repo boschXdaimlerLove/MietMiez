@@ -15,7 +15,6 @@ export default function NewAdvertisementPage() {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [animal, setAnimal] = useState("");
   const [error, setError] = useState("");
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const categoriesStringPromise = useNewAdvertisementContext();
@@ -60,13 +59,13 @@ export default function NewAdvertisementPage() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (animal.length === 0 || title.length === 0 || description.length === 0) {
+    if (title.length === 0 || description.length === 0) {
       setError("Daten unvollständig");
       console.log(error);
       return;
     }
     const localAd = advertisement;
-    localAd.animal = animal;
+    localAd.animal = selectedCategory;
     localAd.title = title;
     localAd.description = description;
     setAdvertisement(localAd);
@@ -78,7 +77,6 @@ export default function NewAdvertisementPage() {
       alert("Anzeige erfolgreich erstellt!");
       setTitle("");
       setDescription("");
-      setAnimal("");
       setFiles([]);
       if (fileInputRed.current) {
         fileInputRed.current.value = "";
