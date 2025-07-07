@@ -82,7 +82,7 @@ export default function NewAdvertisementPage() {
       }
     } else {
       console.error("Fehler beim Erstellen:", error);
-      alert("Fehler beim Erstellen der Anzeige.");
+      alert("Error while creating your advertisement!");
     }
   }
 
@@ -97,7 +97,7 @@ export default function NewAdvertisementPage() {
       <form onSubmit={handleSubmit} className="space-y-5">
         <input
           type="text"
-          placeholder="Name des Tieres"
+          placeholder="Name of your pet"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
@@ -147,7 +147,7 @@ export default function NewAdvertisementPage() {
         </div>
 
         <textarea
-          placeholder="Was sollte man über dein Tier wissen?"
+          placeholder="What should people know about your pet?"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
