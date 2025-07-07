@@ -13,7 +13,7 @@ type Advertisement struct {
 	Title       string                      `json:"title"`
 	Description string                      `json:"description"`
 	Animal      string                      `json:"animal"`
-	Images      datatypes.JSONSlice[string] `gorm:"type:jsonb"`
+	Images      datatypes.JSONSlice[string] `gorm:"type:jsonb" json:"images"`
 }
 
 type PublicAdvertisement struct {

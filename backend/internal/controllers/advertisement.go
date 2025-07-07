@@ -6,8 +6,10 @@ import (
 	"boschXdaimlerLove/MietMiez/internal/util"
 	"errors"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/datatypes"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
+	"slices"
 	"strconv"
 )
 
@@ -49,6 +51,28 @@ func CreateAdvertisement(c *fiber.Ctx) error {
 
 	if err := util.GetJsonFromRequest(c, advertisement); err != nil {
 		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	imgs := advertisement.Images
+	Logger.Info().Any("imgs", imgs).Msg("imgs before sorting")
+
+	if len(imgs) > 0 {
+		slices.Sort(imgs)
+		Logger.Info().Any("imgs", imgs).Msg("imgs after sorting")
+
+		uniqueImgs := make(datatypes.JSONSlice[string], 0, len(imgs))
+		uniqueImgs = append(uniqueImgs, imgs[0])
+
+		for i := 1; i < len(imgs); i++ {
+			if imgs[i] != imgs[i-1] {
+				uniqueImgs = append(uniqueImgs, imgs[i])
+			}
+		}
+
+		advertisement.Images = uniqueImgs
+		Logger.Info().Any("imgs", uniqueImgs).Msg("unique imgs")
+	} else {
+		Logger.Trace().Any("advertisement", advertisement).Msg("No images uploaded with advertisement")
 	}
 
 	dbInstance := database.GetDB()
@@ -112,7 +136,7 @@ func UpdateAdvertisement(c *fiber.Ctx) error {
 
 	return c.SendStatus(fiber.StatusOK)
 }
-  
+
 func GetRecentAdvertisements(c *fiber.Ctx) error {
 	var advertisements models.AdvertisementList
 	dbInstance := database.GetDB()
