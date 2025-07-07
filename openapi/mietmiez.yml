@@ -525,6 +525,8 @@ components:
           items:
             type: string
             example: 72819f0581ad72528a90f06d0de618b22bcaf11611485267a95df1f4866911c4.jpg
+        user:
+          $ref: '#/components/schemas/PublicUser'
     AdvertisementPatch:
       type: object
       properties:
@@ -597,10 +599,10 @@ components:
     Category:
       type: object
       properties:
-        id:
+        ID:
           type: integer
           example: 456
-        title:
+        Title:
           type: string
           example: Dog
           minLength: 3
@@ -628,6 +630,36 @@ components:
           type: string
           format: password
           minLength: 8
+        city:
+          type: string
+          example: Stuttgart
+          minLength: 3
+          nullable: true
+        zip-code:
+          type: string
+          example: 71034
+          minLength: 2
+          nullable: true
+    PublicUser:
+      type: object
+      required:
+        - first-name
+        - last-name
+        - email
+        - city
+      properties:
+        first-name:
+          type: string
+          example: John
+          minLength: 3
+        last-name:
+          type: string
+          example: Appleseed
+          minLength: 3
+        email:
+          type: string
+          example: john.appleseed@mail.com
+          minLength: 5
         city:
           type: string
           example: Stuttgart
