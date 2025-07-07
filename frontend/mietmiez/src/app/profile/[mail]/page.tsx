@@ -15,7 +15,7 @@ export default async function ProfilePage({
       <h1 className="text-3xl font-bold mb-6">
         Profil von {user.firstName} {user.lastName}
       </h1>
-      <div className="space-y-4 text-gray-800">
+      <div className="space-y-4">
         <p>
           <span className="font-semibold">Vorname:</span> {user.firstName}
         </p>
