@@ -156,4 +156,17 @@ export default class UserCommunication {
       return User.fromJSON(JSON.parse(body));
     }
   }
+
+  static async activateUser(token: string): Promise<boolean> {
+    const res = await fetch(
+      `${GeneralServerCommunication.url}/user/activate/${token}`,
+      {
+        method: "GET",
+        headers: await GeneralServerCommunication.getHeaders(),
+        credentials: "include",
+        cache: "no-cache",
+      },
+    );
+    return res.ok;
+  }
 }
