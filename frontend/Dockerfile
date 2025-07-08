@@ -21,7 +21,8 @@ WORKDIR /app
 # Copy the rest of your application source code.
 COPY mietmiez ./
 
-RUN npm install && npm run build
+RUN npm install
+RUN npm run build
 
 # Run the build script. This will create the .next directory inside /app.
 # RUN npm install && npm run build

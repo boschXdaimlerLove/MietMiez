@@ -29,7 +29,7 @@ export default class UserCommunication {
     return await loginRes.json();
   }
 
-  static async register(user: User, password: string): Promise<void> {
+  static async register(user: User, password: string): Promise<boolean> {
     const body = {
       ...user.toJSON(),
       password: password,
@@ -40,11 +40,7 @@ export default class UserCommunication {
       body: JSON.stringify(body),
       credentials: "include",
     });
-    if (!res.ok) {
-      const error = await res.json();
-      console.error("Error registering user:", error);
-      throw new Error("Failed to register user");
-    }
+    return res.ok;
   }
 
   static async logout(): Promise<boolean> {
