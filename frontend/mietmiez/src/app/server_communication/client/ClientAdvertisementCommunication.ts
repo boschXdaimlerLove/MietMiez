@@ -53,4 +53,17 @@ export default class ClientAdvertisementCommunication {
 
     return res.ok;
   }
+
+  static async deleteAdvertisement(ad: AdvertisementUpload): Promise<boolean> {
+    const res = await fetch(`/api/advertisement`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(ad),
+      credentials: "include",
+    });
+
+    return res.ok;
+  }
 }
