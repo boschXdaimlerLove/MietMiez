@@ -8,7 +8,7 @@ import {
   HeaderContextProps,
   useHeaderContext,
 } from "@/app/components/HeaderContext";
-import Category from "@/app/objects/category";
+import Category from "@/app/objects/internal/category";
 import Button from "@/app/components/button";
 import ClientUserCommunication from "@/app/server_communication/client/ClientUserCommunication";
 

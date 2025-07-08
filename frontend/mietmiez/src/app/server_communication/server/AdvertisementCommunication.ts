@@ -3,7 +3,7 @@ import AdvertisementFetched, {
 } from "@/app/objects/advertisement/AdvertisementFetched";
 import SearchParams from "@/app/objects/SearchParams";
 import GeneralServerCommunication from "@/app/server_communication/server/GeneralServerCommunication";
-import Category, { CategoryJson } from "@/app/objects/category";
+import Category, { CategoryJson } from "@/app/objects/internal/category";
 import AdvertisementUpload from "@/app/objects/advertisement/AdvertisementUpload";
 
 export default class AdvertisementCommunication {
