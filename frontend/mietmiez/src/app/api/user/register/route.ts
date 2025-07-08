@@ -1,14 +1,30 @@
 import UserCommunication from "@/app/server_communication/server/UserCommunication";
 import User from "@/app/objects/user/user";
+import { NextResponse } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: Request): Promise<Response> {
+  console.log("Received POST request for user registration in next api");
   const body = await req.text();
+  console.log("Received request body:", body);
   const { user, password } = JSON.parse(body);
+  console.log("Received user data:", user);
+  let registerSuccessful: boolean;
   try {
-    await UserCommunication.register(User.fromJSON(user), password);
-    return new Response("User registered successfully", { status: 201 });
+    registerSuccessful = await UserCommunication.register(
+      User.fromJSON(user),
+      password,
+    );
   } catch (error) {
-    console.error("Registration error:", error);
-    return new Response("Registration failed", { status: 500 });
+    console.log("Error in route.ts in api/user/register", error);
+    registerSuccessful = false;
+  }
+  if (!registerSuccessful) {
+    console.log("Registration failed");
+    return NextResponse.json({ success: false });
+  } else {
+    console.log("Registration successful");
+    const res = NextResponse.json({ success: true });
+    console.log("Returning response:", res);
+    return res;
   }
 }
