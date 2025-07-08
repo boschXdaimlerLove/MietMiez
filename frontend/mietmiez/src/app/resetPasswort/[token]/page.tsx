@@ -1,4 +1,4 @@
-import UserCommunication from "@/app/server_communication/server/UserCommunication";
+import PasswordResetInput from "@/app/components/UserState/PasswordResetInput";
 
 export default async function ResetPasswortPage({
   params,
@@ -8,10 +8,5 @@ export default async function ResetPasswortPage({
   const { token } = await params;
   const usableToken = decodeURIComponent(token);
 
-  async function handleResetPassword(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    await UserCommunication.resetPassword(token);
-  }
-
-  return <main></main>;
+  return <PasswordResetInput token={usableToken} />;
 }
