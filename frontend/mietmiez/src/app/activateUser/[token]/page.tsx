@@ -7,11 +7,13 @@ export default async function ActivateUserPage({
   params: Promise<{ token: string }>;
 }) {
   const { token } = await params;
-  const isLoading = true;
+  const usableToken = decodeURIComponent(token);
+  let isLoading = true;
   let didSucceed: boolean = false;
-  UserCommunication.activateUser(token).then(
-    (success) => (didSucceed = success),
-  );
+  await UserCommunication.activateUser(usableToken).then((success) => {
+    didSucceed = success;
+    isLoading = false;
+  });
 
   if (isLoading) {
     return (

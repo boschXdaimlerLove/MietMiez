@@ -155,7 +155,7 @@ export default class UserCommunication {
 
   static async activateUser(token: string): Promise<boolean> {
     const res = await fetch(
-      `${GeneralServerCommunication.url}/user/activate/${encodeURIComponent(token)}`,
+      `${GeneralServerCommunication.url}/user/activate/${token}`,
       {
         method: "GET",
         headers: await GeneralServerCommunication.getHeaders(),
