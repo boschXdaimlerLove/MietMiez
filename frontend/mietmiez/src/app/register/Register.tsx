@@ -30,19 +30,27 @@ const Register: React.FC = () => {
     setError("");
     if (password !== confirmPassword) {
       setError("Passwörter stimmen nicht überein");
-      return;
-    }
-    if (zipCode.length < 5) {
+    } else if (zipCode.length < 5) {
       setError("Ungültige Postleitzahl");
-      return;
-    }
-    const user = new User(firstName, lastName, email, city, zipCode);
-    try {
-      await ClientUserCommunication.register(user, password);
-      router.push("/login");
-    } catch (err) {
-      console.error(err);
-      setError("Registrierung fehlgeschlagen");
+    } else {
+      const user = new User(firstName, lastName, email, city, zipCode);
+      try {
+        await ClientUserCommunication.register(user, password).then(
+          (success) => {
+            if (!success) {
+              console.error("Registrierung fehlgeschlagen");
+              setError("Registrierung fehlgeschlagen");
+            } else {
+              console.log("Registrierung erfolgreich");
+              console.log("Weiterleitung zur Login-Seite");
+              router.push("/login");
+            }
+          },
+        );
+      } catch (error) {
+        console.error("Fehler bei der Registrierung:", error);
+        setError("Fehler bei der Registrierung");
+      }
     }
   };
 
