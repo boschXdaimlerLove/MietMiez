@@ -76,7 +76,7 @@ export default class AdvertisementCommunication {
 
   static async fetchAdvertisement(id: string): Promise<AdvertisementFetched> {
     const adRes = await fetch(
-      `${GeneralServerCommunication.url}/advertisement/${id}`,
+      `${GeneralServerCommunication.url}/advertisement/${encodeURIComponent(id)}`,
       {
         cache: "no-cache",
         method: "GET",
@@ -153,7 +153,7 @@ export default class AdvertisementCommunication {
 
   static async updateAdvertisement(ad: AdvertisementFetched): Promise<void> {
     const adRes = await fetch(
-      `${GeneralServerCommunication.url}/advertisement/${ad.id}`,
+      `${GeneralServerCommunication.url}/advertisement/${encodeURIComponent(ad.id)}`,
       {
         method: "PATCH",
         headers: await GeneralServerCommunication.getHeaders(),
@@ -170,7 +170,7 @@ export default class AdvertisementCommunication {
 
   static async deleteAdvertisement(id: string): Promise<void> {
     const adRes = await fetch(
-      `${GeneralServerCommunication.url}/advertisement/${id}`,
+      `${GeneralServerCommunication.url}/advertisement/${encodeURIComponent(id)}`,
       {
         method: "DELETE",
         headers: await GeneralServerCommunication.getHeaders(),

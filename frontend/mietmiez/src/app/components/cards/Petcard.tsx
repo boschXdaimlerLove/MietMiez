@@ -40,7 +40,9 @@ export default function PetCard({
         <Button
           isPrimary={true}
           onClick={() => {
-            router.push(`/advertisement/${advertisement.id}`);
+            router.push(
+              `/advertisement/${encodeURIComponent(advertisement.id)}`,
+            );
           }}
           title="Details ansehen"
           // className="mt-4 w-full bg-blue-100 text-blue-900 font-semibold py-2 rounded-lg hover:bg-blue-200 transition"

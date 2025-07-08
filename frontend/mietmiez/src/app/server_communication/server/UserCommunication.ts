@@ -141,7 +141,7 @@ export default class UserCommunication {
 
   static async fetchUser(mail: string): Promise<User> {
     const userRes = await fetch(
-      `${GeneralServerCommunication.url}/user/${mail}/`,
+      `${GeneralServerCommunication.url}/user/${encodeURIComponent(mail)}/`,
       {
         cache: "no-cache",
         method: "GET",
@@ -159,7 +159,7 @@ export default class UserCommunication {
 
   static async activateUser(token: string): Promise<boolean> {
     const res = await fetch(
-      `${GeneralServerCommunication.url}/user/activate/${token}`,
+      `${GeneralServerCommunication.url}/user/activate/${encodeURIComponent(token)}`,
       {
         method: "GET",
         headers: await GeneralServerCommunication.getHeaders(),

@@ -73,7 +73,7 @@ const Login: React.FC = () => {
             <div className="flex flex-col sm:flex-row justify-between gap-4">
               <Button
                 title="Register"
-                onClick={() => router.push("register")}
+                onClick={() => router.push("/register")}
                 isPrimary={false}
                 type="button"
               />
