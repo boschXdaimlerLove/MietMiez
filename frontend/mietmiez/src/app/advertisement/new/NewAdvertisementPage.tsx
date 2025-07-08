@@ -11,7 +11,7 @@ export default function NewAdvertisementPage() {
   const [advertisement, setAdvertisement] = React.useState<AdvertisementUpload>(
     AdvertisementUpload.forUpload(),
   );
-  const fileInputRed = React.useRef<HTMLInputElement>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -77,8 +77,8 @@ export default function NewAdvertisementPage() {
       setTitle("");
       setDescription("");
       setFiles([]);
-      if (fileInputRed.current) {
-        fileInputRed.current.value = "";
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
       }
     } else {
       console.error("Fehler beim Erstellen:", error);
@@ -158,7 +158,7 @@ export default function NewAdvertisementPage() {
         <label className="block text-gray-700 font-medium">
           Upload Image:
           <input
-            ref={fileInputRed}
+            ref={fileInputRef}
             type="file"
             multiple
             accept="image/*"

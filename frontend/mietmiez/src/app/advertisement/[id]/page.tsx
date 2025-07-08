@@ -13,6 +13,8 @@ export default async function AdvertisementPage({
   const advertisement: AdvertisementFetched =
     await AdvertisementCommunication.fetchAdvertisement(id);
 
+  const categories = await AdvertisementCommunication.fetchCategories();
+
   let isLoggedIn: boolean = false;
 
   let user: User;
@@ -29,6 +31,7 @@ export default async function AdvertisementPage({
     <AdvertisementEdit
       isLoggedIn={isLoggedIn}
       advertisement={JSON.stringify(advertisement)}
+      categoriesString={JSON.stringify(categories)}
     />
   );
 }

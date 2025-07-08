@@ -40,4 +40,9 @@ export default class ClientAdvertisementCommunication {
 
     return res.ok;
   }
+
+  static async updateAdvertisement(ad: AdvertisementUpload): Promise<boolean> {
+    // TODO: implement
+    return true;
+  }
 }
