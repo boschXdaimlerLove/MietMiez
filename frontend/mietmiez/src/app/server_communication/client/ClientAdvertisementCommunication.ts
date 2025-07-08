@@ -42,7 +42,15 @@ export default class ClientAdvertisementCommunication {
   }
 
   static async updateAdvertisement(ad: AdvertisementUpload): Promise<boolean> {
-    // TODO: implement
-    return true;
+    const res = await fetch(`/api/advertisement`, {
+      method: "PATCH",
+      body: JSON.stringify(ad),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
+
+    return res.ok;
   }
 }

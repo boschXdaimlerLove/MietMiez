@@ -104,10 +104,10 @@ export default function AdvertisementEdit({
         <div className="flex items-end justify-end">
           <button
             onClick={() => setIsEditing(!isEditing)}
-            className="flex gap-2 px-4 py-2 bg-[#47702d] text-white rounded-lg hover:bg-[#3a5a25] transition-colors disabled:bg-gray-400 items-end"
+            className="flex gap-2 px-4 py-2 bg-[#47702d] text-white rounded-lg hover:bg-[#3a5a25] transition-colors disabled:bg-gray-400 mb-4 items-end"
           >
             <Edit size={16} />
-            {isEditing ? "Abbrechen" : "Bearbeiten"}
+            {isEditing ? "Cancel" : "Edit"}
           </button>
         </div>
       ) : null}
@@ -147,17 +147,17 @@ export default function AdvertisementEdit({
           </div>
 
           {/* Advertisement Text Info */}
-          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md p-6">
+          <div className="bg-white dark:bg-gray-900 rounded-xl shadow-md p-6 m-3">
             {isEditing ? (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 m-2">
                   Title
                 </label>
                 <input
                   type="text"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#47702d] focus:border-transparent text-gray-900"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#47702d] focus:border-transparent text-gray-900 mb-3"
                 />
               </div>
             ) : (
@@ -229,17 +229,17 @@ export default function AdvertisementEdit({
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#47702d] focus:border-transparent text-gray-900"
+              className="w-full m-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#47702d] focus:border-transparent text-gray-900"
             />
           </div>
         ) : (
-          <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line">
+          <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line m-2">
             {description}
           </p>
         )}
       </div>
       {isEditing ? (
-        <Button onClick={handleSubmit} isPrimary={true} title={"Save"} />
+        <Button onClick={handleSubmit} isPrimary={true} title={"Save"} className="mt-2" />
       ) : null}
     </main>
   );

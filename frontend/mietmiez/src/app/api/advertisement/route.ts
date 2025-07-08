@@ -14,3 +14,17 @@ export async function POST(req: Request): Promise<Response> {
     );
   }
 }
+
+export async function PATCH(req: Request): Promise<Response> {
+  try {
+    const ad = JSON.parse(await req.text());
+    await AdvertisementCommunication.updateAdvertisement(ad);
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { success: false, message: "Fehler beim Updaten der Anzeige" },
+      { status: 500 },
+    );
+  }
+}

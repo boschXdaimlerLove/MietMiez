@@ -25,7 +25,7 @@ export default async function Footer() {
                   href="/search"
                   className="text-gray-300 hover:text-[#c9e265]"
                 >
-                  Tiere finden
+                  Find pet
                 </Link>
               </li>
               <li>
@@ -33,7 +33,7 @@ export default async function Footer() {
                   href="/advertisement/new"
                   className="text-gray-300 hover:text-[#c9e265]"
                 >
-                  Tier inserieren
+                  Advertise pet
                 </Link>
               </li>
               <li>
@@ -41,7 +41,7 @@ export default async function Footer() {
                   href="/register"
                   className="text-gray-300 hover:text-[#c9e265]"
                 >
-                  Tiersitter werden
+                  Become pet sitter
                 </Link>
               </li>
               <li>
@@ -49,12 +49,7 @@ export default async function Footer() {
                   href="/help"
                   className="text-gray-300 hover:text-[#c9e265]"
                 >
-                  Hilfe & Support
-                </Link>
-              </li>
-              <li>
-                <Link href="/" className="text-gray-300 hover:text-[#c9e265]">
-                  Falls noch wem was einfällt :D
+                  Help & Support
                 </Link>
               </li>
             </ul>
@@ -62,14 +57,14 @@ export default async function Footer() {
 
           {/* Legal */}
           <div>
-            <h4 className="text-md font-semibold mb-4">Rechtliches</h4>
+            <h4 className="text-md font-semibold mb-4">Legal</h4>
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
                   href="/about"
                   className="text-gray-300 hover:text-[#c9e265]"
                 >
-                  Datenschutz
+                  Privacy Policy
                 </Link>
               </li>
               <li>
@@ -93,7 +88,7 @@ export default async function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-md font-semibold mb-4">Kontakt</h4>
+            <h4 className="text-md font-semibold mb-4">Contact</h4>
             <div className="space-y-2 text-sm text-gray-300">
               <p>Email: {about.mail}</p>
             </div>
