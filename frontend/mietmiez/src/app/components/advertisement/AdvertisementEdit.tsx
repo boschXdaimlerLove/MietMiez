@@ -1,6 +1,6 @@
 "use client";
 
-import { Edit } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
 import ImageSlider from "@/app/components/ImageSlider";
 import UserCard from "@/app/components/cards/UserCard";
 import React, { useEffect, useState } from "react";
@@ -101,6 +101,18 @@ export default function AdvertisementEdit({
       }
     }
     router.refresh();
+  }
+
+  async function handleDelete() {
+    try {
+      await ClientAdvertisementCommunication.deleteAdvertisement(
+        newAdvertisement,
+      );
+      router.push("/home");
+    } catch {
+      console.error("Error deleting advertisement");
+      alert("Error while deleting your advertisement!");
+    }
   }
 
   return (
@@ -246,6 +258,15 @@ export default function AdvertisementEdit({
           </p>
         )}
       </div>
+      {isEditing ? (
+        <button
+          onClick={handleDelete}
+          className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+        >
+          <Trash2 size={16} />
+          Delete advertisement
+        </button>
+      ) : null}
       {isEditing ? (
         <Button
           onClick={handleSubmit}

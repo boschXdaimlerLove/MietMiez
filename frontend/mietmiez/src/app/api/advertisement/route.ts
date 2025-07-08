@@ -28,3 +28,17 @@ export async function PATCH(req: Request): Promise<Response> {
     );
   }
 }
+
+export async function DELETE(req: Request): Promise<Response> {
+  try {
+    const ad = JSON.parse(await req.text());
+    await AdvertisementCommunication.deleteAdvertisement(ad.id);
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { success: false, message: "Fehler beim Löschen der Anzeige" },
+      { status: 500 },
+    );
+  }
+}
