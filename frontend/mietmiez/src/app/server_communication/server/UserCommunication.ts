@@ -84,18 +84,16 @@ export default class UserCommunication {
     return res.ok;
   }
 
-  static async resetPassword(token: string) {
+  static async resetPassword(token: string, password: string) {
     const res = await fetch(
       `${GeneralServerCommunication.url}/user/reset-password/${token}`,
       {
         method: "POST",
         headers: await GeneralServerCommunication.getHeaders(),
         credentials: "include",
+        body: JSON.stringify({ password }),
       },
     );
-    if (!res.ok) {
-      throw new Error("Failed to reset password");
-    }
     return res.ok;
   }
 

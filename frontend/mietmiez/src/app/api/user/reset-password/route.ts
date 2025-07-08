@@ -16,3 +16,19 @@ export async function POST(request: Request) {
     );
   }
 }
+
+export async function PATCH(request: Request) {
+  const { password, token } = JSON.parse(await request.text());
+  try {
+    const success: boolean = await UserCommunication.resetPassword(
+      token,
+      password,
+    );
+    if (!success) {
+      return new Response("Failed to reset password", { status: 400 });
+    }
+    return new Response("Password reset successfully", { status: 200 });
+  } catch {
+    return new Response("Invalid or expired token", { status: 400 });
+  }
+}
