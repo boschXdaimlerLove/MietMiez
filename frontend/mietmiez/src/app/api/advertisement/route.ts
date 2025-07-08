@@ -9,7 +9,7 @@ export async function POST(req: Request): Promise<Response> {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { success: false, message: "Fehler beim Erstellen der Anzeige" },
+      { success: false, message: "Error while creating advertisement" },
       { status: 500 },
     );
   }
@@ -23,7 +23,7 @@ export async function PATCH(req: Request): Promise<Response> {
   } catch (error) {
     console.error(error);
     return NextResponse.json(
-      { success: false, message: "Fehler beim Updaten der Anzeige" },
+      { success: false, message: "error while updating advertisement" },
       { status: 500 },
     );
   }

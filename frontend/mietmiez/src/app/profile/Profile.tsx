@@ -90,9 +90,7 @@ export default function Profile() {
       alert("Profile successfully safed!");
     } catch (err) {
       console.error("Failed to update user:", err);
-      setError(
-        "Error while saving your data. Please try again.",
-      );
+      setError("Error while saving your data. Please try again.");
     } finally {
       setIsSaving(false);
     }
@@ -115,7 +113,7 @@ export default function Profile() {
         passwords.currentPassword,
         passwords.newPassword,
       );
-      console.log("Passwort erfolgreich geändert");
+      console.log("Password changed successfully");
       setPasswords({
         currentPassword: "",
         newPassword: "",
@@ -157,9 +155,7 @@ export default function Profile() {
         router.push("/");
       } catch (err) {
         console.error("Failed to delete account:", err);
-        setError(
-          "Error while deleting your account. Please try again",
-        );
+        setError("Error while deleting your account. Please try again");
       }
     }
   }
@@ -206,7 +202,7 @@ export default function Profile() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                First name 
+                First name
               </label>
               {isEditing ? (
                 <input
@@ -446,8 +442,8 @@ export default function Profile() {
 
           <div className="p-4 bg-red-50 rounded-lg border border-red-200">
             <p className="text-sm text-red-600 mb-4">
-              Warning: This action cannot be undone.
-              All your data will be permanently deleted.
+              Warning: This action cannot be undone. All your data will be
+              permanently deleted.
             </p>
             <button
               onClick={handleDeleteAccount}

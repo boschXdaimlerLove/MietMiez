@@ -24,7 +24,7 @@ const Login: React.FC = () => {
     setError("");
     ClientUserCommunication.login(email, password).then((success) => {
       if (!success) {
-        setError("Login fehlgeschlagen. Bitte überprüfe deine Anmeldedaten.");
+        setError("Login failed. Please check your credentials.");
       } else {
         router.push("/home");
         router.refresh();

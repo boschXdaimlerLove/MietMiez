@@ -59,7 +59,7 @@ export default function NewAdvertisementPage() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (title.length === 0 || description.length === 0) {
-      setError("Daten unvollständig");
+      setError("data is not valid");
       return;
     }
     const localAd = advertisement;
@@ -72,7 +72,7 @@ export default function NewAdvertisementPage() {
     const success =
       await ClientAdvertisementCommunication.createAdvertisement(localAd);
     if (success) {
-      alert("Anzeige erfolgreich erstellt!");
+      alert("advertisement created successfully!");
       setTitle("");
       setDescription("");
       setFiles([]);
@@ -80,7 +80,7 @@ export default function NewAdvertisementPage() {
         fileInputRef.current.value = "";
       }
     } else {
-      console.error("Fehler beim Erstellen:", error);
+      console.error("error while creating:", error);
       alert("Error while creating your advertisement!");
     }
   }
