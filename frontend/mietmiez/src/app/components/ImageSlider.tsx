@@ -1,12 +1,16 @@
-'use client';
-import React, { useState } from 'react';
-import Image from 'next/image';
+"use client";
+import React, { useState } from "react";
+import Image from "next/image";
 
 interface ImageSliderProps {
   images: string[];
+  externalFetching: boolean;
 }
 
-const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
+const ImageSlider: React.FC<ImageSliderProps> = ({
+  images,
+  externalFetching,
+}: ImageSliderProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevImage = () => {
@@ -24,10 +28,14 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
   return (
     <div className="w-full max-w-xl aspect-video overflow-hidden mx-auto rounded-xl shadow-md relative select-none">
       <Image
-        src={images[currentIndex]}
+        src={
+          externalFetching
+            ? `/api/advertisement/image?id=${images[currentIndex]}`
+            : images[currentIndex]
+        }
         alt={`Bild ${currentIndex + 1}`}
         fill
-        style={{ objectFit: 'cover' }}
+        style={{ objectFit: "cover" }}
         priority
       />
 

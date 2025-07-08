@@ -2,7 +2,6 @@ package config
 
 import (
 	"github.com/gofiber/fiber/v2/middleware/compress"
-	"github.com/gofiber/fiber/v2/middleware/csrf"
 	"log/slog"
 	"os"
 	"time"
@@ -14,9 +13,11 @@ import . "boschXdaimlerLove/MietMiez/internal/logger"
 
 var Cfg Config
 
+// The Config contains options to adjust smtp, server, database and minio settings
 type Config struct {
 	Smtp struct {
 		Host     string `envconfig:"SMTP_HOST"`
+		Port     string `envconfig:"SMTP_PORT"`
 		Username string `envconfig:"SMTP_USER"`
 		Password string `envconfig:"SMTP_PASSWORD"`
 		From     string `envconfig:"SMTP_FROM"`
@@ -29,7 +30,7 @@ type Config struct {
 		Production             bool   `envconfig:"BACKEND_PRODUCTION"`
 		MaxBodySizeMB          int    `envconfig:"BACKEND_MAX_BODY_SIZE_MB"`
 		LogLevel               string `envconfig:"BACKEND_LOG_LEVEL"`
-    EnforceEmailActivation bool `envconfig:"BACKEND_ENFORCE_EMAIL_ACTIVATION"`
+		EnforceEmailActivation bool   `envconfig:"BACKEND_ENFORCE_EMAIL_ACTIVATION"`
 	}
 
 	Database struct {
@@ -70,15 +71,5 @@ func SetupConfig() {
 func GetCompressionConfig() compress.Config {
 	return compress.Config{
 		Level: compress.LevelBestSpeed,
-	}
-}
-
-// GetCSRFConfig https://docs.gofiber.io/api/middleware/csrf
-func GetCSRFConfig() csrf.Config {
-	return csrf.Config{
-		KeyLookup:      "header:" + csrf.HeaderName,
-		CookieSameSite: "Strict",
-		CookieSecure:   Cfg.Server.Production,
-		CookieHTTPOnly: false,
 	}
 }

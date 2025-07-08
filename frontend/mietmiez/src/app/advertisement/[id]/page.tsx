@@ -18,7 +18,7 @@ export default async function AdvertisementPage({
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
         {/* Images Section */}
         <div className="w-full aspect-video overflow-hidden rounded-2xl shadow-md">
-          <ImageSlider images={advertisement.images} />
+          <ImageSlider images={advertisement.images} externalFetching={true} />
         </div>
 
         {/* Info Section */}

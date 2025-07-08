@@ -5,17 +5,22 @@ export default async function AboutPage() {
   return (
     <main>
       <div>
-        <h1>About MietMiez</h1>
-        <p>
+        <p className="bg-red-400 mb-10">
           <strong>Disclaimer:</strong> {about.disclaimer}
         </p>
-        <p>{about.about}</p>
-        <p>
-          <strong>Privacy Note:</strong> {about.privacyNote}
-        </p>
+
+        <h1 className="text-center">About MietMiez</h1>
+        <p className="text-center text-sm">{about.about}</p>
+
+        <details className="mt-5">
+          <summary className="text-center">Privacy Note:</summary>
+          <p>
+            <pre className="whitespace-pre-wrap">{about.privacyNote}</pre>
+          </p>
+        </details>
       </div>
       <hr />
-      <div>
+      <div className="text-center">
         <h2>Contact</h2>
         <p>
           Contact us via <a href={`mailto:${about.mail}`}>{about.mail}</a>

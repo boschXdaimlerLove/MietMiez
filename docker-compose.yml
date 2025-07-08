@@ -64,6 +64,8 @@ services:
     volumes:
       - ./openapi/mietmiez.yml:/app/openapi_v1.yml
       - ./configs/static/about.json:/app/about.json
+      - ./configs/static/email_activateUser.html:/app/email_activateUser.html
+      - ./configs/static/email_resetPassword.html:/app/email_resetPassword.html
     env_file:
       - configs/.minio.env
       - configs/.postgres.env

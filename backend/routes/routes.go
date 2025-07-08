@@ -11,6 +11,8 @@ import (
 
 import . "boschXdaimlerLove/MietMiez/internal/logger"
 
+// setting up routes for v1 api
+// read full api specification in [openapi/mietmiez.yml]
 func setupV1Routes(app *fiber.App) {
 	Logger.Debug().Msg("Setting up v1 routes")
 	v1 := app.Group("/v1")
