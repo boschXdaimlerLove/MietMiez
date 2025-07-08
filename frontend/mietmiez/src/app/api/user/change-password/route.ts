@@ -2,9 +2,9 @@ import UserCommunication from "@/app/server_communication/server/UserCommunicati
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
-  const { password, newPassword } = JSON.parse(await req.text());
+  const { oldPassword, newPassword } = JSON.parse(await req.text());
   const changeSuccessful = await UserCommunication.changePassword(
-    password,
+    oldPassword,
     newPassword,
   );
   if (!changeSuccessful) {

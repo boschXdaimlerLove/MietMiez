@@ -16,6 +16,12 @@ import {
 import ClientUserCommunication from "@/app/server_communication/client/ClientUserCommunication";
 import { useRouter } from "next/navigation";
 
+type PasswordStruct = {
+  currentPassword: string;
+  newPassword: string;
+  newPasswordConfirm: string;
+};
+
 export default function Profile() {
   const userString = useProfileContext();
   const userJSON = JSON.parse(userString);
@@ -32,10 +38,10 @@ export default function Profile() {
   const [isChangingPassword, setIsChangingPassword] = useState(false);
 
   // Password State
-  const [passwords, setPasswords] = useState({
+  const [passwords, setPasswords] = useState<PasswordStruct>({
     currentPassword: "",
     newPassword: "",
-    confirmPassword: "",
+    newPasswordConfirm: "",
   });
 
   const [showPasswords, setShowPasswords] = useState({
@@ -44,7 +50,7 @@ export default function Profile() {
     confirm: false,
   });
 
-  async function handleUserUpdate(field: string, value: string) {
+  function handleUserUpdate(field: string, value: string) {
     if (user) {
       setUser((prev) => {
         if (!prev) return prev;
@@ -60,11 +66,11 @@ export default function Profile() {
     }
   }
 
-  async function handlePasswordChange(field: string, value: string) {
-    setPasswords((prev) => ({ ...prev, [field]: value }));
+  function handlePasswordChange(localPasswords: PasswordStruct) {
+    setPasswords(localPasswords);
   }
 
-  async function togglePasswordVisibility(field: string) {
+  function togglePasswordVisibility(field: string) {
     setShowPasswords((prev) => ({
       ...prev,
       [field]: !prev[field as keyof typeof prev],
@@ -97,13 +103,14 @@ export default function Profile() {
       !user ||
       !passwords.currentPassword ||
       !passwords.newPassword ||
-      passwords.newPassword !== passwords.confirmPassword
+      passwords.newPassword !== passwords.newPasswordConfirm
     ) {
       setError("Bitte alle Passwort-Felder korrekt ausfüllen");
       return;
     }
 
     setIsChangingPassword(true);
+    console.log("Attempting to update password.");
     try {
       await ClientUserCommunication.changePassword(
         passwords.currentPassword,
@@ -113,7 +120,7 @@ export default function Profile() {
       setPasswords({
         currentPassword: "",
         newPassword: "",
-        confirmPassword: "",
+        newPasswordConfirm: "",
       });
       setError(null);
       alert("Passwort erfolgreich geändert!");
@@ -315,9 +322,14 @@ export default function Profile() {
                 <input
                   type={showPasswords.current ? "text" : "password"}
                   value={passwords.currentPassword}
-                  onChange={(e) =>
-                    handlePasswordChange("currentPassword", e.target.value)
-                  }
+                  onChange={(e) => {
+                    const struct: PasswordStruct = {
+                      currentPassword: e.target.value,
+                      newPassword: passwords.newPassword,
+                      newPasswordConfirm: passwords.newPasswordConfirm,
+                    };
+                    handlePasswordChange(struct);
+                  }}
                   className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#47702d] focus:border-transparent text-gray-900"
                 />
                 <button
@@ -342,9 +354,14 @@ export default function Profile() {
                 <input
                   type={showPasswords.new ? "text" : "password"}
                   value={passwords.newPassword}
-                  onChange={(e) =>
-                    handlePasswordChange("newPassword", e.target.value)
-                  }
+                  onChange={(e) => {
+                    const struct: PasswordStruct = {
+                      currentPassword: passwords.currentPassword,
+                      newPassword: e.target.value,
+                      newPasswordConfirm: passwords.newPasswordConfirm,
+                    };
+                    handlePasswordChange(struct);
+                  }}
                   className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#47702d] focus:border-transparent text-gray-900"
                 />
                 <button
@@ -364,10 +381,15 @@ export default function Profile() {
               <div className="relative">
                 <input
                   type={showPasswords.confirm ? "text" : "password"}
-                  value={passwords.confirmPassword}
-                  onChange={(e) =>
-                    handlePasswordChange("confirmPassword", e.target.value)
-                  }
+                  value={passwords.newPasswordConfirm}
+                  onChange={(e) => {
+                    const struct: PasswordStruct = {
+                      currentPassword: passwords.currentPassword,
+                      newPassword: passwords.newPassword,
+                      newPasswordConfirm: e.target.value,
+                    };
+                    handlePasswordChange(struct);
+                  }}
                   className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#47702d] focus:border-transparent text-gray-900"
                 />
                 <button
@@ -386,8 +408,8 @@ export default function Profile() {
           </div>
 
           {passwords.newPassword &&
-            passwords.confirmPassword &&
-            passwords.newPassword !== passwords.confirmPassword && (
+            passwords.newPasswordConfirm &&
+            passwords.newPassword !== passwords.newPasswordConfirm && (
               <div className="mt-2 text-red-600 text-sm">
                 Die Passwörter stimmen nicht überein
               </div>
@@ -399,7 +421,7 @@ export default function Profile() {
               disabled={
                 !passwords.currentPassword ||
                 !passwords.newPassword ||
-                passwords.newPassword !== passwords.confirmPassword ||
+                passwords.newPassword !== passwords.newPasswordConfirm ||
                 isChangingPassword
               }
               className="flex items-center gap-2 px-6 py-2 bg-[#47702d] text-white rounded-lg hover:bg-[#3a5a25] transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
