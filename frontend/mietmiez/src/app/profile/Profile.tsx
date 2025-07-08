@@ -110,7 +110,6 @@ export default function Profile() {
     }
 
     setIsChangingPassword(true);
-    console.log("Attempting to update password.");
     try {
       await ClientUserCommunication.changePassword(
         passwords.currentPassword,

@@ -35,16 +35,18 @@ const Register: React.FC = () => {
     } else {
       const user = new User(firstName, lastName, email, city, zipCode);
       try {
-        ClientUserCommunication.register(user, password).then((success) => {
-          if (!success) {
-            console.log("Registrierung fehlgeschlagen");
-            setError("Registrierung fehlgeschlagen");
-          } else {
-            console.log("Registrierung erfolgreich");
-            console.log("Weiterleitung zur Login-Seite");
-            router.push("/login");
-          }
-        });
+        await ClientUserCommunication.register(user, password).then(
+          (success) => {
+            if (!success) {
+              console.error("Registrierung fehlgeschlagen");
+              setError("Registrierung fehlgeschlagen");
+            } else {
+              console.log("Registrierung erfolgreich");
+              console.log("Weiterleitung zur Login-Seite");
+              router.push("/login");
+            }
+          },
+        );
       } catch (error) {
         console.error("Fehler bei der Registrierung:", error);
         setError("Fehler bei der Registrierung");
