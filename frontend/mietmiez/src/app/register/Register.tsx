@@ -29,27 +29,27 @@ const Register: React.FC = () => {
   const handleSubmit = async () => {
     setError("");
     if (password !== confirmPassword) {
-      setError("Passwörter stimmen nicht überein");
+      setError("passwords are not equal");
     } else if (zipCode.length < 5) {
-      setError("Ungültige Postleitzahl");
+      setError("invalid zip code");
     } else {
       const user = new User(firstName, lastName, email, city, zipCode);
       try {
         await ClientUserCommunication.register(user, password).then(
           (success) => {
             if (!success) {
-              console.error("Registrierung fehlgeschlagen");
-              setError("Registrierung fehlgeschlagen");
+              console.error("registration failed");
+              setError("registration failed");
             } else {
-              console.log("Registrierung erfolgreich");
-              console.log("Weiterleitung zur Login-Seite");
+              console.log("registration successful");
+              console.log("redirecting to login page");
               router.push("/login");
             }
           },
         );
       } catch (error) {
-        console.error("Fehler bei der Registrierung:", error);
-        setError("Fehler bei der Registrierung");
+        console.error("error while registering:", error);
+        setError("error while registering");
       }
     }
   };
@@ -64,7 +64,7 @@ const Register: React.FC = () => {
       <div className="w-full md:w-1/2 max-w-lg bg-white rounded-xl shadow-lg p-6 sm:p-8">
         <form onSubmit={handleSubmit}>
           <h2 className="text-green-700 text-center mb-6 font-extrabold text-2xl sm:text-3xl">
-            Willkommen bei Mietmiez
+            Welcome to MietMiez!
           </h2>
 
           {error && (
@@ -74,7 +74,7 @@ const Register: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-2">
             <input
               type="text"
-              placeholder="Vorname"
+              placeholder="first name"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               required
@@ -83,7 +83,7 @@ const Register: React.FC = () => {
 
             <input
               type="text"
-              placeholder="Nachname"
+              placeholder="last name"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               required
@@ -102,7 +102,7 @@ const Register: React.FC = () => {
 
           <input
             type="password"
-            placeholder="Passwort"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -111,7 +111,7 @@ const Register: React.FC = () => {
 
           <input
             type="password"
-            placeholder="Passwort bestätigen"
+            placeholder="confirm password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
@@ -121,7 +121,7 @@ const Register: React.FC = () => {
           <div className="flex flex-col sm:flex-row gap-2">
             <input
               type="number"
-              placeholder="Postleitzahl"
+              placeholder="zip code"
               value={zipCode}
               onChange={(e) => setZipCode(e.target.value)}
               required
@@ -130,7 +130,7 @@ const Register: React.FC = () => {
 
             <input
               type="text"
-              placeholder="Stadt"
+              placeholder="city"
               value={city}
               onChange={(e) => setCity(e.target.value)}
               required
@@ -140,7 +140,7 @@ const Register: React.FC = () => {
 
           <div className="flex justify-end mt-4">
             <Button
-              title="Absenden"
+              title="submit"
               onClick={() => {}}
               isPrimary={true}
               className=""

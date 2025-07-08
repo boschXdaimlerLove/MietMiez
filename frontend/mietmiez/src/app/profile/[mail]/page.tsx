@@ -36,7 +36,7 @@ export default async function ProfilePage({
           <span className="font-semibold">Favoriten:</span>{" "}
           {user.favorites.length > 0
             ? user.favorites.join(", ")
-            : "Keine Favoriten vorhanden"}
+            : "No favorites yet"}
         </p>
       </div>
     </main>

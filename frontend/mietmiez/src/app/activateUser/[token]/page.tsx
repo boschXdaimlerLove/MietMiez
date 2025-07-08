@@ -20,7 +20,7 @@ export default async function ActivateUserPage({
       <main className="flex h-screen items-center justify-center bg-gray-50">
         <div className="flex flex-col items-center space-y-4 text-gray-600">
           <Loader2 className="h-12 w-12 animate-spin" />
-          <p className="text-lg">Aktiviere deinen Account...</p>
+          <p className="text-lg">Activating your account...</p>
         </div>
       </main>
     );
@@ -33,12 +33,11 @@ export default async function ActivateUserPage({
           <div className="flex items-center space-x-3">
             <AlertTriangle className="h-6 w-6 text-red-500" />
             <h2 className="text-xl font-semibold text-red-600">
-              Aktivierung fehlgeschlagen
+              activation failed
             </h2>
           </div>
           <p className="mt-2 text-sm text-gray-700">
-            Leider konnte dein Account nicht aktiviert werden. Bitte versuche es
-            später erneut oder kontaktiere den Support.
+            Sadly your account could not be activated. Please try again later
           </p>
         </div>
       </main>
@@ -51,12 +50,11 @@ export default async function ActivateUserPage({
         <div className="flex items-center space-x-3">
           <CheckCircle className="h-6 w-6 text-green-500" />
           <h2 className="text-xl font-semibold text-green-600">
-            Erfolgreich registriert
+            successfully activated
           </h2>
         </div>
         <p className="mt-2 text-sm text-gray-700">
-          Dein Account wurde erfolgreich aktiviert. Du kannst dich jetzt
-          anmelden.
+          Your account has been successfully activated. You can now log in.
         </p>
       </div>
     </main>

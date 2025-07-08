@@ -44,7 +44,7 @@ export default function PetCard({
               `/advertisement/${encodeURIComponent(advertisement.id)}`,
             );
           }}
-          title="Details ansehen"
+          title="see details"
           // className="mt-4 w-full bg-blue-100 text-blue-900 font-semibold py-2 rounded-lg hover:bg-blue-200 transition"
         />
       </div>

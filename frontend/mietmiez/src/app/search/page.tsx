@@ -16,10 +16,10 @@ export default async function SearchPage({
     return (
       <main>
         <h1 className="text-2xl font-bold text-center mt-8">
-          Keine Anzeigen gefunden
+          No advertisements found
         </h1>
         <p className="text-center mt-4">
-          Versuche es mit anderen Suchkriterien oder erstelle eine neue Anzeige.
+          try different search criteria or check back later.
         </p>
       </main>
     );

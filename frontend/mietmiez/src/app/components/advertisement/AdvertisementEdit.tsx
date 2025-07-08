@@ -73,7 +73,7 @@ export default function AdvertisementEdit({
 
   async function handleSubmit() {
     if (title.length === 0 || description.length === 0) {
-      setError("Daten unvollständig");
+      setError("data incomplete");
       console.log(error);
     } else {
       const localAd = newAdvertisement;
@@ -87,7 +87,7 @@ export default function AdvertisementEdit({
       const success =
         await ClientAdvertisementCommunication.updateAdvertisement(localAd);
       if (success) {
-        alert("Anzeige erfolgreich erstellt!");
+        alert("successfully updated your advertisement!");
         setTitle(newAdvertisement.title);
         setDescription(newAdvertisement.description);
         setFiles([]);
@@ -96,7 +96,7 @@ export default function AdvertisementEdit({
         }
         setIsEditing(false);
       } else {
-        console.error("Fehler beim Erstellen:", error);
+        console.error("error while creating:", error);
         alert("Error while creating your advertisement!");
       }
     }
