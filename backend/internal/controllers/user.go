@@ -152,7 +152,23 @@ func UserDelete(c *fiber.Ctx) error {
 	Logger.Debug().Any("user", user.ToPublic()).Msg("user deletion")
 
 	dbInstance := database.GetDB()
-	dbInstance.Delete(&user)
+
+	var advertisements []models.Advertisement
+	result := dbInstance.Find(&advertisements, "user_id = ?", user.ID)
+	if result.RowsAffected == 0 {
+		Logger.Trace().Msg("no ads to delete for user deletion")
+		dbInstance.Select(clause.Associations).Delete(&user)
+		return c.SendStatus(fiber.StatusOK)
+	} else if result.Error != nil {
+		Logger.Err(result.Error).Msg("fetching advertisements for user deletion failed")
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	go dbInstance.Delete(&advertisements)
+
+	// use unscoped to not use gorms soft delete feature
+	// https://gorm.io/docs/delete.html#Delete-permanently
+	dbInstance.Unscoped().Select(clause.Associations).Delete(&user)
 
 	return c.SendStatus(fiber.StatusOK)
 }

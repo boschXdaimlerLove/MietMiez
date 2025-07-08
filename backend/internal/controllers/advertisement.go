@@ -187,16 +187,16 @@ func DeleteAdvertisement(c *fiber.Ctx) error {
 	result := database.GetDB().
 		Preload("User").
 		Where("id = ? AND user_id = ?", id, userFromDB.ID).
-		Delete(&advertisement)
+		First(&advertisement)
 
 	if result.RowsAffected == 0 {
 		return c.SendStatus(fiber.StatusNotFound)
-	}
-
-	if result.Error != nil {
-		Logger.Debug().Interface("result", result).Msg("cannot delete advertisement")
+	} else if result.Error != nil {
+		Logger.Warn().Interface("result", result).Msg("error getting advertisement for deletion")
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
+
+	go database.GetDB().Delete(&advertisement)
 
 	return c.SendStatus(fiber.StatusOK)
 }

@@ -1,9 +1,15 @@
 package models
 
 import (
+	"boschXdaimlerLove/MietMiez/internal/config"
+	minioclient "boschXdaimlerLove/MietMiez/internal/minio"
+	"context"
+	"github.com/minio/minio-go/v7"
 	"gorm.io/datatypes"
 	"gorm.io/gorm"
 )
+
+import . "boschXdaimlerLove/MietMiez/internal/logger"
 
 type Advertisement struct {
 	// gorm.Model includes Created-At, Updated-At, Deleted-At, as well as an ID (int)
@@ -44,4 +50,15 @@ func (advertisements AdvertisementList) ToPublic() []PublicAdvertisement {
 		publicAds = append(publicAds, e.ToPublic())
 	}
 	return publicAds
+}
+
+func (advertisement *Advertisement) BeforeDelete(db *gorm.DB) (err error) {
+	Logger.Trace().Strs("names", advertisement.Images).Msg("removing images from minio")
+	for _, name := range advertisement.Images {
+		err := minioclient.Client.RemoveObject(context.Background(), config.Cfg.Minio.BucketName, name, minio.RemoveObjectOptions{})
+		if err != nil {
+			Logger.Warn().Err(err).Interface("advertisement", advertisement).Msg("error removing image from minio while deleting ad")
+		}
+	}
+	return nil
 }

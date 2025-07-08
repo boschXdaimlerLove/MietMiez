@@ -5,6 +5,8 @@ import (
 	"time"
 )
 
+import . "boschXdaimlerLove/MietMiez/internal/logger"
+
 // User NEVER do we give this object out of the api and print it to the user!!!
 // it will leak critical data (hash, salt, created-at, ...)
 // use the conversion method user.ToPublic()!!!!!!!!!
@@ -74,4 +76,12 @@ type UserActivationToken struct {
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 	DeletedAt  gorm.DeletedAt `gorm:"index"`
+}
+
+func (u *User) BeforeDelete(db *gorm.DB) error {
+	var ads AdvertisementList
+	db.Where("user_id = ?", u.ID).Delete(&ads)
+	Logger.Trace().Interface("ads", ads).Msg("ads deleted because of user deletion")
+
+	return nil
 }
