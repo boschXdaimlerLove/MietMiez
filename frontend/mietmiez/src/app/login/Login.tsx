@@ -84,6 +84,13 @@ const Login: React.FC = () => {
                 type="submit"
               />
             </div>
+            <Button
+              title="Reset password"
+              onClick={async () =>
+                await ClientUserCommunication.resetPassword(email)
+              }
+              isPrimary={false}
+            />
           </form>
         </div>
       </div>

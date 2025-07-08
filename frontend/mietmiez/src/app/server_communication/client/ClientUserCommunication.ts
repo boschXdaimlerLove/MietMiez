@@ -73,4 +73,16 @@ export default class ClientUserCommunication {
     }
     return JSON.parse(await res.text())["email"];
   }
+
+  static async resetPassword(email: string): Promise<void> {
+    const res = await fetch("/api/user/reset-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+      credentials: "include",
+    });
+    if (!res.ok) {
+      throw new Error("Failed to reset password");
+    }
+  }
 }
