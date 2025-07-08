@@ -9,6 +9,7 @@ import Category from "@/app/objects/category";
 import AdvertisementUpload from "@/app/objects/advertisement/AdvertisementUpload";
 import ClientAdvertisementCommunication from "@/app/server_communication/client/ClientAdvertisementCommunication";
 import Button from "@/app/components/button";
+import { useRouter } from "next/navigation";
 
 export default function AdvertisementEdit({
   isLoggedIn,
@@ -24,6 +25,7 @@ export default function AdvertisementEdit({
     JSON.parse(advertisement),
   );
   const categories: Category[] = JSON.parse(categoriesString);
+  const router = useRouter();
 
   const [files, setFiles] = React.useState<File[]>([]);
   const [title, setTitle] = useState(ad.title);
@@ -73,29 +75,32 @@ export default function AdvertisementEdit({
     if (title.length === 0 || description.length === 0) {
       setError("Daten unvollständig");
       console.log(error);
-      return;
-    }
-    const localAd = ad;
-    localAd.title = title;
-    localAd.animal = animal;
-    localAd.description = description;
-    setAdvertisement(localAd);
-    await handleImageUpload();
-
-    const success =
-      await ClientAdvertisementCommunication.updateAdvertisement(localAd);
-    if (success) {
-      alert("Anzeige erfolgreich erstellt!");
-      setTitle("");
-      setDescription("");
-      setFiles([]);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
     } else {
-      console.error("Fehler beim Erstellen:", error);
-      alert("Error while creating your advertisement!");
+      const localAd = newAdvertisement;
+      localAd.title = title;
+      localAd.animal = animal;
+      localAd.description = description;
+      localAd.images = [];
+      setAdvertisement(localAd);
+      await handleImageUpload();
+
+      const success =
+        await ClientAdvertisementCommunication.updateAdvertisement(localAd);
+      if (success) {
+        alert("Anzeige erfolgreich erstellt!");
+        setTitle(newAdvertisement.title);
+        setDescription(newAdvertisement.description);
+        setFiles([]);
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
+        setIsEditing(false);
+      } else {
+        console.error("Fehler beim Erstellen:", error);
+        alert("Error while creating your advertisement!");
+      }
     }
+    router.refresh();
   }
 
   return (
@@ -135,7 +140,10 @@ export default function AdvertisementEdit({
               />
             </label>
           ) : (
-            <ImageSlider images={ad.images} externalFetching={true} />
+            <ImageSlider
+              images={newAdvertisement.images}
+              externalFetching={true}
+            />
           )}
         </div>
 
@@ -162,7 +170,7 @@ export default function AdvertisementEdit({
               </div>
             ) : (
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
-                {title}
+                {newAdvertisement.title}
               </h1>
             )}
             {isEditing ? (
@@ -208,7 +216,7 @@ export default function AdvertisementEdit({
               </div>
             ) : (
               <p className="text-lg text-gray-600 dark:text-gray-300">
-                <strong>Animal:</strong> {animal}
+                <strong>Animal:</strong> {newAdvertisement.animal}
               </p>
             )}
             <p className="text-lg text-gray-600 dark:text-gray-300">
@@ -234,12 +242,17 @@ export default function AdvertisementEdit({
           </div>
         ) : (
           <p className="text-gray-700 dark:text-gray-300 whitespace-pre-line m-2">
-            {description}
+            {newAdvertisement.description}
           </p>
         )}
       </div>
       {isEditing ? (
-        <Button onClick={handleSubmit} isPrimary={true} title={"Save"} className="mt-2" />
+        <Button
+          onClick={handleSubmit}
+          isPrimary={true}
+          title={"Save"}
+          className="mt-2"
+        />
       ) : null}
     </main>
   );

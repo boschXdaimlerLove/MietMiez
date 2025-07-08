@@ -11,9 +11,7 @@ export async function POST(req: Request): Promise<Response> {
 }
 
 export async function GET(req: Request): Promise<Response> {
-  console.log("Entering GET for image");
   const { searchParams } = new URL(req.url);
-  console.log("Search params", searchParams);
   const id = searchParams.get("id");
   console.log("ID", id);
   if (!id) {
