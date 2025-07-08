@@ -52,8 +52,12 @@ type ChangePasswordRequest struct {
 	NewPassword string `json:"new-password"`
 }
 
-type PasswordResetRequest struct {
+type PasswordResetEmailRequest struct {
 	Email string `json:"email"`
+}
+
+type PasswordResetRequest struct {
+	Password string `json:"password"`
 }
 
 type PasswordResetToken struct {

@@ -210,8 +210,8 @@ func UserLogout(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusOK)
 }
 
-func UserResetPassword(c *fiber.Ctx) error {
-	var pwResetRequest models.PasswordResetRequest
+func UserResetPasswordRequest(c *fiber.Ctx) error {
+	var pwResetRequest models.PasswordResetEmailRequest
 	var user models.User
 
 	err := c.BodyParser(&pwResetRequest)
@@ -248,6 +248,42 @@ func UserResetPassword(c *fiber.Ctx) error {
 
 	// sendEmail
 	go util.SendResetMail(resetToken.ID, user.Email)
+	return c.SendStatus(fiber.StatusOK)
+}
+
+func UserResetPassword(c *fiber.Ctx) error {
+	resetToken := models.PasswordResetToken{
+		ID: c.Params("token"),
+	}
+	var request models.PasswordResetRequest
+	err := util.GetJsonFromRequest(c, &request)
+	if err != nil {
+		Logger.Trace().Err(err).Msg("bad request: resetting password failed")
+		return c.SendStatus(fiber.StatusBadRequest)
+	}
+
+	dbInstance := database.GetDB()
+	result := dbInstance.Preload("User").First(&resetToken)
+	if result.RowsAffected == 0 {
+		return c.SendStatus(fiber.StatusBadRequest)
+	} else if result.Error != nil {
+		Logger.Err(result.Error).Msg("loading reset token from db failed")
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	Logger.Trace().Interface("resetToken", resetToken).Interface("user", resetToken.User).Msg("Resetting password")
+	user := resetToken.User
+	user.Salt, user.Hash, err = util.HashPassword(request.Password)
+	if err != nil {
+		return err
+	}
+
+	result = dbInstance.Save(&user)
+	if result.Error != nil {
+		Logger.Err(result.Error).Msg("resetting user pw failed to save to db")
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
 	return c.SendStatus(fiber.StatusOK)
 }
 
