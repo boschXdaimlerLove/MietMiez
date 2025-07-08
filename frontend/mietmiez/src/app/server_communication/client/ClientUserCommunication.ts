@@ -30,7 +30,6 @@ export default class ClientUserCommunication {
       body: body,
       credentials: "include",
     });
-    console.log("Registration response:", res);
     return res.ok;
   }
 

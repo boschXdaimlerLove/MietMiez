@@ -141,7 +141,7 @@ export default class UserCommunication {
 
   static async fetchUser(mail: string): Promise<User> {
     const userRes = await fetch(
-      `${GeneralServerCommunication.url}/user/${encodeURIComponent(mail)}/`,
+      `${GeneralServerCommunication.url}/user/${mail}/`,
       {
         cache: "no-cache",
         method: "GET",

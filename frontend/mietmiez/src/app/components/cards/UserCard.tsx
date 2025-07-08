@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation";
 export default function UserCard({ userJSON }: { userJSON: string }) {
   const user: User = User.fromJSON(JSON.parse(userJSON));
   const router = useRouter();
-  console.log("UserCard", user);
   return (
     <button
       onClick={() => router.push(`/profile/${encodeURIComponent(user.email)}`)}

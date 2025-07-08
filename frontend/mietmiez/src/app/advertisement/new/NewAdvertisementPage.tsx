@@ -60,7 +60,6 @@ export default function NewAdvertisementPage() {
     event.preventDefault();
     if (title.length === 0 || description.length === 0) {
       setError("Daten unvollständig");
-      console.log(error);
       return;
     }
     const localAd = advertisement;
