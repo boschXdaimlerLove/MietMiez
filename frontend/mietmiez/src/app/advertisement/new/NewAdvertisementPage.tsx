@@ -11,7 +11,7 @@ export default function NewAdvertisementPage() {
   const [advertisement, setAdvertisement] = React.useState<AdvertisementUpload>(
     AdvertisementUpload.forUpload(),
   );
-  const fileInputRed = React.useRef<HTMLInputElement>(null);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -76,12 +76,12 @@ export default function NewAdvertisementPage() {
       setTitle("");
       setDescription("");
       setFiles([]);
-      if (fileInputRed.current) {
-        fileInputRed.current.value = "";
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
       }
     } else {
       console.error("Fehler beim Erstellen:", error);
-      alert("Fehler beim Erstellen der Anzeige.");
+      alert("Error while creating your advertisement!");
     }
   }
 
@@ -96,7 +96,7 @@ export default function NewAdvertisementPage() {
       <form onSubmit={handleSubmit} className="space-y-5">
         <input
           type="text"
-          placeholder="Name des Tieres"
+          placeholder="Name of your pet"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
@@ -146,7 +146,7 @@ export default function NewAdvertisementPage() {
         </div>
 
         <textarea
-          placeholder="Was sollte man über dein Tier wissen?"
+          placeholder="What should people know about your pet?"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
@@ -157,7 +157,7 @@ export default function NewAdvertisementPage() {
         <label className="block text-gray-700 font-medium">
           Upload Image:
           <input
-            ref={fileInputRed}
+            ref={fileInputRef}
             type="file"
             multiple
             accept="image/*"

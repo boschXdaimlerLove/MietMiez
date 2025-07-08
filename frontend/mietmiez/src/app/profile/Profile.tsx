@@ -87,11 +87,11 @@ export default function Profile() {
       setError(null);
 
       // Erfolgs-Feedback anzeigen
-      alert("Profil erfolgreich gespeichert!");
+      alert("Profile successfully safed!");
     } catch (err) {
       console.error("Failed to update user:", err);
       setError(
-        "Fehler beim Speichern der Daten. Bitte versuchen Sie es erneut.",
+        "Error while saving your data. Please try again.",
       );
     } finally {
       setIsSaving(false);
@@ -105,7 +105,7 @@ export default function Profile() {
       !passwords.newPassword ||
       passwords.newPassword !== passwords.newPasswordConfirm
     ) {
-      setError("Bitte alle Passwort-Felder korrekt ausfüllen");
+      setError("Pleasy fill in all password-fiels correctly");
       return;
     }
 
@@ -122,11 +122,11 @@ export default function Profile() {
         newPasswordConfirm: "",
       });
       setError(null);
-      alert("Passwort erfolgreich geändert!");
+      alert("Password successfully changed!");
     } catch (err) {
       console.error("Failed to change password:", err);
       setError(
-        "Fehler beim Ändern des Passworts. Überprüfen Sie Ihr aktuelles Passwort.",
+        "Error while changing password. Please check your current password.",
       );
     } finally {
       setIsChangingPassword(false);
@@ -148,7 +148,7 @@ export default function Profile() {
   async function handleDeleteAccount() {
     if (
       confirm(
-        "Sind Sie sicher, dass Sie Ihr Konto permanent löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
+        "Are you sure to dele your account permanently? This step cannot be undone!",
       )
     ) {
       try {
@@ -158,7 +158,7 @@ export default function Profile() {
       } catch (err) {
         console.error("Failed to delete account:", err);
         setError(
-          "Fehler beim Löschen des Accounts. Bitte versuchen Sie es erneut.",
+          "Error while deleting your account. Please try again",
         );
       }
     }
@@ -167,7 +167,7 @@ export default function Profile() {
   if (!userFetched) {
     console.error("User not found or invalid user data");
     router.push("/login");
-    return <div className="text-red-600">Benutzer nicht gefunden</div>;
+    return <div className="text-red-600">User not found</div>;
   }
 
   return (
@@ -181,7 +181,7 @@ export default function Profile() {
               onClick={async () => setError(null)}
               className="mt-2 text-sm text-red-500 hover:text-red-700"
             >
-              Schließen
+              Close
             </button>
           </div>
         )}
@@ -191,7 +191,7 @@ export default function Profile() {
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-gray-800 flex items-center gap-2">
               <UserIcon size={20} className="text-[#47702d]" />
-              Persönliche Daten
+              Personal Data
             </h2>
             <button
               onClick={async () => setIsEditing(!isEditing)}
@@ -206,7 +206,7 @@ export default function Profile() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Vorname
+                First name 
               </label>
               {isEditing ? (
                 <input
@@ -224,7 +224,7 @@ export default function Profile() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Nachname
+                Last name
               </label>
               {isEditing ? (
                 <input
@@ -256,7 +256,7 @@ export default function Profile() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Stadt
+                City
               </label>
               {isEditing ? (
                 <input
@@ -272,7 +272,7 @@ export default function Profile() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                PLZ
+                Zip-Code
               </label>
               {isEditing ? (
                 <input
@@ -309,13 +309,13 @@ export default function Profile() {
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h2 className="text-xl font-semibold text-gray-800 mb-6 flex items-center gap-2">
             <Lock size={20} className="text-[#47702d]" />
-            Passwort ändern
+            Change password
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="md:col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Aktuelles Passwort
+                Current Password
               </label>
               <div className="relative">
                 <input
@@ -347,7 +347,7 @@ export default function Profile() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Neues Passwort
+                New Password
               </label>
               <div className="relative">
                 <input
@@ -375,7 +375,7 @@ export default function Profile() {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Passwort bestätigen
+                Confirm Password
               </label>
               <div className="relative">
                 <input
@@ -410,7 +410,7 @@ export default function Profile() {
             passwords.newPasswordConfirm &&
             passwords.newPassword !== passwords.newPasswordConfirm && (
               <div className="mt-2 text-red-600 text-sm">
-                Die Passwörter stimmen nicht überein
+                Passwords do not match
               </div>
             )}
 
@@ -441,20 +441,20 @@ export default function Profile() {
         <div className="bg-white rounded-xl shadow-lg p-6">
           <h2 className="text-xl font-semibold text-red-600 mb-6 flex items-center gap-2">
             <Trash2 size={20} className="text-red-600" />
-            Account löschen
+            Delete Account
           </h2>
 
           <div className="p-4 bg-red-50 rounded-lg border border-red-200">
             <p className="text-sm text-red-600 mb-4">
-              Achtung: Diese Aktion kann nicht rückgängig gemacht werden. Alle
-              Ihre Daten werden permanent gelöscht.
+              Warning: This action cannot be undone.
+              All your data will be permanently deleted.
             </p>
             <button
               onClick={handleDeleteAccount}
               className="flex items-center gap-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
             >
               <Trash2 size={16} />
-              Account löschen
+              Delete account
             </button>
           </div>
         </div>
@@ -466,7 +466,7 @@ export default function Profile() {
             className="w-full flex items-center justify-center gap-3 px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors font-medium"
           >
             <LogOut size={20} />
-            Abmelden
+            Logout
           </button>
         </div>
       </div>
