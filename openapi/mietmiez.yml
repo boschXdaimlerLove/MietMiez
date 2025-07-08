@@ -158,14 +158,31 @@ paths:
         content:
           application/json:
             schema:
+              $ref: '#/components/schemas/PasswordResetEmailRequest'
+      responses:
+        '200':
+          description: Password reset link sent (if user with that email exists)
+        '500':
+          description: Internal server error
+
+  /user/reset-password/{token}:
+    post:
+      tags:
+        - user
+      summary: Reset password after receiving pw-reset email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
               $ref: '#/components/schemas/PasswordResetRequest'
       responses:
         '200':
-          description: Password reset link sent (if email exists)
+          description: Password has been changed
         '400':
-          description: Invalid email format
-        '401':
-          description: Not logged in
+          description: Token is not valid
+        '500':
+          description: Internal server error
   
   /user/change-password:
     post:
@@ -547,7 +564,7 @@ components:
           items:
             type: string
             example: https://api.mietmiez.com/resources/adv-images/123abc/image.jpg
-    PasswordResetRequest:
+    PasswordResetEmailRequest:
       type: object
       required:
         - email
@@ -556,6 +573,14 @@ components:
           type: string
           format: email
           example: john.appleseed@mail.com
+    PasswordResetRequest:
+      type: object
+      required:
+        - password
+      properties:
+        password:
+          type: string
+          example: sup3rStrongAndLongP!ssword
     LoginResponse:
       type: object
       properties:
