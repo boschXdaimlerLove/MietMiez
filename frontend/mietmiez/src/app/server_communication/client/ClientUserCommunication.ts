@@ -63,12 +63,15 @@ export default class ClientUserCommunication {
     return res.ok;
   }
 
-  static async alreadyLoggedIn(): Promise<boolean> {
+  static async getUserEmail(): Promise<string | null> {
     const res = await fetch("/api/user", {
-      method: "POST",
+      method: "GET",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     });
-    return res.ok;
+    if (!res.ok) {
+      return null;
+    }
+    return JSON.parse(await res.text())["email"];
   }
 }

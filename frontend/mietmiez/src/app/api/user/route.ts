@@ -29,8 +29,8 @@ export async function PUT(req: Request) {
 export async function GET(): Promise<Response> {
   let res: Response;
   try {
-    await UserCommunication.fetchSelfUser();
-    res = NextResponse.json({ success: true });
+    const user: User = await UserCommunication.fetchSelfUser();
+    res = NextResponse.json({ success: true, email: user.email });
   } catch {
     res = NextResponse.json({ success: false });
   }
