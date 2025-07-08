@@ -24,23 +24,13 @@ export default class ClientUserCommunication {
 
   static async register(user: User, password: string): Promise<boolean> {
     const body = JSON.stringify({ user: user.toJSON(), password });
-    let res: Response = Response.json("Default response");
-    try {
-      res = await fetch("/api/user/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: body,
-        credentials: "include",
-      });
-    } catch (error) {
-      if (!res.ok) {
-        console.error("Error during registration in client user:", error);
-        return false;
-      }
-    }
-    // console.log("Registration response:", res);
-    // return res.ok;
-    return true;
+    const res = await fetch("/api/user/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: body,
+      credentials: "include",
+    });
+    return res.ok;
   }
 
   static async deleteUser(): Promise<boolean> {
