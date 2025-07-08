@@ -91,16 +91,17 @@ export default class UserCommunication {
   ): Promise<boolean> {
     const user = await UserCommunication.fetchSelfUser();
     const mail = user.email;
+    const body = JSON.stringify({
+      email: mail,
+      "old-password": oldPassword,
+      "new-password": newPassword,
+    });
     const res = await fetch(
       `${GeneralServerCommunication.url}/user/change-password/`,
       {
         method: "POST",
         headers: await GeneralServerCommunication.getHeaders(),
-        body: JSON.stringify({
-          email: mail,
-          "old-password": oldPassword,
-          "new-password": newPassword,
-        }),
+        body: body,
         credentials: "include",
       },
     );
