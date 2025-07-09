@@ -1,17 +1,17 @@
 meta {
-  name: Obtain user1 favorites
+  name: Add new favourite
   type: http
-  seq: 12
+  seq: 3
 }
 
-get {
+post {
   url: {{baseUrl}}/user/favourites
   body: none
   auth: none
 }
 
-assert {
-  res.status: eq 200
+params:query {
+  advertisement: 
 }
 
 script:pre-request {

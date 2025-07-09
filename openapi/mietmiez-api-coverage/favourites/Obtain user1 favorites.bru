@@ -1,23 +1,23 @@
 meta {
-  name: Add new favourite
+  name: Obtain user1 favorites
   type: http
-  seq: 22
+  seq: 2
 }
 
-post {
+get {
   url: {{baseUrl}}/user/favourites
   body: none
   auth: none
 }
 
-params:query {
-  advertisement: 
+assert {
+  res.status: eq 200
 }
 
 script:pre-request {
   // retrieve the cookie string you stored earlier
   const cookie = bru.getVar("cookie_user1");
-
+  
   if (cookie) {
     // set it as the Cookie header on the outgoing request
     req.setHeader("Cookie", cookie);
