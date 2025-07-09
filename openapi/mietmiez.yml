@@ -68,7 +68,9 @@ paths:
         '201':
           description: User created
         '400':
-          description: Some input is not correct
+          description: Some input is not correct (probably password too short)
+        '409':
+          description: Email is already in use
     delete:
       tags:
         - user
@@ -581,6 +583,7 @@ components:
         password:
           type: string
           example: sup3rStrongAndLongP!ssword
+          minLength: 10
     LoginResponse:
       type: object
       properties:
@@ -654,7 +657,7 @@ components:
         password:
           type: string
           format: password
-          minLength: 8
+          minLength: 10
         city:
           type: string
           example: Stuttgart

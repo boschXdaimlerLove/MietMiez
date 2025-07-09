@@ -20,12 +20,19 @@ func UserCreate(c *fiber.Ctx) error {
 	user := &models.User{}
 
 	if err := util.GetJsonFromRequest(c, user); err != nil {
-		return c.SendStatus(fiber.StatusInternalServerError)
+		Logger.Trace().Err(err).Any("c.Body()", c.Body()).Msg("registration failed to parse json")
+		return c.SendStatus(fiber.StatusBadRequest)
+	}
+
+	if len(user.Hash) < 10 {
+		Logger.Trace().Str("email", user.Email).Msg("password for registration is too short!")
+		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
 	hash, err := util.HashPassword(user.Hash) // password sent by post request will be mapped to hash field
 	if err != nil {
-		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{})
+		Logger.Err(err).Msg("registration failed to hash password")
+		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
 	user.Hash = hash
@@ -230,8 +237,8 @@ func UserResetPasswordRequest(c *fiber.Ctx) error {
 
 	err := c.BodyParser(&pwResetRequest)
 	if err != nil {
-		Logger.Err(err).Msg("Fiber Body Parser failed")
-		return c.SendStatus(fiber.StatusInternalServerError)
+		Logger.Trace().Err(err).Msg("Fiber Body Parser failed")
+		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
 	// get user from email
@@ -273,6 +280,11 @@ func UserResetPassword(c *fiber.Ctx) error {
 	err := util.GetJsonFromRequest(c, &request)
 	if err != nil {
 		Logger.Trace().Err(err).Msg("bad request: resetting password failed")
+		return c.SendStatus(fiber.StatusBadRequest)
+	}
+
+	if len(request.Password) < 10 {
+		Logger.Trace().Str("token", resetToken.ID).Msg("password for registration is too short!")
 		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
@@ -320,12 +332,18 @@ func UserInfo(c *fiber.Ctx) error {
 
 // UserChangePassword changes password of user
 // notice check of old password
+// TODO use cookie for authentication, not email
 func UserChangePassword(c *fiber.Ctx) error {
 	request := new(models.ChangePasswordRequest)
 
 	if err := c.BodyParser(request); err != nil {
-		Logger.Err(err).Msg("Fiber Body Parser failed")
-		return c.SendStatus(fiber.StatusInternalServerError)
+		Logger.Trace().Err(err).Any("c.Body", c.Body()).Msg("parsing change password request failed")
+		return c.SendStatus(fiber.StatusBadRequest)
+	}
+
+	if len(request.NewPassword) < 10 {
+		Logger.Trace().Str("email", request.Email).Msg("password for registration is too short!")
+		return c.SendStatus(fiber.StatusBadRequest)
 	}
 
 	var user models.User
