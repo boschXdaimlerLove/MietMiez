@@ -12,13 +12,15 @@ import (
 	"github.com/minio/minio-go/v7"
 	"io"
 	"mime/multipart"
+	"strconv"
 	"strings"
+	"time"
 )
 
 import . "boschXdaimlerLove/MietMiez/internal/logger"
 
 func UploadImage(c *fiber.Ctx) error {
-	isAuthenticated, _ := util.GetRequestUser(c)
+	isAuthenticated, user := util.GetRequestUser(c)
 	if !isAuthenticated {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
@@ -46,6 +48,10 @@ func UploadImage(c *fiber.Ctx) error {
 	// 3) In einen bytes.Buffer kopieren
 	buf := new(bytes.Buffer)
 	if _, err := io.Copy(buf, src); err != nil {
+		Logger.Err(err).Msg("Error reading file into buffer")
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+	if _, err := io.Copy(buf, bytes.NewReader([]byte(user.Email+strconv.FormatInt(time.Now().UnixNano(), 10)))); err != nil {
 		Logger.Err(err).Msg("Error reading file into buffer")
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
