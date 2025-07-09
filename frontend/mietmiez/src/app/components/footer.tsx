@@ -15,11 +15,6 @@ export default async function Footer() {
             </h3>
             <p className="text-gray-300 text-sm">{about.shortAbout}</p>
           </div>
-          <p>
-            You need somebody for your pet because you&#39;re on vacation next
-            weekend? No problem! MietMiez is the answer. Find somebody near you
-            who has time for your pet.
-          </p>
 
           {/* Quick Links */}
           <div>
@@ -27,7 +22,7 @@ export default async function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  href="/search"
+                  href="/home"
                   className="text-gray-300 hover:text-[#c9e265]"
                 >
                   Find pet

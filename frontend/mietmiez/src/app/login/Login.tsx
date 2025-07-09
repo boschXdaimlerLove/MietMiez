@@ -76,16 +76,19 @@ const Login: React.FC = () => {
                 onClick={() => router.push("/register")}
                 isPrimary={false}
                 type="button"
+                className="w-full"
               />
               <Button
                 title="Login"
                 onClick={() => {}}
                 isPrimary={true}
                 type="submit"
+                className="w-full"
               />
             </div>
             <Button
               title="Reset password"
+              className="w-full"
               onClick={async () => {
                 const success =
                   await ClientUserCommunication.resetPasswordRequest(email);
