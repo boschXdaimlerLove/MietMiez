@@ -23,13 +23,12 @@ func UserCreate(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 
-	salt, hash, err := util.HashPassword(user.Hash) // password sent by post request will be mapped to hash field
+	hash, err := util.HashPassword(user.Hash) // password sent by post request will be mapped to hash field
 	if err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{})
 	}
 
 	user.Hash = hash
-	user.Salt = salt
 	user.IsActivated = !config.Cfg.Server.EnforceEmailActivation
 
 	dbInstance := database.GetDB()
@@ -111,7 +110,7 @@ func UserLogin(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusLocked)
 	}
 
-	passwordCorrect, err := util.CheckPasswordHash(request.Password, user.Hash, user.Salt)
+	passwordCorrect, err := util.CheckPasswordHash(request.Password, user.Hash)
 	if err != nil {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
@@ -148,8 +147,7 @@ func UserDelete(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
-	// TODO: dead advertisements after user delete
-	Logger.Debug().Any("user", user.ToPublic()).Msg("user deletion")
+	Logger.Trace().Any("user", user.ToPublic()).Msg("user deletion")
 
 	dbInstance := database.GetDB()
 
@@ -289,7 +287,7 @@ func UserResetPassword(c *fiber.Ctx) error {
 
 	Logger.Trace().Interface("resetToken", resetToken).Interface("user", resetToken.User).Msg("Resetting password")
 	user := resetToken.User
-	user.Salt, user.Hash, err = util.HashPassword(request.Password)
+	user.Hash, err = util.HashPassword(request.Password)
 	if err != nil {
 		return err
 	}
@@ -337,7 +335,7 @@ func UserChangePassword(c *fiber.Ctx) error {
 	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
-	passwordCorrect, err := util.CheckPasswordHash(request.OldPassword, user.Hash, user.Salt)
+	passwordCorrect, err := util.CheckPasswordHash(request.OldPassword, user.Hash)
 	if err != nil {
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
@@ -345,7 +343,7 @@ func UserChangePassword(c *fiber.Ctx) error {
 		return c.SendStatus(fiber.StatusUnauthorized)
 	}
 
-	user.Salt, user.Hash, err = util.HashPassword(request.NewPassword)
+	user.Hash, err = util.HashPassword(request.NewPassword)
 	if err != nil {
 		return err
 	}

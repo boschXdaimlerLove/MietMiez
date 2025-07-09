@@ -1,6 +1,7 @@
 package util
 
 import (
+	"boschXdaimlerLove/MietMiez/internal/config"
 	"crypto/rand"
 	"encoding/base64"
 	"github.com/alexedwards/argon2id"
@@ -9,22 +10,21 @@ import (
 import . "boschXdaimlerLove/MietMiez/internal/logger"
 
 // HashPassword returns salt, hash, error
-func HashPassword(password string) (string, string, error) {
-	salt := GetRandomText(32) // 26 char text
-	hash, err := argon2id.CreateHash(password+salt, argon2id.DefaultParams)
+func HashPassword(password string) (string, error) {
+	hash, err := argon2id.CreateHash(password, config.GetArgon2Config())
 	if err != nil {
 		Logger.Err(err).Msg("Error calculating hash")
-		return "", "", err
+		return "", err
 	}
 
-	return salt, hash, nil
+	return hash, nil
 }
 
-func CheckPasswordHash(password string, hash string, salt string) (bool, error) {
-	match, err := argon2id.ComparePasswordAndHash(password+salt, hash)
+func CheckPasswordHash(password string, hash string) (bool, error) {
+	match, err := argon2id.ComparePasswordAndHash(password, hash)
 	if err != nil {
 
-		Logger.Err(err).Str("hash", hash).Str("password", password).Str("Salt", salt).Msg("Error comparing hash")
+		Logger.Err(err).Str("hash", hash).Str("password", password).Msg("Error comparing hash")
 		return false, err
 	}
 	return match, nil
