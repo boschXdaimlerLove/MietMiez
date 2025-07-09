@@ -13,3 +13,13 @@ post {
 params:query {
   advertisement: 
 }
+
+script:pre-request {
+  // retrieve the cookie string you stored earlier
+  const cookie = bru.getVar("cookie_user1");
+
+  if (cookie) {
+    // set it as the Cookie header on the outgoing request
+    req.setHeader("Cookie", cookie);
+  }
+}

@@ -382,9 +382,30 @@ func UserGetFavourites(c *fiber.Ctx) error {
 }
 
 // UserAddFavourite adds a new favourite to user favourites
-// currently not implemented :( Todo?
 func UserAddFavourite(c *fiber.Ctx) error {
-	return c.SendStatus(fiber.StatusNotImplemented)
+	var user models.User
+	var isAuthenticated bool
+
+	isAuthenticated, user = util.GetRequestUser(c)
+	if !isAuthenticated {
+		return c.SendStatus(fiber.StatusUnauthorized)
+	}
+
+	id := c.QueryInt("advertisement")
+
+	var favourite = models.Favourite{
+		UserID:          user.ID,
+		AdvertisementID: uint(id),
+	}
+
+	dbInstance := database.GetDB()
+	result := dbInstance.Clauses(clause.OnConflict{DoNothing: true}).Create(&favourite)
+
+	if result.Error != nil {
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	return c.SendStatus(fiber.StatusOK)
 }
 
 // GetUser returns currently logged-in user who made request
