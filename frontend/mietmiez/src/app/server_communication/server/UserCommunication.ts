@@ -71,7 +71,7 @@ export default class UserCommunication {
     return res.ok;
   }
 
-  static async resetPassword(email: string): Promise<void> {
+  static async resetPasswordRequest(email: string): Promise<boolean> {
     const res = await fetch(
       `${GeneralServerCommunication.url}/user/reset-password/`,
       {
@@ -81,8 +81,20 @@ export default class UserCommunication {
         credentials: "include",
       },
     );
-    if (!res.ok) {
-    }
+    return res.ok;
+  }
+
+  static async resetPassword(token: string, password: string) {
+    const res = await fetch(
+      `${GeneralServerCommunication.url}/user/reset-password/${token}`,
+      {
+        method: "POST",
+        headers: await GeneralServerCommunication.getHeaders(),
+        credentials: "include",
+        body: JSON.stringify({ password }),
+      },
+    );
+    return res.ok;
   }
 
   static async changePassword(

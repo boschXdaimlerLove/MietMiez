@@ -84,6 +84,23 @@ const Login: React.FC = () => {
                 type="submit"
               />
             </div>
+            <Button
+              title="Reset password"
+              onClick={async () => {
+                const success =
+                  await ClientUserCommunication.resetPasswordRequest(email);
+                if (!success) {
+                  setError(
+                    "failed to send reset password email. Please check your email address.",
+                  );
+                } else {
+                  setError(
+                    "An email to reset your password has been sent. Please check your inbox.",
+                  );
+                }
+              }}
+              isPrimary={false}
+            />
           </form>
         </div>
       </div>

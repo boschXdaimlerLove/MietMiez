@@ -3,7 +3,7 @@
 import React, { use, useEffect, useState } from "react";
 import ClientAdvertisementCommunication from "@/app/server_communication/client/ClientAdvertisementCommunication";
 import AdvertisementUpload from "@/app/objects/advertisement/AdvertisementUpload";
-import Category from "@/app/objects/category";
+import Category from "@/app/objects/internal/category";
 import { useNewAdvertisementContext } from "@/app/advertisement/new/NewAdvertisementContext";
 
 export default function NewAdvertisementPage() {

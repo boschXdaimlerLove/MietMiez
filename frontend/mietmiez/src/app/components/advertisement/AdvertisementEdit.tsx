@@ -5,7 +5,7 @@ import ImageSlider from "@/app/components/ImageSlider";
 import UserCard from "@/app/components/cards/UserCard";
 import React, { useEffect, useState } from "react";
 import AdvertisementFetched from "@/app/objects/advertisement/AdvertisementFetched";
-import Category from "@/app/objects/category";
+import Category from "@/app/objects/internal/category";
 import AdvertisementUpload from "@/app/objects/advertisement/AdvertisementUpload";
 import ClientAdvertisementCommunication from "@/app/server_communication/client/ClientAdvertisementCommunication";
 import Button from "@/app/components/button";

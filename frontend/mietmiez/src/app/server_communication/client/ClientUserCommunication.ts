@@ -73,4 +73,27 @@ export default class ClientUserCommunication {
     }
     return JSON.parse(await res.text())["email"];
   }
+
+  static async resetPasswordRequest(email: string): Promise<boolean> {
+    const res = await fetch("/api/user/reset-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+      credentials: "include",
+    });
+    return res.ok;
+  }
+
+  static async resetPassword(
+    token: string,
+    password: string,
+  ): Promise<boolean> {
+    const res = await fetch(`/api/user/reset-password`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ token, password }),
+      credentials: "include",
+    });
+    return res.ok;
+  }
 }
