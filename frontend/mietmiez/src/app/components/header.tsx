@@ -77,7 +77,7 @@ export default function Header() {
           >
             Sign-up
           </Link>
-          <span className="text-gray-600">oder</span>
+          <span className="text-gray-600">or</span>
           <Button
             onClick={() => {
               async function logout() {
@@ -185,7 +185,7 @@ export default function Header() {
             <input
               className="ml-2 text-gray-600 w-full focus:outline-none"
               type="text"
-              placeholder="70469 Stuttgart"
+              placeholder="70469"
             />
           </form>
         </div>
