@@ -33,6 +33,7 @@ func setupV1Routes(app *fiber.App) {
 	v1.Post("/user/reset-password/:token", controllers.UserResetPassword)
 	v1.Get("/user/favourites", controllers.UserGetFavourites)
 	v1.Post("/user/favourites", controllers.UserAddFavourite)
+	v1.Delete("/user/favourites/:id", controllers.DeleteFavourite)
 
 	v1.Get("/user/:email", controllers.UserInfo)
 	v1.Get("/user/activate/:token", controllers.UserActivate)

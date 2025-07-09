@@ -426,6 +426,32 @@ func UserAddFavourite(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusOK)
 }
 
+// DeleteFavourite deletes specified advertisement from user's favourites list
+func DeleteFavourite(c *fiber.Ctx) error {
+	var user models.User
+	var isAuthenticated bool
+
+	isAuthenticated, user = util.GetRequestUser(c)
+	if !isAuthenticated {
+		return c.SendStatus(fiber.StatusUnauthorized)
+	}
+
+	id, err := c.ParamsInt("id")
+	if err != nil {
+		return c.Status(fiber.StatusBadRequest).SendString("id must be an integer")
+	}
+
+	dbInstance := database.GetDB()
+	result := dbInstance.Delete(&models.Favourite{}, "user_id = ? AND advertisement_id = ?", user.ID, id)
+
+	if result.Error != nil {
+		Logger.Warn().Err(result.Error).Msg("error deleting user fav")
+		return c.SendStatus(fiber.StatusInternalServerError)
+	}
+
+	return c.SendStatus(fiber.StatusOK)
+}
+
 // GetUser returns currently logged-in user who made request
 func GetUser(c *fiber.Ctx) error {
 	if isAuthenticated, user := util.GetRequestUser(c); isAuthenticated {
