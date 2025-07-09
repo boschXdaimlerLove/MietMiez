@@ -26,6 +26,8 @@ export default function HelpPage() {
       {/* Repo Section */}
       <section className="text-center space-y-4">
         <p>Or check out our repository for detailed technical insight:</p>
+        <p><a href="https://github.com/boschXdaimlerLove/MietMiez">GitHub repository</a></p>
+        
         <div className="inline-block">
           <Image
             src="/git.png"

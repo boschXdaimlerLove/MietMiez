@@ -33,7 +33,7 @@ export default async function Footer() {
                   href="/advertisement/new"
                   className="text-gray-300 hover:text-[#c9e265]"
                 >
-                  Advertise pet
+                  Find pet sitter
                 </Link>
               </li>
               <li>
