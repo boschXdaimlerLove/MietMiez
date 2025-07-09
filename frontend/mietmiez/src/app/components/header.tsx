@@ -61,13 +61,16 @@ export default function Header() {
       <div className="flex flex-wrap items-center justify-between px-4 py-3 gap-4">
         {/* Logo */}
         <Link href="/">
-          <Image
-            alt="MietMiez Icon"
-            src="/mietmiez_icon_256.png"
-            width={36}
-            height={36}
-            className="rounded-md"
-          />
+          <div className="flex">
+            <Image
+              alt="MietMiez Icon"
+              src="/images/logo.png"
+              width={36}
+              height={36}
+              className="rounded-md"
+            />
+            <span className="ml-2 text-lg font-bold">MietMiez</span>
+          </div>
         </Link>
 
         {/* Auth Links */}
