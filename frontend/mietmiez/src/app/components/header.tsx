@@ -11,6 +11,7 @@ import {
 import Category from "@/app/objects/internal/category";
 import Button from "@/app/components/button";
 import ClientUserCommunication from "@/app/server_communication/client/ClientUserCommunication";
+import { User } from "lucide-react";
 
 export default function Header() {
   const router = useRouter();
@@ -93,18 +94,7 @@ export default function Header() {
             }}
             title={
               <>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  className="w-5 h-5 mr-1"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <User className="w-5 h-5 mr-1" />
                 <span>{isLoggedIn ? "Logout" : "Login"}</span>
               </>
             }

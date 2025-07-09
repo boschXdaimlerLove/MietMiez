@@ -62,6 +62,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <title>MietMiez</title>
+        {/* favicon */}
+        {/*<link rel="icon" href="/favicon.ico" sizes="any" />*/}
+        <link rel="icon" href="/images/favicon.ico" sizes="any" />
+        {/* icon */}
+        <link
+          rel="icon"
+          href="/icon?<generated>"
+          type="image/<generated>"
+          sizes="<generated>"
+        />
+        {/* apple icon */}
+        <link
+          rel="apple-touch-icon"
+          href="/apple-icon?<generated>"
+          type="image/<generated>"
+          sizes="<generated>"
+        />
+      </head>
       <body
         // className={`${geistSans.variable} ${geistMono.variable} antialiased bg`}
         className="antialiased bg font-sans"
