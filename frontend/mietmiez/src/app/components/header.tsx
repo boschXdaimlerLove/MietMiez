@@ -61,7 +61,7 @@ export default function Header() {
       <div className="flex flex-wrap items-center justify-between px-4 py-3 gap-4">
         {/* Logo */}
         <Link href="/">
-          <div className="flex">
+          <div className="flex items-center">
             <Image
               alt="MietMiez Icon"
               src="/images/logo.png"
@@ -81,7 +81,9 @@ export default function Header() {
           >
             Sign-up
           </Link>
-          <span className="text-gray-600">or</span>
+          <span className="text-gray-600 justify-center items-center align-middle">
+            or
+          </span>
           <Button
             onClick={() => {
               async function logout() {
@@ -115,7 +117,7 @@ export default function Header() {
           {/* Category Dropdown */}
           <div ref={dropdownRef} className="relative">
             <button
-              className="flex items-center text-gray-700 px-4 py-2 bg-white rounded-md max-w-[200px] truncate"
+              className="flex items-center text-gray-700 px-4 py-2 bg-white rounded-md w-full md:w-60 max-w-[200px] truncate"
               onClick={() => setCategoriesOpen(!categoriesOpen)}
             >
               <span className="truncate">{selectedCategory}</span>
@@ -154,7 +156,7 @@ export default function Header() {
           {/* Zip Code Input */}
           <form
             onSubmit={handleSubmit}
-            className="flex items-center bg-white px-2 py-1 rounded-md w-full md:w-60"
+            className="flex items-center bg-white px-4 max-w-[200px] py-2 rounded-md w-full md:w-60"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
