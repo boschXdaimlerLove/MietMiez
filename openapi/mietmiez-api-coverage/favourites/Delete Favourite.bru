@@ -1,0 +1,25 @@
+meta {
+  name: Delete Favourite
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{baseUrl}}/user/favourites/:advertisement-id
+  body: none
+  auth: inherit
+}
+
+params:path {
+  advertisement-id: 1
+}
+
+script:pre-request {
+  // retrieve the cookie string you stored earlier
+  const cookie = bru.getVar("cookie_user1");
+  
+  if (cookie) {
+    // set it as the Cookie header on the outgoing request
+    req.setHeader("Cookie", cookie);
+  }
+}
