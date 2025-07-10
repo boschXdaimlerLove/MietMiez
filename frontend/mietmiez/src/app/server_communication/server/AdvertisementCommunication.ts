@@ -49,6 +49,9 @@ export default class AdvertisementCommunication {
       // set default params for build
       params = new SearchParams("katze", "12345");
     }
+    if (params.animal === "All Categories") {
+      params.animal = "";
+    }
     const ads = await fetch(
       `${GeneralServerCommunication.url}/advertisement/search?animal=${encodeURIComponent(params.animal ?? "")}&zip-code=${encodeURIComponent(params.zipCode ?? "")}`,
       {

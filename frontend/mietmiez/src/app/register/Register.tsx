@@ -143,7 +143,7 @@ const Register: React.FC = () => {
               title="submit"
               onClick={() => {}}
               isPrimary={true}
-              className=""
+              className="w-full"
               type="submit"
             />
           </div>

@@ -26,7 +26,7 @@ export default function Button({
         className={
           isCustom
             ? className
-            : `bg-primary bg-[var(--primaryBtn)] text-[var(--primaryBtnTxt)] px-4 py-2 rounded-md transition-transform duration-100 active:scale-95 w-full ${className}`
+            : `bg-primary bg-[var(--primaryBtn)] text-[var(--primaryBtnTxt)] px-4 py-2 rounded-md transition-transform duration-100 active:scale-95 ${className}`
         }
         onClick={onClick}
         type={type}
@@ -41,7 +41,7 @@ export default function Button({
         className={
           isCustom
             ? className
-            : `bg-transparent border-2 border-[var(--primaryBtn)] text-primary px-4 py-2 rounded-md transition-transform duration-100 active:scale-95 w-full ${className}`
+            : `bg-transparent border-2 border-[var(--primaryBtn)] text-primary px-4 py-2 rounded-md transition-transform duration-100 active:scale-95 ${className}`
         }
         onClick={onClick}
         type={type}

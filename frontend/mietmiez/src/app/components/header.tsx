@@ -2,7 +2,7 @@
 
 import React, { use, useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import {
   HeaderContextProps,
@@ -11,16 +11,29 @@ import {
 import Category from "@/app/objects/internal/category";
 import Button from "@/app/components/button";
 import ClientUserCommunication from "@/app/server_communication/client/ClientUserCommunication";
+import { Search, Undo2, User } from "lucide-react";
 
 export default function Header() {
+  const ALL_CATEGORIES: string = "All Categories";
   const router = useRouter();
   const { categoriesStringPromise, isLoggedIn }: HeaderContextProps =
     useHeaderContext();
   const categoriesString: string = use(categoriesStringPromise);
   const categories: Category[] = JSON.parse(categoriesString);
 
+  const searchParams = useSearchParams();
+  let passedAnimal = searchParams.get("animal");
+  let passedZipCode: string = searchParams.get("zipCode") ?? "";
+  const path = usePathname();
+  if (!path.startsWith("/search")) {
+    passedAnimal = ALL_CATEGORIES;
+    passedZipCode = "";
+  }
+  let reset: boolean = false;
+
   const [categoriesOpen, setCategoriesOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  let selectedCategory: string = passedAnimal ?? ALL_CATEGORIES;
+  const [statedZipCode, setStatedZipCode] = useState(passedZipCode);
 
   const dropdownRef = React.useRef<HTMLDivElement>(null);
 
@@ -40,18 +53,15 @@ export default function Header() {
     };
   }, []);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const zipCode = (
-      e.currentTarget.querySelector('input[type="text"]') as HTMLInputElement
-    ).value.trim();
-    if (zipCode) {
-      router.push(
-        `/search?animal=${encodeURIComponent(selectedCategory)}&zipCode=${encodeURIComponent(zipCode)}`,
-      );
-    } else {
-      console.warn("Search input is empty");
+  function handleSubmit() {
+    let localStatedZipCode: string = statedZipCode;
+    if (reset) {
+      localStatedZipCode = "";
+      reset = false;
     }
+    router.push(
+      `/search?animal=${encodeURIComponent(selectedCategory)}&zipCode=${encodeURIComponent(localStatedZipCode)}`,
+    );
   }
 
   return (
@@ -60,13 +70,16 @@ export default function Header() {
       <div className="flex flex-wrap items-center justify-between px-4 py-3 gap-4">
         {/* Logo */}
         <Link href="/">
-          <Image
-            alt="MietMiez Icon"
-            src="/mietmiez_icon_256.png"
-            width={36}
-            height={36}
-            className="rounded-md"
-          />
+          <div className="flex items-center">
+            <Image
+              alt="MietMiez Icon"
+              src="/images/logo.png"
+              width={36}
+              height={36}
+              className="rounded-md"
+            />
+            <span className="ml-2 text-lg font-bold">MietMiez</span>
+          </div>
         </Link>
 
         {/* Auth Links */}
@@ -77,7 +90,9 @@ export default function Header() {
           >
             Sign-up
           </Link>
-          <span className="text-gray-600">oder</span>
+          <span className="text-gray-600 justify-center items-center align-middle">
+            or
+          </span>
           <Button
             onClick={() => {
               async function logout() {
@@ -93,18 +108,7 @@ export default function Header() {
             }}
             title={
               <>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  className="w-5 h-5 mr-1"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M18.685 19.097A9.723 9.723 0 0021.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 003.065 7.097A9.716 9.716 0 0012 21.75a9.716 9.716 0 006.685-2.653zM15.75 9a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z"
-                    clipRule="evenodd"
-                  />
-                </svg>
+                <User className="w-5 h-5 mr-1" />
                 <span>{isLoggedIn ? "Logout" : "Login"}</span>
               </>
             }
@@ -120,9 +124,19 @@ export default function Header() {
       <div className="w-full bg-[var(--primary)] py-4 px-4 flex flex-wrap gap-4 items-center justify-between">
         <div className="flex flex-wrap gap-2 items-center w-full md:w-auto">
           {/* Category Dropdown */}
+          <button
+            onClick={async () => {
+              selectedCategory = ALL_CATEGORIES;
+              setStatedZipCode("");
+              reset = true;
+              handleSubmit();
+            }}
+          >
+            <Undo2 color="#FAF9F6" />
+          </button>
           <div ref={dropdownRef} className="relative">
             <button
-              className="flex items-center text-gray-700 px-4 py-2 bg-white rounded-md max-w-[200px] truncate"
+              className="flex items-center text-gray-700 px-4 py-2 bg-white rounded-md w-full md:w-60 max-w-[200px] truncate"
               onClick={() => setCategoriesOpen(!categoriesOpen)}
             >
               <span className="truncate">{selectedCategory}</span>
@@ -146,11 +160,12 @@ export default function Header() {
                       key={category.id}
                       className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => {
-                        setSelectedCategory(category.name);
+                        selectedCategory = category.name;
                         setCategoriesOpen(false);
+                        handleSubmit();
                       }}
                     >
-                      {category.name}
+                      <div>{category.name}</div>
                     </button>
                   ))}
                 </div>
@@ -160,8 +175,8 @@ export default function Header() {
 
           {/* Zip Code Input */}
           <form
-            onSubmit={handleSubmit}
-            className="flex items-center bg-white px-2 py-1 rounded-md w-full md:w-60"
+            onSubmit={() => handleSubmit()}
+            className="flex items-center bg-white px-4 max-w-[200px] py-2 rounded-md w-full md:w-60"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -185,9 +200,14 @@ export default function Header() {
             <input
               className="ml-2 text-gray-600 w-full focus:outline-none"
               type="text"
-              placeholder="70469 Stuttgart"
+              placeholder="70469"
+              value={statedZipCode}
+              onChange={(event) => setStatedZipCode(event.target.value)}
             />
           </form>
+          <button onClick={() => handleSubmit()}>
+            <Search color="#FAF9F6" />
+          </button>
         </div>
 
         {/* Navigation Icons */}

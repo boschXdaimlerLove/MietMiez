@@ -22,7 +22,7 @@ export default async function Footer() {
             <ul className="space-y-2 text-sm">
               <li>
                 <Link
-                  href="/search"
+                  href="/home"
                   className="text-gray-300 hover:text-[#c9e265]"
                 >
                   Find pet

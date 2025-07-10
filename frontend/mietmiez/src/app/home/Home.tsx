@@ -16,7 +16,7 @@ export default function Home() {
       {/* Main Content */}
       <main className="flex-1 p-8">
         <h1 className="text-3xl text-center text-[#47702d] mb-8">
-          Welcome to Mietmiez!
+          Welcome to MietMiez!
         </h1>
 
         {/* Pet Cards Grid Example */}

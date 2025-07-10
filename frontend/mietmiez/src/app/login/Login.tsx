@@ -22,30 +22,31 @@ const Login: React.FC = () => {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
-    ClientUserCommunication.login(email, password).then((success) => {
-      if (!success) {
-        setError("Login failed. Please check your credentials.");
-      } else {
-        router.push("/home");
-        router.refresh();
-      }
-    });
+    const success = await ClientUserCommunication.login(email, password);
+    if (!success) {
+      setError("Login failed. Please check your credentials.");
+    } else {
+      router.push("/home");
+      router.refresh();
+    }
   }
 
   return (
-    <div className="bg-[#B2E9CD] min-h-screen flex flex-col md:flex-row items-center justify-center">
-      <div className="w-full md:w-1/2 flex-1 relative min-h-[250px] md:min-h-screen">
+    <div className="bg-[#fefaf0] min-h-screen flex flex-col items-center">
+      {/* Logo oben, zentriert */}
+      <div className="mt-10 mb-8">
         <Image
-          src="/mietmiez_icon_512.png"
+          src="/images/logo.png"
           alt="Logo"
-          fill
+          width={120}
+          height={120}
           style={{ objectFit: "contain" }}
           priority
         />
       </div>
-
-      <div className="w-full md:w-1/2 p-6 sm:p-10 lg:p-20 flex flex-col justify-center">
-        <div className="max-w-md mx-auto bg-white rounded-xl shadow-lg p-6">
+      {/* Spacer, damit die Form vertikal zentriert wird */}
+      <div className="absolute inset-x-0 top-1/2 transform -translate-y-1/2 px-4">
+        <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-6 mx-auto">
           <form onSubmit={handleSubmit} className="flex flex-col">
             <h2 className="text-green-700 text-center mb-4 font-extrabold text-2xl">
               Login
@@ -54,6 +55,7 @@ const Login: React.FC = () => {
             {error && (
               <p className="text-red-500 mb-3 text-sm text-center">{error}</p>
             )}
+
             <input
               type="text"
               placeholder="Email"
@@ -62,6 +64,7 @@ const Login: React.FC = () => {
               required
               className="text-gray-700 w-full p-3 border border-gray-300 rounded-lg text-base mb-3 text-center"
             />
+
             <input
               type="password"
               placeholder="Passwort"
@@ -70,22 +73,27 @@ const Login: React.FC = () => {
               required
               className="text-gray-700 w-full p-3 border border-gray-300 rounded-lg text-base mb-5 text-center"
             />
-            <div className="flex flex-col sm:flex-row justify-between gap-4">
+
+            <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4">
               <Button
                 title="Register"
                 onClick={() => router.push("/register")}
                 isPrimary={false}
                 type="button"
+                className="w-full"
               />
               <Button
                 title="Login"
                 onClick={() => {}}
                 isPrimary={true}
                 type="submit"
+                className="w-full"
               />
             </div>
+
             <Button
               title="Reset password"
+              className="w-full"
               onClick={async () => {
                 const success =
                   await ClientUserCommunication.resetPasswordRequest(email);

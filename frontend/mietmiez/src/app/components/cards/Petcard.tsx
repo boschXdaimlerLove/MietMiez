@@ -38,6 +38,7 @@ export default function PetCard({
           <span className="mr-1">📍</span> {advertisement.user.city}
         </p>
         <Button
+          className={"w-full"}
           isPrimary={true}
           onClick={() => {
             router.push(
