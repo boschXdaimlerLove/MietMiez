@@ -1,5 +1,6 @@
 import Link from "next/link";
 import GeneralServerCommunication from "@/app/server_communication/server/GeneralServerCommunication";
+import EmailField from "@/app/components/routing/EmailField";
 
 /**
  * component to display the footer of the website
@@ -94,7 +95,7 @@ export default async function Footer() {
           <div>
             <h4 className="text-md font-semibold mb-4">Contact</h4>
             <div className="space-y-2 text-sm text-gray-300">
-              <p>Email: {about.mail}</p>
+              <EmailField mail={about.mail} />
             </div>
           </div>
         </div>

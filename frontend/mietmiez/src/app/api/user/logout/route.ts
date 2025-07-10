@@ -16,6 +16,7 @@ export async function POST() {
   res.cookies.set("token", "", {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
+    // secure: false, // use for local debugging and development
     path: "/",
     maxAge: 0, // Token valid for 0 seconds => token invalidated
     sameSite: "lax",
