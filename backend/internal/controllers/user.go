@@ -445,7 +445,7 @@ func DeleteFavourite(c *fiber.Ctx) error {
 	result := dbInstance.Delete(&models.Favourite{}, "user_id = ? AND advertisement_id = ?", user.ID, id)
 
 	if result.Error != nil {
-		Logger.Warn().Err(result.Error).Msg("error deleting user fav")
+		Logger.Err(result.Error).Msg("error deleting user fav")
 		return c.SendStatus(fiber.StatusInternalServerError)
 	}
 

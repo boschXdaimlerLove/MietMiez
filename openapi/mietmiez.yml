@@ -224,6 +224,8 @@ paths:
           description: Favourite deleted
         400:
           description: specified id is not an integer
+        500:
+          description: internal server error while deleting favourite in database
     get:
       tags:
         - user
