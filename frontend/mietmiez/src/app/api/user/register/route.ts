@@ -11,7 +11,13 @@ import { NextResponse } from "next/server";
  */
 export async function POST(req: Request): Promise<Response> {
   console.log("Received POST request for user registration in next api");
-  const body = await req.text();
+  let body: string;
+  try {
+    body = await req.text();
+  } catch (error) {
+    console.error("Error reading request body:", error);
+    return NextResponse.json({ success: false, error: "Invalid request" });
+  }
   console.log("Received request body:", body);
   const { user, password } = JSON.parse(body);
   console.log("Received user data:", user);

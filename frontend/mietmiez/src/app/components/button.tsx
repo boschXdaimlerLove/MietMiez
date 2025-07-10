@@ -23,7 +23,7 @@ export default function Button({
   customButtonStyle = {},
 }: {
   title: ReactNode;
-  onClick: () => void;
+  onClick?: () => void;
   isPrimary: boolean;
   className?: string;
   type?: "button" | "submit" | "reset";
