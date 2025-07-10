@@ -94,7 +94,6 @@ const Login: React.FC = () => {
               />
               <Button
                 title="Login"
-                onClick={() => {}}
                 isPrimary={true}
                 type="submit"
                 className="w-full"

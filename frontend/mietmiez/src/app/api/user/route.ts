@@ -14,7 +14,8 @@ export function DELETE() {
   const res = NextResponse.json({ success: true });
   res.cookies.set("token", "", {
     httpOnly: true,
-    secure: false,
+    secure: process.env.NODE_ENV === "production",
+    // secure: false, // use for local debugging and development
     path: "/",
     maxAge: 0, // Token valid for 0 seconds => token invalidated
     sameSite: "lax",

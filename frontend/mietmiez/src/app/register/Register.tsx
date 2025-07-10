@@ -34,27 +34,27 @@ const Register: React.FC = () => {
   /**
    * handles the submit of the registration form
    */
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setError("");
-    if (password !== confirmPassword) {
+    if (password.length < 10) {
+      setError("password must be at least 10 characters long");
+    } else if (password !== confirmPassword) {
       setError("passwords are not equal");
     } else if (zipCode.length < 5) {
       setError("invalid zip code");
     } else {
       const user = new User(firstName, lastName, email, city, zipCode);
       try {
-        await ClientUserCommunication.register(user, password).then(
-          (success) => {
-            if (!success) {
-              console.error("registration failed");
-              setError("registration failed");
-            } else {
-              console.log("registration successful");
-              console.log("redirecting to login page");
-              router.push("/login");
-            }
-          },
-        );
+        const success = await ClientUserCommunication.register(user, password);
+        if (!success) {
+          console.error("registration failed");
+          setError("registration failed");
+        } else {
+          console.log("registration successful");
+          console.log("redirecting to login page");
+          router.push("/login");
+        }
       } catch (error) {
         console.error("error while registering:", error);
         setError("error while registering");
@@ -149,7 +149,6 @@ const Register: React.FC = () => {
           <div className="flex justify-end mt-4">
             <Button
               title="submit"
-              onClick={() => {}}
               isPrimary={true}
               className="w-full"
               type="submit"
