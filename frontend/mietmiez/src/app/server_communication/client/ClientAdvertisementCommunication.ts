@@ -2,7 +2,16 @@
 
 import AdvertisementUpload from "@/app/objects/advertisement/AdvertisementUpload";
 
+/**
+ * client class for communication with the internal API
+ */
 export default class ClientAdvertisementCommunication {
+  /**
+   * Uploads images for an advertisement.
+   * @param advertisement - the advertisement to upload
+   * @param images - the images to upload
+   * @returns the advertisement with the image ids added
+   */
   static async uploadImagesForAdvertisement(
     advertisement: AdvertisementUpload,
     images: File[],
@@ -28,6 +37,10 @@ export default class ClientAdvertisementCommunication {
     return advertisement;
   }
 
+  /**
+   * creates a new advertisement. Communicates with the internal api
+   * @param ad - the advertisement to create
+   */
   static async createAdvertisement(ad: AdvertisementUpload): Promise<boolean> {
     const res = await fetch(`/api/advertisement`, {
       method: "POST",
@@ -41,6 +54,10 @@ export default class ClientAdvertisementCommunication {
     return res.ok;
   }
 
+  /**
+   * updates an existing advertisement. Communicates with the internal api
+   * @param ad - the advertisement to update
+   */
   static async updateAdvertisement(ad: AdvertisementUpload): Promise<boolean> {
     const res = await fetch(`/api/advertisement`, {
       method: "PATCH",
@@ -54,6 +71,10 @@ export default class ClientAdvertisementCommunication {
     return res.ok;
   }
 
+  /**
+   * Deletes an advertisement. Communicates with the internal api
+   * @param ad
+   */
   static async deleteAdvertisement(ad: AdvertisementUpload): Promise<boolean> {
     const res = await fetch(`/api/advertisement`, {
       method: "DELETE",

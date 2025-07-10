@@ -10,6 +10,10 @@ import { useRouter } from "next/navigation";
 import { useRegisterContext } from "@/app/register/RegisterContext";
 import AlreadyLoggedIn from "@/app/components/UserState/AlreadyLoggedIn";
 
+/**
+ * the actual register page
+ * @constructor
+ */
 const Register: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,10 +26,14 @@ const Register: React.FC = () => {
   const [zipCode, setZipCode] = useState("");
   const isLoggedIn = useRegisterContext();
 
+  // if user is logged in, state that
   if (isLoggedIn) {
     return <AlreadyLoggedIn />;
   }
 
+  /**
+   * handles the submit of the registration form
+   */
   const handleSubmit = async () => {
     setError("");
     if (password !== confirmPassword) {
