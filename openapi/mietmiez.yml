@@ -13,6 +13,8 @@ tags:
     description: Everything related about pet advertising
   - name: image
     description: Everything related about advertisement images
+  - name: favourites
+    description: Everything related about user favourites
 
 paths:
   /health:
@@ -203,10 +205,31 @@ paths:
         '401':
           description: Old password is wrong
 
-  /user/favourites:
+  /user/favourites/{advertisement-id}:
+    delete:
+      tags:
+        - user
+        - favourites
+      description: Delete a favourite
+      parameters:
+        - name: advertisement-id
+          description: ID of the advertisement
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        200:
+          description: Favourite deleted
+        400:
+          description: specified id is not an integer
+        500:
+          description: internal server error while deleting favourite in database
     get:
       tags:
         - user
+        - favourites
       summary: Obtain all user's favourites
       responses:
         '200':
@@ -220,7 +243,8 @@ paths:
     post:
       tags:
         - user
-      summary: Add new favourite
+        - favourites
+      summary: Add new favourites
       parameters:
         - name: advertisement
           in: query

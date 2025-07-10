@@ -1,17 +1,17 @@
 meta {
-  name: Obtain user1 favorites
+  name: Delete Favourite
   type: http
-  seq: 12
+  seq: 4
 }
 
-get {
-  url: {{baseUrl}}/user/favourites
+delete {
+  url: {{baseUrl}}/user/favourites/:advertisement-id
   body: none
-  auth: none
+  auth: inherit
 }
 
-assert {
-  res.status: eq 200
+params:path {
+  advertisement-id: 1
 }
 
 script:pre-request {
