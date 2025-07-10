@@ -37,7 +37,7 @@ const Register: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
-    if (password.length <= 10) {
+    if (password.length < 10) {
       setError("password must be at least 10 characters long");
     } else if (password !== confirmPassword) {
       setError("passwords are not equal");

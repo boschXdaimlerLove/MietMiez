@@ -103,7 +103,7 @@ services:
       - "traefik.http.routers.mietmiez-frontend.service=mietmiez-frontend"
       - "traefik.http.services.mietmiez-frontend.loadbalancer.server.port=3000"
     env_file:
-    - configs/.frontend.env
+      - configs/.frontend.env
 
   minio1:
     <<: *minio-common
