@@ -218,7 +218,7 @@ export default function Profile() {
               className="flex items-center gap-2 px-4 py-2 bg-[#47702d] text-white rounded-lg hover:bg-[#3a5a25] transition-colors disabled:bg-gray-400"
             >
               <Edit size={16} />
-              {isEditing ? "Abbrechen" : "Bearbeiten"}
+              {isEditing ? "cancel" : "edit"}
             </button>
           </div>
 
@@ -318,7 +318,7 @@ export default function Profile() {
                 ) : (
                   <Save size={16} />
                 )}
-                {isSaving ? "Speichert..." : "Speichern"}
+                {isSaving ? "saving..." : "Save"}
               </button>
             </div>
           )}
@@ -449,9 +449,7 @@ export default function Profile() {
               ) : (
                 <Lock size={16} />
               )}
-              {isChangingPassword
-                ? "Aktualisiert..."
-                : "Passwort aktualisieren"}
+              {isChangingPassword ? "updating..." : "update password"}
             </button>
           </div>
         </div>
