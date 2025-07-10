@@ -2,7 +2,7 @@
 
 import React, { use, useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import {
   HeaderContextProps,
@@ -14,6 +14,7 @@ import ClientUserCommunication from "@/app/server_communication/client/ClientUse
 import { Search, Undo2, User } from "lucide-react";
 
 export default function Header() {
+  const ALL_CATEGORIES: string = "All Categories";
   const router = useRouter();
   const { categoriesStringPromise, isLoggedIn }: HeaderContextProps =
     useHeaderContext();
@@ -21,11 +22,16 @@ export default function Header() {
   const categories: Category[] = JSON.parse(categoriesString);
 
   const searchParams = useSearchParams();
-  const passedAnimal = searchParams.get("animal");
-  const passedZipCode: string = searchParams.get("zipCode") ?? "";
+  let passedAnimal = searchParams.get("animal");
+  let passedZipCode: string = searchParams.get("zipCode") ?? "";
+  const path = usePathname();
+  if (!path.startsWith("/search")) {
+    passedAnimal = ALL_CATEGORIES;
+    passedZipCode = "";
+  }
 
   const [categoriesOpen, setCategoriesOpen] = useState(false);
-  let selectedCategory: string = passedAnimal ?? "All Categories";
+  let selectedCategory: string = passedAnimal ?? ALL_CATEGORIES;
   const [statedZipCode, setStatedZipCode] = useState(passedZipCode);
 
   const dropdownRef = React.useRef<HTMLDivElement>(null);
@@ -114,7 +120,7 @@ export default function Header() {
           {/* Category Dropdown */}
           <button
             onClick={async () => {
-              selectedCategory = "All Categories";
+              selectedCategory = ALL_CATEGORIES;
               setStatedZipCode("");
             }}
           >

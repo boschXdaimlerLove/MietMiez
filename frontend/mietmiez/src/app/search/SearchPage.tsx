@@ -19,29 +19,35 @@ export default function SearchPage({
   const router = useRouter();
   if (ads.length === 0) {
     return (
-      <main>
+      <main className="px-4 py-8">
         <h1 className="text-2xl font-bold text-center mt-8">
           No advertisements found
         </h1>
         <p className="text-center mt-4">
           try different search criteria or check back later.
         </p>
+        <div className="flex justify-center mt-6">
+          <Button
+            isPrimary={true}
+            onClick={() => router.replace("/home")}
+            title={"Return to home"}
+          />
+        </div>
+      </main>
+    );
+  }
+  return (
+    <main className="px-4 py-8">
+      <div className="mb-8">
+        <PetGrid advertisements={ads} />
+      </div>
+      <div className="flex justify-center">
         <Button
           isPrimary={true}
           onClick={() => router.replace("/home")}
           title={"Return to home"}
         />
-      </main>
-    );
-  }
-  return (
-    <main>
-      <PetGrid advertisements={ads} />
-      <Button
-        isPrimary={true}
-        onClick={() => router.replace("/home")}
-        title={"Return to home"}
-      />
+      </div>
     </main>
   );
 }
