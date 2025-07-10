@@ -3,12 +3,23 @@ import User from "@/app/objects/user/user";
 import AdvertisementFetched from "@/app/objects/advertisement/AdvertisementFetched";
 import { cookies } from "next/headers";
 
+/**
+ * Server-side class to communicate with the backend server for user-related operations.
+ */
 export default class UserCommunication {
+  /**
+   * fetches the current cookie from the users browser
+   */
   static async fetchUserCookies(): Promise<string | undefined> {
     const cookieStore = await cookies();
     return cookieStore.get("token")?.value;
   }
 
+  /**
+   * logs in a user with the provided email and password.
+   * @param email - the email of the user
+   * @param password - the password to log in with
+   */
   static async login(
     email: string,
     password: string,
@@ -29,6 +40,11 @@ export default class UserCommunication {
     return await loginRes.json();
   }
 
+  /**
+   * register a new user with the provided user object and password.
+   * @param user - the user object containing user details
+   * @param password - the password of the new user
+   */
   static async register(user: User, password: string): Promise<boolean> {
     const body = {
       ...user.toJSON(),
@@ -43,6 +59,9 @@ export default class UserCommunication {
     return res.ok;
   }
 
+  /**
+   * logs out the current user and invalidates the session in backend
+   */
   static async logout(): Promise<boolean> {
     const res = await fetch(`${GeneralServerCommunication.url}/user/logout`, {
       method: "POST",
@@ -52,6 +71,9 @@ export default class UserCommunication {
     return res.ok;
   }
 
+  /**
+   * deletes the current user from the backend
+   */
   static async deleteUser(): Promise<boolean> {
     const res = await fetch(`${GeneralServerCommunication.url}/user/`, {
       method: "DELETE",
@@ -61,6 +83,10 @@ export default class UserCommunication {
     return res.ok;
   }
 
+  /**
+   * updates the user information in the backend.
+   * @param user - the user object containing updated user details
+   */
   static async update(user: User): Promise<boolean> {
     const res = await fetch(`${GeneralServerCommunication.url}/user/`, {
       method: "PUT",
@@ -71,6 +97,10 @@ export default class UserCommunication {
     return res.ok;
   }
 
+  /**
+   * requests a password reset for the user with the provided email.
+   * @param email
+   */
   static async resetPasswordRequest(email: string): Promise<boolean> {
     const res = await fetch(
       `${GeneralServerCommunication.url}/user/reset-password/`,
@@ -84,6 +114,11 @@ export default class UserCommunication {
     return res.ok;
   }
 
+  /**
+   * resets the password for the user using the provided token and new password.
+   * @param token - the token to validate to the backend
+   * @param password - the new password
+   */
   static async resetPassword(token: string, password: string) {
     const res = await fetch(
       `${GeneralServerCommunication.url}/user/reset-password/${token}`,
@@ -97,6 +132,11 @@ export default class UserCommunication {
     return res.ok;
   }
 
+  /**
+   * changes the password of the currently logged-in user.
+   * @param oldPassword - the current password of the user
+   * @param newPassword - the new password to set for the user
+   */
   static async changePassword(
     oldPassword: string,
     newPassword: string,
@@ -120,6 +160,10 @@ export default class UserCommunication {
     return res.ok;
   }
 
+  /**
+   * adds an advertisement to the user's favorites.
+   * @param ad - the advertisement to add to favorites
+   */
   static async addFavorite(ad: AdvertisementFetched): Promise<void> {
     const id = ad.id;
     const res = await fetch(
@@ -135,6 +179,9 @@ export default class UserCommunication {
     }
   }
 
+  /**
+   * fetches the currently logged-in user from the backend.
+   */
   static async fetchSelfUser(): Promise<User> {
     const userRes = await fetch(`${GeneralServerCommunication.url}/user/`, {
       cache: "no-cache",
@@ -148,6 +195,10 @@ export default class UserCommunication {
     return User.fromJSON(JSON.parse(await userRes.text()));
   }
 
+  /**
+   * fetches an existing user by their email address.
+   * @param mail - the mail address of the user to fetch
+   */
   static async fetchUser(mail: string): Promise<User> {
     const userRes = await fetch(
       `${GeneralServerCommunication.url}/user/${mail}/`,
@@ -166,6 +217,10 @@ export default class UserCommunication {
     }
   }
 
+  /**
+   * activates a user account using the provided activation token.
+   * @param token - the activation token to validate the user account
+   */
   static async activateUser(token: string): Promise<boolean> {
     const res = await fetch(
       `${GeneralServerCommunication.url}/user/activate/${token}`,

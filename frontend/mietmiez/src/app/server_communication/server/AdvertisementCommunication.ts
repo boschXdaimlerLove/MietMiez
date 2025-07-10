@@ -1,14 +1,19 @@
-import AdvertisementFetched, {
-  AdvertisementFetchedJson,
-} from "@/app/objects/advertisement/AdvertisementFetched";
+import AdvertisementFetched, { AdvertisementFetchedJson } from "@/app/objects/advertisement/AdvertisementFetched";
 import SearchParams from "@/app/objects/SearchParams";
 import GeneralServerCommunication from "@/app/server_communication/server/GeneralServerCommunication";
 import Category, { CategoryJson } from "@/app/objects/internal/category";
 import AdvertisementUpload from "@/app/objects/advertisement/AdvertisementUpload";
 
+/**
+ * Handles communication with the backend server regarding advertisements.
+ */
 export default class AdvertisementCommunication {
   /* CATEGORIES */
 
+  /**
+   * converts a response to an array of AdvertisementFetched objects.
+   * @param response
+   */
   static async responseToAdvertisements(
     response: Response,
   ): Promise<AdvertisementFetched[]> {
@@ -23,6 +28,9 @@ export default class AdvertisementCommunication {
 
   /* ADVERTISEMENTS */
 
+  /**
+   * fetches the categories from the server
+   */
   static async fetchCategories(): Promise<Category[]> {
     const categoriesRes = await fetch(
       `${GeneralServerCommunication.url}/categories/`,
@@ -42,6 +50,10 @@ export default class AdvertisementCommunication {
     );
   }
 
+  /**
+   * fetches all advertisements for the given search parameters.
+   * @param params - the search criteria for advertisements.
+   */
   static async fetchAdvertisementsFor(
     params: SearchParams,
   ): Promise<AdvertisementFetched[]> {
@@ -64,6 +76,10 @@ export default class AdvertisementCommunication {
     return AdvertisementCommunication.responseToAdvertisements(ads);
   }
 
+  /**
+   * fetches the latest advertisements from the server
+   * Used on the home screen
+   */
   static async fetchLatestAdvertisements(): Promise<AdvertisementFetched[]> {
     const ads = await fetch(
       `${GeneralServerCommunication.url}/advertisement?page=1`,
@@ -77,6 +93,10 @@ export default class AdvertisementCommunication {
     return AdvertisementCommunication.responseToAdvertisements(ads);
   }
 
+  /**
+   * fetches a specific advertisement by its ID.
+   * @param id
+   */
   static async fetchAdvertisement(id: string): Promise<AdvertisementFetched> {
     const adRes = await fetch(
       `${GeneralServerCommunication.url}/advertisement/${encodeURIComponent(id)}`,
@@ -91,6 +111,9 @@ export default class AdvertisementCommunication {
     return AdvertisementFetched.fromJSON(adJson);
   }
 
+  /**
+   * fetches all user favorites from the backend
+   */
   static async fetchUserFavorites(): Promise<AdvertisementFetched[]> {
     const favoritesRes = await fetch(
       `${GeneralServerCommunication.url}/user/favorites/`,
@@ -104,6 +127,10 @@ export default class AdvertisementCommunication {
     return AdvertisementCommunication.responseToAdvertisements(favoritesRes);
   }
 
+  /**
+   * creates a new advertisement on the server.
+   * @param ad - the advertisement to to upload
+   */
   static async createAdvertisement(ad: AdvertisementUpload): Promise<void> {
     const adRes = await fetch(
       `${GeneralServerCommunication.url}/advertisement`,
@@ -121,6 +148,10 @@ export default class AdvertisementCommunication {
     }
   }
 
+  /**
+   * uploads an image for an advertisement.
+   * @param image - the image file to upload
+   */
   static async uploadImageForAdvertisement(image: File): Promise<string> {
     const formData = new FormData();
     formData.append("document", image);
@@ -143,6 +174,10 @@ export default class AdvertisementCommunication {
     }
   }
 
+  /**
+   * fetches an image from the server by its ID specified when the image was uploaded.
+   * @param id - the image id
+   */
   static async fetchImage(id: string): Promise<Response> {
     return await fetch(
       `${GeneralServerCommunication.url}/image/${encodeURIComponent(id)}`,
@@ -154,6 +189,10 @@ export default class AdvertisementCommunication {
     );
   }
 
+  /**
+   * updates an existing advertisement with new data.
+   * @param ad - the advertisement to update with new data
+   */
   static async updateAdvertisement(ad: AdvertisementFetched): Promise<void> {
     const adRes = await fetch(
       `${GeneralServerCommunication.url}/advertisement/${encodeURIComponent(ad.id)}`,
@@ -171,6 +210,10 @@ export default class AdvertisementCommunication {
     }
   }
 
+  /**
+   * deletes an advertisement by its ID.
+   * @param id - the id of the advertisement to delete
+   */
   static async deleteAdvertisement(id: string): Promise<void> {
     const adRes = await fetch(
       `${GeneralServerCommunication.url}/advertisement/${encodeURIComponent(id)}`,
