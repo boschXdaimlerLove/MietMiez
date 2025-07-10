@@ -114,12 +114,7 @@ export default function PasswordResetInput({ token }: { token: string }) {
             </div>
           </div>
         </div>
-        <Button
-          title="Reset password"
-          onClick={() => {}}
-          isPrimary={true}
-          type="submit"
-        />
+        <Button title="Reset password" isPrimary={true} type="submit" />
       </form>
     </main>
   );
