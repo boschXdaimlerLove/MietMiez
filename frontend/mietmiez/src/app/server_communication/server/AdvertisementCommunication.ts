@@ -101,6 +101,24 @@ export default class AdvertisementCommunication {
     return AdvertisementCommunication.responseToAdvertisements(favoritesRes);
   }
 
+  static async addUserFavorite(ad: AdvertisementFetched): Promise<void> {
+    const id = ad.id;
+    const res = await fetch(
+      `${GeneralServerCommunication.url}/user/favorites/`,
+      {
+        method: "POST",
+        headers: await GeneralServerCommunication.getHeaders(),
+        body: JSON.stringify({ id }),
+        credentials: "include",
+      },
+    );
+    if (!res.ok) {
+      // const error = await res.json();
+      // console.error("Error adding favorite:", error);
+      // throw new Error("Failed to add favorite");
+    }
+  }
+
   static async createAdvertisement(ad: AdvertisementUpload): Promise<void> {
     const adRes = await fetch(
       `${GeneralServerCommunication.url}/advertisement`,
