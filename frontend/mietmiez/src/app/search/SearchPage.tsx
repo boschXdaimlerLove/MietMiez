@@ -1,12 +1,15 @@
 "use client";
 
 import PetGrid from "@/app/components/PetGrid";
-import AdvertisementFetched, {
-  AdvertisementFetchedJson,
-} from "@/app/objects/advertisement/AdvertisementFetched";
+import AdvertisementFetched, { AdvertisementFetchedJson } from "@/app/objects/advertisement/AdvertisementFetched";
 import Button from "@/app/components/button";
 import { useRouter } from "next/navigation";
 
+/**
+ * actual search apge displaying the results of the search
+ * @param advertisements - the advertisements to display
+ * @constructor
+ */
 export default function SearchPage({
   advertisements,
 }: {

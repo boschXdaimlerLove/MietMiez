@@ -2,6 +2,11 @@ import UserCommunication from "@/app/server_communication/server/UserCommunicati
 import User from "@/app/objects/user/user";
 import EmailField from "@/app/components/routing/EmailField";
 
+/**
+ * ProfilePage component to display user profile information.
+ * @param params - the email passed to the page to fetch the user data
+ * @constructor
+ */
 export default async function ProfilePage({
   params,
 }: {

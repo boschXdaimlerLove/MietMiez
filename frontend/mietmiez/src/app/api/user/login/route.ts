@@ -1,6 +1,13 @@
 import UserCommunication from "@/app/server_communication/server/UserCommunication";
 import { NextResponse } from "next/server";
 
+/**
+ * Handler for user login
+ * Works as passthrough to the server communication layer
+ * This also sets a cookie with the authentication token
+ * @param req
+ * @constructor
+ */
 export async function POST(req: Request): Promise<NextResponse> {
   const { email, password } = JSON.parse(await req.text());
   const { token, expires_at } = await UserCommunication.login(email, password);

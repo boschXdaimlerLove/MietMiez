@@ -1,9 +1,12 @@
+/**
+ * class representing a pet with a name and type
+ */
 export default class Pet {
-    name: string;
-    species: string;
+  name: string;
+  species: string;
 
-    constructor(name: string, species: string) {
-        this.name = name;
-        this.species = species;
-    }
+  constructor(name: string, species: string) {
+    this.name = name;
+    this.species = species;
+  }
 }

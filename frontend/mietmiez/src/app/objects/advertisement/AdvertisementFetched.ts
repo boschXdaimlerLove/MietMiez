@@ -1,5 +1,9 @@
 import User, { UserJson } from "@/app/objects/user/user";
 
+/**
+ * Advertisement object that is fetched from the server
+ * This contains specific information about the advertisement only relevent when fetching and not updating
+ */
 export default class AdvertisementFetched {
   id: string;
   user: User;
@@ -24,6 +28,10 @@ export default class AdvertisementFetched {
     this.images = images;
   }
 
+  /**
+   * Creates an AdvertisementFetched object from a JSON object
+   * @param json
+   */
   static fromJSON(json: AdvertisementFetchedJson): AdvertisementFetched {
     return new AdvertisementFetched(
       json["id"],
@@ -35,10 +43,17 @@ export default class AdvertisementFetched {
     );
   }
 
+  /**
+   * provides an empty AdvertisementFetched object for uploading
+   * @param user
+   */
   static forUpload(user: User): AdvertisementFetched {
     return new AdvertisementFetched("", user, "", "", "", []);
   }
 
+  /**
+   * Converts the AdvertisementFetched object to a JSON object
+   */
   toJSON(): AdvertisementFetchedJson {
     return {
       id: this.id,
@@ -51,6 +66,9 @@ export default class AdvertisementFetched {
   }
 }
 
+/**
+ * JSON representation of the AdvertisementFetched object
+ */
 export interface AdvertisementFetchedJson {
   id: string;
   user: UserJson;

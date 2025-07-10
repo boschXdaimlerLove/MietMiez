@@ -4,6 +4,10 @@ import NewAdvertisementPage from "@/app/advertisement/new/NewAdvertisementPage";
 import UserCommunication from "@/app/server_communication/server/UserCommunication";
 import NotLoggedIn from "@/app/components/UserState/NotLoggedIn";
 
+/**
+ * server wrapper for new advertisement page
+ * @constructor
+ */
 export default async function NewAdvertisementWrapper() {
   const categoriesJSON: Promise<string> =
     AdvertisementCommunication.fetchCategories().then((cats) =>

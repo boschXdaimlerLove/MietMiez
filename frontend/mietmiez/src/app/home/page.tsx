@@ -2,6 +2,11 @@ import AdvertisementCommunication from "@/app/server_communication/server/Advert
 import { HomeProvider } from "@/app/home/HomeContext";
 import Home from "@/app/home/Home";
 
+/**
+ * server component wrapper for the home page
+ * This provides advertisements fetched from the server as string
+ * @constructor
+ */
 export default function HomeWrapper() {
   const advertisements: Promise<string> =
     AdvertisementCommunication.fetchLatestAdvertisements().then((ads) =>

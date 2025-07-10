@@ -4,6 +4,10 @@ import UserCommunication from "@/app/server_communication/server/UserCommunicati
 import User from "@/app/objects/user/user";
 import NotLoggedIn from "@/app/components/UserState/NotLoggedIn";
 
+/**
+ * wrapper for the profile page to fetch user data
+ * @constructor
+ */
 export default async function ProfileWrapper() {
   let user: string;
   try {

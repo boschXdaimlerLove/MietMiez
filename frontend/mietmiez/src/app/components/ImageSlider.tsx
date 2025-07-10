@@ -7,6 +7,12 @@ interface ImageSliderProps {
   externalFetching: boolean;
 }
 
+/**
+ * a slider to display images with navigation arrows
+ * @param images - the images being displayed
+ * @param externalFetching - whether the images are passed as local URL or fetched from an API
+ * @constructor
+ */
 const ImageSlider: React.FC<ImageSliderProps> = ({
   images,
   externalFetching,

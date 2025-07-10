@@ -1,3 +1,6 @@
+/**
+ * about class to contain all about information fetched from the server
+ */
 export default class About {
   disclaimer: string;
   shortAbout: string;

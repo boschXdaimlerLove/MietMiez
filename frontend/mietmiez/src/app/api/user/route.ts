@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import UserCommunication from "@/app/server_communication/server/UserCommunication";
 import User from "@/app/objects/user/user";
 
+/**
+ * Server passthrough to delete the current user
+ * @constructor
+ */
 export function DELETE() {
   const deleteSuccessful = UserCommunication.deleteUser();
   if (!deleteSuccessful) {
@@ -17,6 +21,11 @@ export function DELETE() {
   });
 }
 
+/**
+ * Server passthrough to update the current user
+ * @param req
+ * @constructor
+ */
 export async function PUT(req: Request) {
   const user = User.fromJSON(JSON.parse(await req.text()));
   const updateSuccessful = await UserCommunication.update(user);
@@ -26,6 +35,10 @@ export async function PUT(req: Request) {
   return NextResponse.json({ success: true });
 }
 
+/**
+ * Server passthrough to get the current user
+ * @constructor
+ */
 export async function GET(): Promise<Response> {
   let res: Response;
   try {

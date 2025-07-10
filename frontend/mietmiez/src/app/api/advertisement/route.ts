@@ -1,6 +1,12 @@
 import AdvertisementCommunication from "@/app/server_communication/server/AdvertisementCommunication";
 import { NextResponse } from "next/server";
 
+/**
+ * POST handler for creating an advertisement
+ * Works as passthrough to the server communication layer
+ * @param req - the HTTP request
+ * @constructor
+ */
 export async function POST(req: Request): Promise<Response> {
   try {
     const ad = JSON.parse(await req.text());
@@ -15,6 +21,12 @@ export async function POST(req: Request): Promise<Response> {
   }
 }
 
+/**
+ * PATCH handler for updating an advertisement
+ * Works as passthrough to the server communication layer
+ * @param req - the HTTP request
+ * @constructor
+ */
 export async function PATCH(req: Request): Promise<Response> {
   try {
     const ad = JSON.parse(await req.text());
@@ -29,6 +41,12 @@ export async function PATCH(req: Request): Promise<Response> {
   }
 }
 
+/**
+ * DELETE handler for deleting an advertisement
+ * Works as passthrough to the server communication layer
+ * @param req - the HTTP request
+ * @constructor
+ */
 export async function DELETE(req: Request): Promise<Response> {
   try {
     const ad = JSON.parse(await req.text());

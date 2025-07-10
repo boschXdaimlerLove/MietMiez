@@ -4,6 +4,10 @@ import Image from "next/image";
 
 const images: string[] = ["/dogs.jpg", "/cat.jpg", "/dolphin.jpg"];
 
+/**
+ * a component to display images
+ * @constructor
+ */
 const ImageCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 

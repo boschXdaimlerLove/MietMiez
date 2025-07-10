@@ -1,6 +1,11 @@
 import UserCommunication from "@/app/server_communication/server/UserCommunication";
 import { AlertTriangle, CheckCircle, Loader2 } from "lucide-react";
 
+/**
+ * Builds and returns the "Activate User" page.
+ * @param params - the token to send the server to activate the user
+ * @constructor
+ */
 export default async function ActivateUserPage({
   params,
 }: {

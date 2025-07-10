@@ -1,3 +1,6 @@
+/**
+ * class to represent a user fetched from the server
+ */
 export default class User {
   firstName: string;
   lastName: string;
@@ -22,6 +25,10 @@ export default class User {
     this.favorites = favorites;
   }
 
+  /**
+   * Creates a User object from a JSON object interface.
+   * @param json - json as UserJson interface
+   */
   static fromJSON(json: UserJson): User {
     return new User(
       json["first-name"],
@@ -33,6 +40,10 @@ export default class User {
     );
   }
 
+  /**
+   * Creates a User object from a JSON object as a type
+   * @param json - json as unknown type
+   */
   static fromJSONObject(json: unknown): User {
     if (
       typeof json === "object" &&
@@ -56,6 +67,9 @@ export default class User {
     throw new Error("Ungültiges JSON-Objekt");
   }
 
+  /**
+   * Converts the User object to a JSON object interface.
+   */
   toJSON(): UserJson {
     return {
       "first-name": this.firstName,
@@ -68,6 +82,9 @@ export default class User {
   }
 }
 
+/**
+ * Interface for the JSON representation of a User object.
+ */
 export interface UserJson {
   "first-name": string;
   "last-name": string;

@@ -1,6 +1,10 @@
 import Link from "next/link";
 import GeneralServerCommunication from "@/app/server_communication/server/GeneralServerCommunication";
 
+/**
+ * component to display the footer of the website
+ * @constructor
+ */
 export default async function Footer() {
   const about = await GeneralServerCommunication.fetchAbout();
   return (

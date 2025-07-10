@@ -5,6 +5,11 @@ import AdvertisementFetched from "@/app/objects/advertisement/AdvertisementFetch
 import Button from "@/app/components/button";
 import Image from "next/image";
 
+/**
+ * a card component to display a single advertisement
+ * @param advertisementJSON - the advertisement to display as JSON
+ * @constructor
+ */
 export default function PetCard({
   advertisementJSON,
 }: {

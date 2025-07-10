@@ -4,6 +4,11 @@ import User from "@/app/objects/user/user";
 import UserCommunication from "@/app/server_communication/server/UserCommunication";
 import AdvertisementEdit from "@/app/components/advertisement/AdvertisementEdit";
 
+/**
+ * builds the page for a single, provided advertisement
+ * @param params - id of the advertisement to be displayed
+ * @constructor
+ */
 export default async function AdvertisementPage({
   params,
 }: {
