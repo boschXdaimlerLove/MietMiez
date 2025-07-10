@@ -29,6 +29,7 @@ export default function Header() {
     passedAnimal = ALL_CATEGORIES;
     passedZipCode = "";
   }
+  let reset: boolean = false;
 
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   let selectedCategory: string = passedAnimal ?? ALL_CATEGORIES;
@@ -53,8 +54,13 @@ export default function Header() {
   }, []);
 
   function handleSubmit() {
+    let localStatedZipCode: string = statedZipCode;
+    if (reset) {
+      localStatedZipCode = "";
+      reset = false;
+    }
     router.push(
-      `/search?animal=${encodeURIComponent(selectedCategory)}&zipCode=${encodeURIComponent(statedZipCode)}`,
+      `/search?animal=${encodeURIComponent(selectedCategory)}&zipCode=${encodeURIComponent(localStatedZipCode)}`,
     );
   }
 
@@ -122,6 +128,8 @@ export default function Header() {
             onClick={async () => {
               selectedCategory = ALL_CATEGORIES;
               setStatedZipCode("");
+              reset = true;
+              handleSubmit();
             }}
           >
             <Undo2 color="#FAF9F6" />
