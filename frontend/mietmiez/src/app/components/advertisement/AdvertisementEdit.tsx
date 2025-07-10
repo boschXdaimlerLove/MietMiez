@@ -11,6 +11,14 @@ import ClientAdvertisementCommunication from "@/app/server_communication/client/
 import Button from "@/app/components/button";
 import { useRouter } from "next/navigation";
 
+/**
+ * component for editing an advertisement
+ * This does only work if the user is logged in
+ * @param isLoggedIn - whether the user is logged in
+ * @param advertisement - the advertisement to edit, as a JSON string
+ * @param categoriesString - the categories array as a JSON string
+ * @constructor
+ */
 export default function AdvertisementEdit({
   isLoggedIn,
   advertisement,
@@ -55,6 +63,10 @@ export default function AdvertisementEdit({
     };
   }, []);
 
+  /**
+   * handles a client change of image input
+   * @param event . the HTML input change event
+   */
   async function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
     const selectedFiles = Array.from(event.target.files || []);
     if (selectedFiles) {
@@ -62,6 +74,9 @@ export default function AdvertisementEdit({
     }
   }
 
+  /**
+   * handles the upload for all images
+   */
   async function handleImageUpload() {
     const uploadResAdvertisement: AdvertisementUpload =
       await ClientAdvertisementCommunication.uploadImagesForAdvertisement(
@@ -71,6 +86,9 @@ export default function AdvertisementEdit({
     setAdvertisement(uploadResAdvertisement);
   }
 
+  /**
+   * handles the submit and uploads the data of the edited advertisement
+   */
   async function handleSubmit() {
     if (title.length === 0 || description.length === 0) {
       setError("data incomplete");
@@ -103,6 +121,9 @@ export default function AdvertisementEdit({
     router.refresh();
   }
 
+  /**
+   * handles the deletion of the advertisement
+   */
   async function handleDelete() {
     try {
       await ClientAdvertisementCommunication.deleteAdvertisement(

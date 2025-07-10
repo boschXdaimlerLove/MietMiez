@@ -3,25 +3,23 @@
 import { useProfileContext } from "@/app/profile/ProfileContext";
 import { useState } from "react";
 import User from "@/app/objects/user/user";
-import {
-  Edit,
-  Eye,
-  EyeOff,
-  Lock,
-  LogOut,
-  Save,
-  Trash2,
-  UserIcon,
-} from "lucide-react";
+import { Edit, Eye, EyeOff, Lock, LogOut, Save, Trash2, UserIcon } from "lucide-react";
 import ClientUserCommunication from "@/app/server_communication/client/ClientUserCommunication";
 import { useRouter } from "next/navigation";
 
+/**
+ * struct to hold the different password fields
+ */
 type PasswordStruct = {
   currentPassword: string;
   newPassword: string;
   newPasswordConfirm: string;
 };
 
+/**
+ * actual page to display a profile for an external (not logged in) user
+ * @constructor
+ */
 export default function Profile() {
   const userString = useProfileContext();
   const userJSON = JSON.parse(userString);
@@ -50,6 +48,11 @@ export default function Profile() {
     confirm: false,
   });
 
+  /**
+   * handles the update of user data
+   * @param field - the field to update
+   * @param value - the value to set
+   */
   function handleUserUpdate(field: string, value: string) {
     if (user) {
       setUser((prev) => {
@@ -66,10 +69,18 @@ export default function Profile() {
     }
   }
 
+  /**
+   * handles the change of passwords
+   * @param localPasswords - the struct containing the passwords
+   */
   function handlePasswordChange(localPasswords: PasswordStruct) {
     setPasswords(localPasswords);
   }
 
+  /**
+   * toggles the visibility of the password fields
+   * @param field - the field to toggle visibility for
+   */
   function togglePasswordVisibility(field: string) {
     setShowPasswords((prev) => ({
       ...prev,
@@ -77,6 +88,9 @@ export default function Profile() {
     }));
   }
 
+  /**
+   * handles the update and save of user profile data
+   */
   async function handleSaveProfile() {
     if (!user) return;
 
@@ -96,6 +110,9 @@ export default function Profile() {
     }
   }
 
+  /**
+   * handles the update of the password
+   */
   async function handlePasswordUpdate() {
     if (
       !user ||
@@ -131,6 +148,9 @@ export default function Profile() {
     }
   }
 
+  /**
+   * handles the logout of the user
+   */
   async function handleLogout() {
     try {
       await ClientUserCommunication.logout();
@@ -143,6 +163,9 @@ export default function Profile() {
     }
   }
 
+  /**
+   * handles the account deletion and logout
+   */
   async function handleDeleteAccount() {
     if (
       confirm(

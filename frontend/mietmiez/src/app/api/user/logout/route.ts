@@ -1,6 +1,12 @@
 import UserCommunication from "@/app/server_communication/server/UserCommunication";
 import { NextResponse } from "next/server";
 
+/**
+ * Handler for user logout
+ * Works as passthrough to the server communication layer
+ * This also invalidates the authentication token by setting it to an empty string
+ * @constructor
+ */
 export async function POST() {
   const logoutSuccessful = await UserCommunication.logout();
   if (!logoutSuccessful) {

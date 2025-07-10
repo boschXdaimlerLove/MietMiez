@@ -1,3 +1,7 @@
+/**
+ * class for a user to upload
+ * This contains the password which is not included in the "normal" User class
+ */
 export default class User {
   firstName: string;
   lastName: string;
@@ -25,6 +29,10 @@ export default class User {
     this.favorites = favorites;
   }
 
+  /**
+   * Creates a User object from a JSON object
+   * @param json - The JSON object as interface
+   */
   static fromJSON(json: UserUploadJson): User {
     return new User(
       json["first-name"],
@@ -37,6 +45,10 @@ export default class User {
     );
   }
 
+  /**
+   * Creates a User object from a JSON object as unknown type
+   * @param json - the json object as unknown type
+   */
   static fromJSONObject(json: unknown): User {
     if (
       typeof json === "object" &&
@@ -62,6 +74,9 @@ export default class User {
     throw new Error("Ungültiges JSON-Objekt");
   }
 
+  /**
+   * Converts the User object to a JSON object
+   */
   toJSON(): UserUploadJson {
     return {
       "first-name": this.firstName,
@@ -75,6 +90,9 @@ export default class User {
   }
 }
 
+/**
+ * Interface for the JSON representation of a UserUpload
+ */
 export interface UserUploadJson {
   "first-name": string;
   "last-name": string;

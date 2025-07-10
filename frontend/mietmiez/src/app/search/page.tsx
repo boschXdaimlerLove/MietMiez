@@ -2,6 +2,11 @@ import AdvertisementCommunication from "@/app/server_communication/server/Advert
 import SearchParams from "@/app/objects/SearchParams";
 import SearchPage from "@/app/search/SearchPage";
 
+/**
+ * search page wrapper to extract params and fetch advertisements
+ * @param searchParams - params with search criteria
+ * @constructor
+ */
 export default async function SearchPageWrapper({
   searchParams,
 }: {

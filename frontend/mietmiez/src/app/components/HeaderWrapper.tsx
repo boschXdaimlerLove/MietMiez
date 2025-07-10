@@ -3,6 +3,10 @@ import AdvertisementCommunication from "@/app/server_communication/server/Advert
 import { HeaderProvider } from "@/app/components/HeaderContext";
 import UserCommunication from "@/app/server_communication/server/UserCommunication";
 
+/**
+ * server component HeaderWrapper that fetches categories and user login status and provides them to the header
+ * @constructor
+ */
 export default async function HeaderWrapper() {
   const categoriesJSON: Promise<string> =
     AdvertisementCommunication.fetchCategories().then((cats) =>

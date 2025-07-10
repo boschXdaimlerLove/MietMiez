@@ -2,6 +2,13 @@ import UserCommunication from "@/app/server_communication/server/UserCommunicati
 import User from "@/app/objects/user/user";
 import { NextResponse } from "next/server";
 
+/**
+ * Handler for user registration
+ * Works as passthrough to the server communication layer
+ * This does not login the user after registration
+ * @param req - the HTTP request containing user data
+ * @constructor
+ */
 export async function POST(req: Request): Promise<Response> {
   console.log("Received POST request for user registration in next api");
   const body = await req.text();

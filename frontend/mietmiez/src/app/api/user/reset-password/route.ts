@@ -1,5 +1,10 @@
 import UserCommunication from "@/app/server_communication/server/UserCommunication";
 
+/**
+ * Handler for requesting a password reset
+ * @param request - the HTTP request
+ * @constructor
+ */
 export async function POST(request: Request) {
   const email = await request.text();
   const success = await UserCommunication.resetPasswordRequest(email);
@@ -17,6 +22,11 @@ export async function POST(request: Request) {
   }
 }
 
+/**
+ * Handler for resetting the user's password
+ * @param request - the HTTP request
+ * @constructor
+ */
 export async function PATCH(request: Request) {
   const { password, token } = JSON.parse(await request.text());
   try {

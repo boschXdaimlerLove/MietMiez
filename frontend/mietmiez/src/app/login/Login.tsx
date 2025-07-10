@@ -8,6 +8,11 @@ import ClientUserCommunication from "@/app/server_communication/client/ClientUse
 import { useLoginContext } from "@/app/login/LoginContext";
 import AlreadyLoggedIn from "@/app/components/UserState/AlreadyLoggedIn";
 
+/**
+ * the login page
+ * This is a client component
+ * @constructor
+ */
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,10 +20,15 @@ const Login: React.FC = () => {
   const router = useRouter();
   const isLoggedIn = useLoginContext();
 
+  // If the user is already logged in, state that and provide the link to logout
   if (isLoggedIn) {
     return <AlreadyLoggedIn />;
   }
 
+  /**
+   * handles the login submit
+   * @param e - the HTML form event
+   */
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");

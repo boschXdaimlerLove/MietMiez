@@ -4,15 +4,16 @@ import React, { use, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
-import {
-  HeaderContextProps,
-  useHeaderContext,
-} from "@/app/components/HeaderContext";
+import { HeaderContextProps, useHeaderContext } from "@/app/components/HeaderContext";
 import Category from "@/app/objects/internal/category";
 import Button from "@/app/components/button";
 import ClientUserCommunication from "@/app/server_communication/client/ClientUserCommunication";
 import { Search, Undo2, User } from "lucide-react";
 
+/**
+ * actual header component to display the header of the application on top of every page
+ * @constructor
+ */
 export default function Header() {
   const ALL_CATEGORIES: string = "All Categories";
   const router = useRouter();
@@ -53,6 +54,9 @@ export default function Header() {
     };
   }, []);
 
+  /**
+   * handles the search submit
+   */
   function handleSubmit() {
     let localStatedZipCode: string = statedZipCode;
     if (reset) {

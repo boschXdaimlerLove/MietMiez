@@ -6,6 +6,10 @@ import AdvertisementUpload from "@/app/objects/advertisement/AdvertisementUpload
 import Category from "@/app/objects/internal/category";
 import { useNewAdvertisementContext } from "@/app/advertisement/new/NewAdvertisementContext";
 
+/**
+ * the actual page for creating a new advertisement
+ * @constructor
+ */
 export default function NewAdvertisementPage() {
   const [files, setFiles] = React.useState<File[]>([]);
   const [advertisement, setAdvertisement] = React.useState<AdvertisementUpload>(
@@ -40,6 +44,10 @@ export default function NewAdvertisementPage() {
     };
   }, []);
 
+  /**
+   * handles the change of an image in the file input
+   * @param event - the HTML event
+   */
   async function handleImageChange(event: React.ChangeEvent<HTMLInputElement>) {
     const selectedFiles = Array.from(event.target.files || []);
     if (selectedFiles) {
@@ -47,6 +55,9 @@ export default function NewAdvertisementPage() {
     }
   }
 
+  /**
+   * handles the upload for all images passed to this new advertisement
+   */
   async function handleImageUpload() {
     const uploadResAdvertisement: AdvertisementUpload =
       await ClientAdvertisementCommunication.uploadImagesForAdvertisement(
@@ -56,6 +67,10 @@ export default function NewAdvertisementPage() {
     setAdvertisement(uploadResAdvertisement);
   }
 
+  /**
+   * handles the submission of the advertisement form and upload of all data
+   * @param event - the HTML form event
+   */
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (title.length === 0 || description.length === 0) {

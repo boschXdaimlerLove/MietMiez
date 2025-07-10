@@ -1,5 +1,10 @@
 import Image from "next/image";
 
+/**
+ * the help page of the application
+ * This provides further information, cntact details and github repo
+ * @constructor
+ */
 export default function HelpPage() {
   return (
     <main className="px-6 py-12 max-w-3xl mx-auto">
@@ -26,8 +31,12 @@ export default function HelpPage() {
       {/* Repo Section */}
       <section className="text-center space-y-4">
         <p>Or check out our repository for detailed technical insight:</p>
-        <p><a href="https://github.com/boschXdaimlerLove/MietMiez">GitHub repository</a></p>
-        
+        <p>
+          <a href="https://github.com/boschXdaimlerLove/MietMiez">
+            GitHub repository
+          </a>
+        </p>
+
         <div className="inline-block">
           <Image
             src="/git.png"

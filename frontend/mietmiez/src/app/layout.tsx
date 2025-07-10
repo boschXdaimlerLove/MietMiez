@@ -14,6 +14,9 @@ import HeaderWrapper from "@/app/components/HeaderWrapper";
 //   subsets: ["latin"],
 // });
 
+/**
+ * export the metadata for the application.
+ */
 export const metadata: Metadata = {
   title: "MietMietz",
   description: "Rent a pet!",
@@ -55,6 +58,11 @@ export const metadata: Metadata = {
   icons: {},
 };
 
+/**
+ * export the default layout for the application.
+ * @param children - the children to render in the layout
+ * @constructor
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -62,6 +70,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* html head with icons etc. */}
       <head>
         <title>MietMiez</title>
         {/* favicon */}

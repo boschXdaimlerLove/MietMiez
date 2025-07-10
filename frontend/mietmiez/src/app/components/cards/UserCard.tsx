@@ -3,6 +3,11 @@
 import User from "@/app/objects/user/user";
 import { useRouter } from "next/navigation";
 
+/**
+ * a card component to display user data
+ * @param userJSON - the user as json string
+ * @constructor
+ */
 export default function UserCard({ userJSON }: { userJSON: string }) {
   const user: User = User.fromJSON(JSON.parse(userJSON));
   const router = useRouter();

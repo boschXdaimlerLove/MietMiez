@@ -1,6 +1,12 @@
 import AdvertisementFetched from "@/app/objects/advertisement/AdvertisementFetched";
 import PetCard from "@/app/components/cards/Petcard";
 
+/**
+ * a grid to display multiple advertisements.
+ * Widely used accross the application.
+ * @param advertisements
+ * @constructor
+ */
 export default function PetGrid({
   advertisements,
 }: {

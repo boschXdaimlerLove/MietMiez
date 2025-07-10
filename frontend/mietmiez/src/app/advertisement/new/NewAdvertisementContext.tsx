@@ -2,10 +2,19 @@
 
 import React, { createContext, useContext } from "react";
 
+/**
+ * creates an advertisement context that provides the categories as string
+ */
 export const NewAdvertisementContext = createContext<Promise<string> | null>(
   null,
 );
 
+/**
+ * a provider for the new advertisement page
+ * @param children - the children of the provider
+ * @param categoriesStringPromise - categories array as json string
+ * @constructor
+ */
 export function NewAdvertisementProvider({
   children,
   categoriesStringPromise,
@@ -20,6 +29,9 @@ export function NewAdvertisementProvider({
   );
 }
 
+/**
+ * a hook to use the new advertisement context
+ */
 export function useNewAdvertisementContext() {
   const context = useContext(NewAdvertisementContext);
   if (context === null) {

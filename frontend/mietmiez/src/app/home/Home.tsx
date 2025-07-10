@@ -5,6 +5,10 @@ import AdvertisementFetched from "@/app/objects/advertisement/AdvertisementFetch
 import PetGrid from "@/app/components/PetGrid";
 import { useHomeContext } from "@/app/home/HomeContext";
 
+/**
+ * the client component to display the home page
+ * @constructor
+ */
 export default function Home() {
   const advertisementsStringPromise = useHomeContext();
   const advertisementsString = use(advertisementsStringPromise);

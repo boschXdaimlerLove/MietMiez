@@ -1,5 +1,10 @@
 import GeneralServerCommunication from "@/app/server_communication/server/GeneralServerCommunication";
 
+/**
+ * Builds and returns the "About" page.
+ * This provides a little information about the project
+ * @constructor
+ */
 export default async function AboutPage() {
   const about = await GeneralServerCommunication.fetchAbout();
   return (

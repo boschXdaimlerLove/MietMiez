@@ -6,6 +6,11 @@ import { useRouter } from "next/navigation";
 import Button from "@/app/components/button";
 import ClientUserCommunication from "@/app/server_communication/client/ClientUserCommunication";
 
+/**
+ * the input to reset the password as client component
+ * @param token - the token to reset the user password
+ * @constructor
+ */
 export default function PasswordResetInput({ token }: { token: string }) {
   const router = useRouter();
 
@@ -23,6 +28,10 @@ export default function PasswordResetInput({ token }: { token: string }) {
     newPasswordConfirm: "",
   });
 
+  /**
+   * toggles the visibility of the password input fields
+   * @param type
+   */
   function togglePasswordVisibility(type: "new" | "confirm") {
     setShowPasswords((prev) => ({
       ...prev,
@@ -30,6 +39,10 @@ export default function PasswordResetInput({ token }: { token: string }) {
     }));
   }
 
+  /**
+   * handles the password reset
+   * @param event
+   */
   async function handleResetPassword(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (passwords.newPassword !== passwords.newPasswordConfirm) {

@@ -2,6 +2,17 @@
 
 import React, { CSSProperties, ReactNode } from "react";
 
+/**
+ * a button component that can be used in the app
+ * @param title - the title of the button
+ * @param onClick - the client on click action
+ * @param isPrimary - whether the button is primary or not
+ * @param className - the class names of the button for styling
+ * @param type - the type of the button, can be "button", "submit" or "reset"
+ * @param isCustom - whether the button is a custom button or not. Custom buttons have no default styles applied
+ * @param customButtonStyle - the styles for a custom button
+ * @constructor
+ */
 export default function Button({
   title,
   onClick,
