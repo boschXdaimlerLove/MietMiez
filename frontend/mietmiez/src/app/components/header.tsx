@@ -2,7 +2,7 @@
 
 import React, { use, useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import {
   HeaderContextProps,
@@ -11,7 +11,7 @@ import {
 import Category from "@/app/objects/internal/category";
 import Button from "@/app/components/button";
 import ClientUserCommunication from "@/app/server_communication/client/ClientUserCommunication";
-import { User } from "lucide-react";
+import { Search, Undo2, User } from "lucide-react";
 
 export default function Header() {
   const router = useRouter();
@@ -20,8 +20,13 @@ export default function Header() {
   const categoriesString: string = use(categoriesStringPromise);
   const categories: Category[] = JSON.parse(categoriesString);
 
+  const searchParams = useSearchParams();
+  const passedAnimal = searchParams.get("animal");
+  const passedZipCode: string = searchParams.get("zipCode") ?? "";
+
   const [categoriesOpen, setCategoriesOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState("All Categories");
+  let selectedCategory: string = passedAnimal ?? "All Categories";
+  const [statedZipCode, setStatedZipCode] = useState(passedZipCode);
 
   const dropdownRef = React.useRef<HTMLDivElement>(null);
 
@@ -41,18 +46,10 @@ export default function Header() {
     };
   }, []);
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const zipCode = (
-      e.currentTarget.querySelector('input[type="text"]') as HTMLInputElement
-    ).value.trim();
-    if (zipCode) {
-      router.push(
-        `/search?animal=${encodeURIComponent(selectedCategory)}&zipCode=${encodeURIComponent(zipCode)}`,
-      );
-    } else {
-      console.warn("Search input is empty");
-    }
+  function handleSubmit() {
+    router.push(
+      `/search?animal=${encodeURIComponent(selectedCategory)}&zipCode=${encodeURIComponent(statedZipCode)}`,
+    );
   }
 
   return (
@@ -115,6 +112,14 @@ export default function Header() {
       <div className="w-full bg-[var(--primary)] py-4 px-4 flex flex-wrap gap-4 items-center justify-between">
         <div className="flex flex-wrap gap-2 items-center w-full md:w-auto">
           {/* Category Dropdown */}
+          <button
+            onClick={async () => {
+              selectedCategory = "All Categories";
+              setStatedZipCode("");
+            }}
+          >
+            <Undo2 color="#FAF9F6" />
+          </button>
           <div ref={dropdownRef} className="relative">
             <button
               className="flex items-center text-gray-700 px-4 py-2 bg-white rounded-md w-full md:w-60 max-w-[200px] truncate"
@@ -141,11 +146,12 @@ export default function Header() {
                       key={category.id}
                       className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                       onClick={() => {
-                        setSelectedCategory(category.name);
+                        selectedCategory = category.name;
                         setCategoriesOpen(false);
+                        handleSubmit();
                       }}
                     >
-                      {category.name}
+                      <div>{category.name}</div>
                     </button>
                   ))}
                 </div>
@@ -155,7 +161,7 @@ export default function Header() {
 
           {/* Zip Code Input */}
           <form
-            onSubmit={handleSubmit}
+            onSubmit={() => handleSubmit()}
             className="flex items-center bg-white px-4 max-w-[200px] py-2 rounded-md w-full md:w-60"
           >
             <svg
@@ -181,8 +187,13 @@ export default function Header() {
               className="ml-2 text-gray-600 w-full focus:outline-none"
               type="text"
               placeholder="70469"
+              value={statedZipCode}
+              onChange={(event) => setStatedZipCode(event.target.value)}
             />
           </form>
+          <button onClick={() => handleSubmit()}>
+            <Search color="#FAF9F6" />
+          </button>
         </div>
 
         {/* Navigation Icons */}
