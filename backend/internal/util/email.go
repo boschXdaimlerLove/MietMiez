@@ -68,7 +68,7 @@ func SendResetMail(token string, receiver string) {
 
 	if config.Cfg.Server.Production {
 		for count <= 3 {
-			err := sendMail("Mietmiez Password Reset", msg, []string{receiver})
+			err := sendMail("MietMiez Password Reset", msg, []string{receiver})
 			if err != nil {
 				Logger.Err(err).Uint8("retry count", count).Msg("send pw reset email fail, retrying...")
 				for i := uint8(0); i < count; i++ {
@@ -104,7 +104,7 @@ func SendUserActivationMail(token string, receiver string) {
 
 	if config.Cfg.Server.Production {
 		for count <= 3 {
-			err := sendMail("Mietmiez Account Activation", msg, []string{receiver})
+			err := sendMail("MietMiez Account Activation", msg, []string{receiver})
 			if err != nil {
 				Logger.Err(err).Uint8("retry count", count).Msg("send activation email fail, retrying...")
 				for i := uint8(0); i < count; i++ {
